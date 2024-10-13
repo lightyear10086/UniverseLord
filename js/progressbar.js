@@ -1,0 +1,56 @@
+class ProgressBar{
+	constructor(id,ptime,finishcallback,parentelement,title=""){
+		this.id=id;
+		this.ptime=ptime;
+		this.parentelement=parentelement;
+		this.div=$("<span>"+title+"</span><div id='pb_"+this.id+"' class='pb'><div id='bar_"+this.id+"' class='bar'></div></div>");
+		$(parentelement).append(this.div);
+		this.nowtime=0;
+		this.finishcallback=finishcallback;
+		this.repeat=false;
+		this.pause=false;
+		this.title=title;
+		this.progressval=0;
+		progresses++;
+	}
+	//直接设定某个百分比
+	SetProgress(percent){
+		$("#bar_"+this.id).css("width",percent.toFixed(2).toString()+"%");
+	}
+	DeleteProgress(){
+		console.log("删除进度条");
+		clearInterval(this.progress);
+		this.div.remove();
+	}
+	PauseProgress(){
+		if(this.nowtime>=this.ptime){
+			this.nowtime=0;
+		}
+		this.progressval=this.nowtime;
+		clearInterval(this.progress);
+	}
+	StopProgress(){
+		clearInterval(this.progress);
+	}
+	ContinueProgress(){
+		this.nowtime=this.progressval;
+		this.StartProgress();
+	}
+	StartProgress(){
+		var that=this;
+		this.progress=setInterval(()=>{
+			that.nowtime+=100;
+			const progress=(that.nowtime/that.ptime)*100;
+			//console.log(`进度:${progress.toFixed(2)}%`);
+			$("#bar_"+that.id).css("width",progress.toFixed(2).toString()+"%");
+			if(that.nowtime>=that.ptime){
+				that.finishcallback();
+				if(!this.repeat){
+					clearInterval(that.progress);
+				}
+				that.nowtime=0;
+				$("#bar_"+that.id).css("width","0%");
+			}
+		},100);
+	}
+}
