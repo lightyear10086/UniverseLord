@@ -84,7 +84,7 @@ class ItemContainer{
                     return true;
                 }
             }
-            Alert(this.parentbuild.name+"容量不足");
+            
             return false;
         }
     }

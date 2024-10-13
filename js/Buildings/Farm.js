@@ -55,6 +55,7 @@ class Farm extends Building{
 						let selectedCargo = allbuildings['cargos'].find(c => c.id == selectedCargoId);
 						if(selectedCargo){
 							if(!selectedCargo.PutItemStackIn(newitemstack)){
+								Alert(this.name+"容量不足");
 								that.PauseWorking();
 							}
 						}

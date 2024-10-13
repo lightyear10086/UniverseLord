@@ -83,16 +83,17 @@ html,body{
 	margin: 10px;
 }
 .item-stack{
-	width: 35px;
-	height: 35px;
+	width: 40px;
+	height: 40px;
 	border: solid 1px;
-	color: black;
-	background-color: wheat;
+	color: rgb(255, 255, 255);
+	background-color: rgb(17, 15, 154);
 	text-align: center;
 	line-height: 35px;
 	cursor: pointer;
 	user-select: none;
 	float: inline-start;
+	margin: 5px;
 }
 .item-stack:hover{
 	background-color: lightgray;
@@ -100,7 +101,8 @@ html,body{
 .item-stack-count{
 	font-size: 14px;
 	position: relative;
-	top: -26px;
+	top: -20px;
+	height:20px;
 	text-align: right;
 }
 

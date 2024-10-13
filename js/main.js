@@ -40,6 +40,7 @@ function InitWindows(){
 	$("#getnpc").click(function(){
 		getnpc.window.ShowWindow();
 	});
+	getnpc.RefreshListAuto();
 }
 function GetNpcWindow(npc){
 	if(npc.infowindow!=null){
