@@ -3,10 +3,12 @@ var moveingItemStack=null;
 var releaseItemStackContainer=null;
 var allplanets=[];
 var allnpcs=[];
+var allcompanies=[];
 var chrs=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 var planettype=["star","planet"];
 var starshop=null;
 var getnpc=null;
+var PlayersCompany=null;
 var timedate={
 	'hour':0,
 	'day':1,
@@ -85,9 +87,10 @@ function Alert(msg,level=0){
 $(function(){
 	InitWindows();
 	UpdateInfo();
+	PlayersCompany=new Company("请输入公司名称");
 	$("#company_name").click(function(){
 		// 获取当前文本内容
-        var currentText = $(this).text();
+        var currentText = $(this).text().replace("公司","");
         
         // 创建一个输入框并设置初始值为当前文本
         var input = $("<input type='text' />").val(currentText);
@@ -110,12 +113,13 @@ $(function(){
 
         function saveText() {
             // 获取输入框的值
-            var newText = input.val();
-            
-            // 将输入框的值设置回div，并恢复为不可编辑状态
-            $("#company_name").text(newText+"公司");
+            var newText = input.val()+"公司";
+            PlayersCompany.ChangeName(newText);
         }
-	})
+	});
+	$("#show_company_info").click(function(){
+
+	});
 	$("#build").click(function(){
 		BuildNew.ShowWindow();
 	});

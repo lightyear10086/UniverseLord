@@ -181,4 +181,8 @@ html,body{
 }
 #company_name{
 	display: inline-block;
+	background-color: slateblue;
+	color: rgb(255, 221, 0);
+	border-left: solid 5px slateblue;
+	border-right: solid 5px slateblue;
 }
