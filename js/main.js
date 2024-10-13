@@ -46,8 +46,11 @@ function GetNpcWindow(npc){
 	if(npc.infowindow!=null){
 		return npc.infowindow;
 	}
-	let iteminfodiv="<div>名字 "+npc.name+"</div><div tip=true tip-content='决定科研速度'>智力"+npc.GetInfo()['attributes']['智力']+"</div><div tip=true tip-content='决定工作极限时间'>体力"+npc.GetInfo()['attributes']['体力']+"</div><div tip=true tip-content='决定稳定程度'>精神"+npc.GetInfo()['attributes']['精神']+"</div><div tip=true tip-content='决定提升速度'>教育"+npc.GetInfo()['attributes']['教育']+"</div><div tip=true tip-content='决定产出量'>外貌"+npc.GetInfo()['attributes']['外貌']+"</div></div><div class='btn normal' id='employ_"+npc.name.replace(' ','_')+"'>\>聘用\<</div>";
+	let iteminfodiv="<div>名字 "+npc.name+"</div><div tip=true tip-content='决定科研速度'>智力"+npc.GetInfo()['attributes']['智力']+"</div><div tip=true tip-content='决定工作极限时间'>体力"+npc.GetInfo()['attributes']['体力']+"</div><div tip=true tip-content='决定稳定程度'>精神"+npc.GetInfo()['attributes']['精神']+"</div><div tip=true tip-content='决定提升速度'>教育"+npc.GetInfo()['attributes']['教育']+"</div><div tip=true tip-content='决定产出量'>外貌"+npc.GetInfo()['attributes']['外貌']+"</div></div><div class='btn normal getnpc' id='employ_"+npc.name.replace(' ','_')+"'>\>聘用\<</div>";
 	let window=new WindowElement(npc.name.replace(' ','_'),npc.name,500,300,iteminfodiv);
+	$("#employ_"+npc.name.replace(' ','_')).click(function(){
+		Alert("聘用员工功能正在开发中");
+	})
 	ResetToolTip();
 	npc.infowindow=window;
 	return window;
@@ -71,8 +74,8 @@ function InitUniverse(){
 		let p=new planet(planetid,{x:Math.floor(Math.random()*100),y:Math.floor(Math.random()*100),z:Math.floor(Math.random()*100)},"");
 	}
 }
-function Alert(msg){
-	$("#gamealertmessage").append("<div class='alertmessage' tip=true tip-content='点击以删除此消息'>"+msg+"</div>");
+function Alert(msg,level=0){
+	$("#gamealertmessage").append("<div class='alertmessage' tip=true tip-content='点击以删除此消息' level='"+level+"'>"+msg+"</div>");
 	$(".alertmessage").click(function(){
 		$("#tooltip").hide();
 		$(this).remove();
@@ -82,6 +85,37 @@ function Alert(msg){
 $(function(){
 	InitWindows();
 	UpdateInfo();
+	$("#company_name").click(function(){
+		// 获取当前文本内容
+        var currentText = $(this).text();
+        
+        // 创建一个输入框并设置初始值为当前文本
+        var input = $("<input type='text' />").val(currentText);
+        
+        // 清空原来的内容，并添加输入框
+        $(this).empty().append(input);
+        
+        // 使输入框获得焦点
+        input.focus();
+
+        // 处理回车事件
+        input.on('keydown', function(event) {
+            if (event.key === 'Enter') {
+                saveText();
+            }
+        });
+
+        // 处理失去焦点事件
+        input.on('blur', saveText);
+
+        function saveText() {
+            // 获取输入框的值
+            var newText = input.val();
+            
+            // 将输入框的值设置回div，并恢复为不可编辑状态
+            $("#company_name").text(newText+"公司");
+        }
+	})
 	$("#build").click(function(){
 		BuildNew.ShowWindow();
 	});
