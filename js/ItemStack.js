@@ -37,11 +37,7 @@ class ItemStack {
                 this.hidden=false;
                 let droppableBelow=elemBelow.closest('[droppable="true"]');
                 if(droppableBelow!=null){
-                    if(that.droppableBelow!=null && that.droppableBelow!=droppableBelow){
-                        that.droppableBelow.style.border='none';
-                    }
                     that.droppableBelow=droppableBelow;
-                    $(droppableBelow).css({'border':'4px dashed white'});
                 }
             },
             mouseup: function(e){
@@ -52,7 +48,6 @@ class ItemStack {
                             aimcontainer.PutItemIn(that);
                         }
                     }
-                    $(that.droppableBelow).css({'border':'none'});
                 }
                 // 重置位置和样式
                 $(this).css({

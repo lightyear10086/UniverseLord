@@ -34,6 +34,7 @@ function InitWindows(){
 	getnpc=new GetNpc();
 	InitBuildingWindow();
 	$("#starshop").click(function(){
+		console.log("显示商店");
 		starshop.window.ShowWindow();
 	});
 	$("#getnpc").click(function(){
@@ -41,10 +42,13 @@ function InitWindows(){
 	});
 }
 function GetNpcWindow(npc){
+	if(npc.infowindow!=null){
+		return npc.infowindow;
+	}
 	let iteminfodiv="<div>名字 "+npc.name+"</div><div tip=true tip-content='决定科研速度'>智力"+npc.GetInfo()['attributes']['智力']+"</div><div tip=true tip-content='决定工作极限时间'>体力"+npc.GetInfo()['attributes']['体力']+"</div><div tip=true tip-content='决定稳定程度'>精神"+npc.GetInfo()['attributes']['精神']+"</div><div tip=true tip-content='决定提升速度'>教育"+npc.GetInfo()['attributes']['教育']+"</div><div tip=true tip-content='决定产出量'>外貌"+npc.GetInfo()['attributes']['外貌']+"</div></div><div class='btn normal' id='employ_"+npc.name.replace(' ','_')+"'>\>聘用\<</div>";
 	let window=new WindowElement(npc.name.replace(' ','_'),npc.name,500,300,iteminfodiv);
-	window.destroyonclose=true;
 	ResetToolTip();
+	npc.infowindow=window;
 	return window;
 }
 function GetItemWindow(item){
@@ -66,6 +70,14 @@ function InitUniverse(){
 		let p=new planet(planetid,{x:Math.floor(Math.random()*100),y:Math.floor(Math.random()*100),z:Math.floor(Math.random()*100)},"");
 	}
 }
+function Alert(msg){
+	$("#gamealertmessage").append("<div class='alertmessage' tip=true tip-content='点击以删除此消息'>"+msg+"</div>");
+	$(".alertmessage").click(function(){
+		$("#tooltip").hide();
+		$(this).remove();
+	});
+	ResetToolTip();
+}
 $(function(){
 	InitWindows();
 	UpdateInfo();
@@ -74,7 +86,7 @@ $(function(){
 	});
 	$("#tooltip").hide();
 	ResetToolTip();
-	$("#timedate").html("时间 <br>"+timedate.year+"年"+timedate.month+"月"+timedate.day+"日 "+timedate.hour+"时");
+	$("#timedate").html(timedate.year+"年"+timedate.month+"月"+timedate.day+"日 "+timedate.hour+"时");
 	timeprogress=new ProgressBar("timeprogress",10000,()=>{
 		timedate.hour++;
 		if(timedate.hour>=24){
@@ -89,8 +101,9 @@ $(function(){
 			timedate.month=1;
 			timedate.year++;
 		}
-		$("#timedate").html("时间 <br>"+timedate.year+"年"+timedate.month+"月"+timedate.day+"日 "+timedate.hour+"时");
+		$("#timedate").html(timedate.year+"年"+timedate.month+"月"+timedate.day+"日 "+timedate.hour+"时");
 	},$("#timeprogressbar"));
+	
 	timeprogress.repeat=true;
 	timeprogress.StartProgress();
 })

@@ -53,11 +53,11 @@ class ItemContainer{
     }
     PutItemIn(itemstack, trymax = false) {
         if (!this.canputin) {
-            console.log("不能凭空放入");
+            Alert("该容器不允许放入物品");
             return false;
         }
         if (itemstack.container != null && !this.canmovein) {
-            console.log("不能从其他容器移动过来");
+            Alert("不能从其他容器移动过来");
             return false;
         }
         
@@ -71,7 +71,6 @@ class ItemContainer{
                 this.itemstacks.push(itemstack);
             }
             this.RecalculateVolume();
-            
             itemstack.UpdateStack();
             return true;
         } else {
@@ -85,7 +84,7 @@ class ItemContainer{
                     return true;
                 }
             }
-            console.log("容量不足");
+            Alert(this.parentbuild.name+"容量不足");
             return false;
         }
     }

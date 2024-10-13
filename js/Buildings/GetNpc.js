@@ -22,6 +22,9 @@ class GetNpc extends Building{
             for(let npc of this.waitForJobNocList){
                 if(npc.workCompany==null){
                     allnpcs.splice(allnpcs.indexOf(npc),1);
+                    if(npc.infowindow!=null){
+                        npc.infowindow.HideWindow();
+                    }
                 }
             }
         }

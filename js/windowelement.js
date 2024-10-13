@@ -5,7 +5,7 @@ class WindowElement{
 		this.width=width;
 		this.height=height;
 		this.ishiding=true;
-		this.div=$("<div id='window_"+this.id+"' class='windowelement'><div id='windowtitlebar_"+this.id+"' class='windowbar'>"+this.title+"<div class='hidewindow' id='hidewindow_"+this.id+"'>-</div></div><div id='windowbody_"+this.id+"' class='windowbody'></div></div>");
+		this.div=$("<div id='window_"+this.id+"' class='windowelement'><div id='windowtitlebar_"+this.id+"' class='windowbar'>"+this.title+"<div class='hidewindow' id='hidewindow_"+this.id+"'>×</div></div><div id='windowbody_"+this.id+"' class='windowbody'></div></div>");
 		$("body").append(this.div);
 		$("#window_"+this.id).css({"width":this.width.toString()+"px","height":this.height.toString()+"px"});
 		let that=this;
@@ -24,6 +24,13 @@ class WindowElement{
 	ShowWindow(){
 		if(this.ishiding){
 			$("#window_"+this.id).show(500);
+			this.ishiding=false;
+		}else{
+			console.log("已经显示，强调");
+			$("#window_"+this.id).children('.windowbody').animate({backgroundColor:"red"},"slow");
+			$("#window_"+this.id).children('.windowbody').animate({backgroundColor:"rgb(12, 47, 107)"},"slow");
+			$("#window_"+this.id).children('.windowbar').animate({backgroundColor:"red"},"slow");
+			$("#window_"+this.id).children('.windowbar').animate({backgroundColor:"rgb(15, 59, 133)"},"slow");
 		}
 	}
 	UpdateWindowBodyContent(content){

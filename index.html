@@ -5,6 +5,7 @@
 		<title></title>
 		<link rel="stylesheet" href="css/main.css" />
 		<script src="js/jq.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery-color/2.1.2/jquery.color.js"></script>
 		<script src="js/planet.js"></script>
 		<script src="js/ItemStack.js"></script>
 		<script src="js/ResourceItem.js"></script>
@@ -29,17 +30,21 @@
 	<body>
 		<div id="info">
 			<div id="info_money">货币 10000</div>
+			<div id="actions">
+				<div id="starshop" class="btn normal">星际商店</div>
+				<div id="getnpc" class="btn normal">招聘员工</div>
+				<div id="build" class="btn normal">建造设施</div>
+			</div>
+			<div class="timeinfo">
+				<div id="timeprogressbar"></div>
+				<div id="timedate"></div>
+			</div>
+
 		</div>
-		<div id="actions">
-			<div id="starshop" class="btn normal">星际商店</div>
-			<div id="getnpc" class="btn normal">招聘员工</div>
-			<div id="build" class="btn normal">建造设施</div>
-		</div>
+		
 		<div id="tooltip"></div>
-		<div class="timeinfo">
-			<div id="timeprogressbar"></div>
-			<div id="timedate"></div>
-		</div>
+		
+		<div id="gamealertmessage"></div>
 		<script src="js/Npc.js"></script>
 		<script src="js/main.js"></script>
 		

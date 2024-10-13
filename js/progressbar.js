@@ -3,15 +3,21 @@ class ProgressBar{
 		this.id=id;
 		this.ptime=ptime;
 		this.parentelement=parentelement;
-		this.div=$("<span>"+title+"</span><div id='pb_"+this.id+"' class='pb'><div id='bar_"+this.id+"' class='bar'></div></div>");
+		this.div=$("<div class='progress'><span id='progress_title"+this.id+"'>"+title+"</span><div id='pb_"+this.id+"' class='pb'><div id='bar_"+this.id+"' class='bar'></div></div></div>");
 		$(parentelement).append(this.div);
 		this.nowtime=0;
 		this.finishcallback=finishcallback;
+		this.progressbegincallback=null;
+		this.progresspertickcall=null;
 		this.repeat=false;
 		this.pause=false;
+		this.progresspercent=0;
 		this.title=title;
 		this.progressval=0;
 		progresses++;
+	}
+	UpdateTitle(title){
+		$("#progress_title"+this.id).text(title);
 	}
 	//直接设定某个百分比
 	SetProgress(percent){
@@ -41,6 +47,10 @@ class ProgressBar{
 		this.progress=setInterval(()=>{
 			that.nowtime+=100;
 			const progress=(that.nowtime/that.ptime)*100;
+			this.progresspercent=progress;
+			if(that.progresspertickcall!=null){
+				that.progresspertickcall();
+			}
 			//console.log(`进度:${progress.toFixed(2)}%`);
 			$("#bar_"+that.id).css("width",progress.toFixed(2).toString()+"%");
 			if(that.nowtime>=that.ptime){
@@ -49,6 +59,9 @@ class ProgressBar{
 					clearInterval(that.progress);
 				}
 				that.nowtime=0;
+				if(that.progressbegincallback!=null){
+					that.progressbegincallback();
+				}
 				$("#bar_"+that.id).css("width","0%");
 			}
 		},100);

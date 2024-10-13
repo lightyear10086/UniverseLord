@@ -64,6 +64,20 @@ class Farm extends Building{
 			
 		},$(this.window.body),"正在种植");
 		this.farmprogress.repeat=true;
+		this.farmprogress.progressbegincallback=function(){
+			this.UpdateTitle("正在种植");
+		}
+		this.farmprogress.progresspertickcall=function(){
+			if(this.progresspercent>=30){
+				this.UpdateTitle("正在施肥");
+			}
+			if(this.progresspercent>=50){
+				this.UpdateTitle("正在除虫");
+			}
+			if(this.progresspercent>=60){
+				this.UpdateTitle("正在收获");
+			}
+		}
 		this.farmprogress.StartProgress();
     }
 }

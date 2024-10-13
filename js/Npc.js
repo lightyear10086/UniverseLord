@@ -13,6 +13,7 @@ class Npc{
             '教育':randInt(1,10),
             '外貌':randInt(1,10)
         }
+        this.infowindow=null;
     }
     GetRandName(){
         let firstName=['John','Mary','David','Emma','Oliver','William','Lucas','Sophia','Isabella','Emily','Amelia','Olivia','Sophie','Ava','Mia','Harper','Grace','Emma'];

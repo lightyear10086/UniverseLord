@@ -1,12 +1,12 @@
 class drilling extends Building{
 	constructor(){
-		super(allbuildings['drilling'].length,"钻井","钻取矿物",6);
+		super(allbuildings['drilling'].length,"钻井","钻取矿物",0);
 		allbuildings['drilling'].push(this);
-		this.window=new WindowElement("drillingwindow_"+this.id,"钻井"+this.id,500,300);
-		this.container=new ItemContainer(10,this.window.body,this);
+		this.window=new WindowElement("drillingwindow_"+this.id,"钻井"+this.id,500,300,"<div id='drilling_"+this.id+"_container_volume'>基础容量 0/</div><div>自动转移至<form><select id='drilling_"+this.id+"_container_transfer'></select></form><div id='btn_pause_drilling_"+this.id+"' class='btn'>暂停运行</div></div><div class='progress'></div><div class='div_container'></div>");
+		this.container=new ItemContainer(10,$(this.window.body).children(".div_container"),this);
 		this.container.canmovein=false;
-		$(this.window.body).attr("container_id",this.container.id);
-		this.window.body.append("<div id='drilling_"+this.id+"_container_volume'>基础容量 0/"+this.container.maxVolume.toFixed(2)+"</div><div>自动转移至<form><select id='drilling_"+this.id+"_container_transfer'></select></form><div id='btn_pause_drilling_"+this.id+"' class='btn'>暂停运行</div></div>");
+		$(this.window.body).children(".div_container").attr("container_id",this.container.id);
+		$("#drilling_"+this.id+"_container_volume").text("基础容量 0/"+this.container.maxVolume.toFixed(2));
 		this.getitempertimes=3;
 		this.isrunning=true;
 		this.UpdateCargos();
@@ -71,7 +71,7 @@ class drilling extends Building{
 				
 			}
 			
-		},$(this.window.body),"正在钻取矿物");
+		},$(this.window.body).children('.progress'),"正在钻取矿物");
 		this.digprogress.repeat=true;
 		this.digprogress.StartProgress();
 	}
