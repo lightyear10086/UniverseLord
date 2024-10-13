@@ -43,7 +43,6 @@ class ItemContainer{
             return false;
         }
         this.itemstacks = this.itemstacks.filter(is => is !== itemstack);
-        console.trace('移除了');
         if (removeDiv) {
             itemstack.Remove();
         }

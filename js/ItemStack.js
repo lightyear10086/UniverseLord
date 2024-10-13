@@ -20,6 +20,7 @@ class ItemStack {
                 that.ShowInfoWindow();
             },
             mousedown: function(e){
+                this.isDragging=true;
                 let shiftX=e.clientX-this.getBoundingClientRect().left;
                 let shiftY=e.clientY-this.getBoundingClientRect().top;
                 this.shiftX=shiftX;
@@ -27,12 +28,18 @@ class ItemStack {
                 $(this).css({'position':'absolute','left':e.pageX-this.shiftX,'top':e.pageY-this.shiftY,'zIndex':1000});
             },
             mousemove: function(e){
+                if(!this.isDragging){
+                    return;
+                }
                 $(this).css({'left':e.pageX-this.shiftX,'top':e.pageY-this.shiftY});
                 this.hidden=true;
                 let elemBelow=document.elementFromPoint(e.clientX,e.clientY);
                 this.hidden=false;
                 let droppableBelow=elemBelow.closest('[droppable="true"]');
-                if(droppableBelow!=null && droppableBelow!=that.incontainer.parentdiv){
+                if(droppableBelow!=null){
+                    if(that.droppableBelow!=null && that.droppableBelow!=droppableBelow){
+                        that.droppableBelow.style.border='none';
+                    }
                     that.droppableBelow=droppableBelow;
                     $(droppableBelow).css({'border':'4px dashed white'});
                 }
@@ -54,7 +61,7 @@ class ItemStack {
                     'top': 'auto',
                     'zIndex': 'auto'
                 });
-                console.log($(this).css('zIndex'));
+                this.isDragging=false;
                 // 清除临时属性
                 delete this.shiftX;
                 delete this.shiftY;
