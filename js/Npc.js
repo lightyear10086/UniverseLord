@@ -6,6 +6,7 @@ class Npc{
         this.workSpeed=randInt(1,10);
         this.age=randInt(18,60);
         this.workCompany=null;
+        
         this.属性={
             '智力':randInt(1,10),
             '体力':randInt(1,10),
@@ -13,7 +14,18 @@ class Npc{
             '教育':randInt(1,10),
             '外貌':randInt(1,10)
         }
+        //薪水
+        this.salary=Math.round(20+this.age*1.5+this.属性['智力']*2+this.属性['体力']*1.2+this.属性['精神']*1.1+this.属性['教育']*1.3+this.属性['外貌']*1.6);
         this.infowindow=null;
+    }
+    UpdateSalary(){
+        this.salary=Math.round(20+this.age*1.5+this.属性['智力']*2+this.属性['体力']*1.2+this.属性['精神']*1.1+this.属性['教育']*1.3+this.属性['外貌']*1.6);
+    }
+    get salary(){
+        return this._salary;
+    }
+    set salary(value){
+        this._salary=value;
     }
     GetRandName(){
         let firstName=['John','Mary','David','Emma','Oliver','William','Lucas','Sophia','Isabella','Emily','Amelia','Olivia','Sophie','Ava','Mia','Harper','Grace','Emma'];

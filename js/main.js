@@ -1,4 +1,4 @@
-const BuildNew=new WindowElement(1,"建造",500,300,"<div class='buildnew'><div class='btn normal buildnew' data='cargo'>建造仓库</div><div class='btn normal buildnew' data='drilling'>建造钻井</div><div class='btn normal buildnew' data='farm'>建造农场</div></div><br><div id='buildmanagerbuttons'></div>");
+var BuildNew=null;
 var moveingItemStack=null;
 var releaseItemStackContainer=null;
 var allplanets=[];
@@ -28,9 +28,28 @@ function ResetToolTip(){
 	}).mouseleave(function () { 
 		$("#tooltip").hide();	
 	});
+	
 }
 
 function InitWindows(){
+	BuildNew=new WindowElement(1,"建造",500,300,"<div class='buildnew'><div class='btn normal buildnew' data='cargo'>建造仓库</div><div class='btn normal buildnew' data='drilling'>建造钻井</div><div class='btn normal buildnew' data='farm'>建造农场</div></div><br><div id='buildmanagerbuttons'></div>");
+	let testbuilding=new TestBuilding();
+	let bulletstack=new ItemStack(new Bullet(),1000);
+	testbuilding.container.PutItemIn(bulletstack,true);
+	$(testbuilding.window.body).children(".progress_bar").after("<div class='fire'></div>")
+	testbuilding.window.HideWindow();
+	let testprogressbar=new ProgressBar('test',80,function(){
+		if(!testbuilding.container.RemoveItemFromStack(bulletstack,1)){
+			this.PauseProgress();
+		}
+	},$(testbuilding.window.body).children(".fire"),"近防炮开火");
+	testprogressbar.repeat=true;
+	testprogressbar.StartProgress();
+	let buildmanagerwindowbody=allwindows['建造'].body;
+	$(buildmanagerwindowbody).find("#buildmanagerbuttons").append($(testbuilding.div));
+	$(testbuilding.div).click(function(){
+		testbuilding.window.ShowWindow();
+	});
 	starshop=new StarShop();
 	starshop.Shopping();
 	getnpc=new GetNpc();
@@ -48,7 +67,7 @@ function GetNpcWindow(npc){
 	if(npc.infowindow!=null){
 		return npc.infowindow;
 	}
-	let iteminfodiv="<div>名字 "+npc.name+"</div><div tip=true tip-content='决定科研速度'>智力"+npc.GetInfo()['attributes']['智力']+"</div><div tip=true tip-content='决定工作极限时间'>体力"+npc.GetInfo()['attributes']['体力']+"</div><div tip=true tip-content='决定稳定程度'>精神"+npc.GetInfo()['attributes']['精神']+"</div><div tip=true tip-content='决定提升速度'>教育"+npc.GetInfo()['attributes']['教育']+"</div><div tip=true tip-content='决定产出量'>外貌"+npc.GetInfo()['attributes']['外貌']+"</div></div><div class='btn normal getnpc' id='employ_"+npc.name.replace(' ','_')+"'>\>聘用\<</div>";
+	let iteminfodiv="<div>名字 "+npc.name+"</div><div tip=true tip-content='决定科研速度'>智力"+npc.GetInfo()['attributes']['智力']+"</div><div tip=true tip-content='决定工作极限时间'>体力"+npc.GetInfo()['attributes']['体力']+"</div><div tip=true tip-content='决定稳定程度'>精神"+npc.GetInfo()['attributes']['精神']+"</div><div tip=true tip-content='决定提升速度'>教育"+npc.GetInfo()['attributes']['教育']+"</div><div tip=true tip-content='决定产出量'>外貌"+npc.GetInfo()['attributes']['外貌']+"</div><div id='npc_salary_"+npc.name.replace(' ','_')+"'>工资要求 "+npc.salary+"/小时</div></div><div class='btn normal getnpc' id='employ_"+npc.name.replace(' ','_')+"'>\>聘用\<</div>";
 	let window=new WindowElement(npc.name.replace(' ','_'),npc.name,500,300,iteminfodiv);
 	$("#employ_"+npc.name.replace(' ','_')).click(function(){
 		Alert("聘用员工功能正在开发中");
@@ -77,16 +96,25 @@ function InitUniverse(){
 	}
 }
 function Alert(msg,level=0){
+	$("#gamealertmessage").show();
 	$("#gamealertmessage").append("<div class='alertmessage' tip=true tip-content='点击以删除此消息' level='"+level+"'>"+msg+"</div>");
 	$(".alertmessage").click(function(){
 		$("#tooltip").hide();
 		$(this).remove();
+		if($("#gamealertmessage").children().length==0){
+			$("#gamealertmessage").hide();
+		}
 	});
 	ResetToolTip();
 }
 $(function(){
 	InitWindows();
 	UpdateInfo();
+	
+	for(let i=0;i<1000;i++){
+		allplanets.push(new planet(randInt(-10000,10000),randInt(-10000,10000),randInt(0,100)))
+	}
+
 	PlayersCompany=new Company("请输入公司名称");
 	$("#company_name").click(function(){
 		// 获取当前文本内容

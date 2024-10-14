@@ -1,10 +1,11 @@
 class planet{
-    constructor(id,pos,type){
-        this.id = id;
+    constructor(pos,type){
+        this.id = "planet"+allplanets.length;
         this.pos = pos;
-        this.type = type;
-        this.ironcontainer=new ItemContainer(10000000,null);
-        let ironstack=new ItemStack(new Iron(),randInt(1000000,10000000));
-        this.ironcontainer.PutItemIn(ironstack);
+        if(type>=90){
+            this.type="star";
+        }else{
+            this.type="planet";
+        }
     }
 }

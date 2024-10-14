@@ -8,6 +8,8 @@ class Building{
 		this.div=$("<div class='btn normal' id='buildingbtn_"+this.id+"'>"+this.name+this.id.toString()+"</div>");
 		this.level=1;
 		this.uplevelmoney=0;
+		//“耐久度”
+		this.Life=100;
 	}
 	UpdateLevel(){
 		this.level++;

@@ -1,6 +1,8 @@
 html,body{
 	margin: 0;
 	background-color: #041a32;
+	background-image: url('../img/grid.png');
+	background-repeat: repeat;
 }
 .div_container{
 	height: 95%;

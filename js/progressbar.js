@@ -45,7 +45,7 @@ class ProgressBar{
 	StartProgress(){
 		var that=this;
 		this.progress=setInterval(()=>{
-			that.nowtime+=100;
+			that.nowtime+=17;
 			const progress=(that.nowtime/that.ptime)*100;
 			this.progresspercent=progress;
 			if(that.progresspertickcall!=null){
@@ -64,6 +64,6 @@ class ProgressBar{
 				}
 				$("#bar_"+that.id).css("width","0%");
 			}
-		},100);
+		},17);
 	}
 }

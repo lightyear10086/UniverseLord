@@ -72,6 +72,7 @@ class ItemStack {
             value=0;
         }
         this._count=value;
+        this.wholeVolume=this.item.volume*value;
         this.UpdateStack();
     }
     ChangeItemCount(count){

@@ -29,13 +29,15 @@ class ItemContainer{
         if(!this.cangetout){
             return false;
         }
-        this.itemstacks = this.itemstacks.filter(is => is !== itemstack);
+        if(this.itemstacks.indexOf(itemstack)<0){
+            return false;
+        }
+        if(itemstack.count<count){
+            return false;
+        }
         itemstack.count -= count;
         this.RecalculateVolume();
         this.parentbuild.OnContainerUpdate();
-        if(itemstack.count==0){
-            return this.RemoveItemStack(itemstack,true);
-        }
         return true;
     }
     RemoveItemStack(itemstack, removeDiv = true){
@@ -80,17 +82,18 @@ class ItemContainer{
                     let newStack = new ItemStack(itemstack.item, maxCount);
                     this.PutItemIn(newStack, false);
                     itemstack.count -= maxCount;
-                    console.log(`放入了 ${maxCount} 个物品，剩余 ${itemstack.count} 个`);
+                    this.RecalculateVolume();
+                    itemstack.UpdateStack();
                     return true;
                 }
             }
-            
+            this.RecalculateVolume();
+            itemstack.UpdateStack();
             return false;
         }
     }
     RecalculateVolume(){
         let usedVolume = this.itemstacks.reduce((total, is) => total + is.wholeVolume, 0);
-        //console.log(`已用容量 ${usedVolume} / ${this.maxVolume}`);
         this.volume = this.maxVolume - usedVolume;
         this.parentbuild.OnContainerUpdate();
     }
