@@ -43,8 +43,11 @@ class ItemStack {
             mouseup: function(e){
                 if(that.droppableBelow!=null){
                     let aimcontainer = allcontainers.get($(that.droppableBelow).attr('container_id'));
+                    let oldcontainer=that.incontainer;
                     if(aimcontainer!=that.incontainer){
-                        aimcontainer.PutItemIn(that);
+                        if(aimcontainer.PutItemIn(that,false,true)){
+                            oldcontainer.RemoveItemStack(that);
+                        }
                     }
                 }
                 // 重置位置和样式
@@ -97,15 +100,11 @@ class ItemStack {
         this.itemstackwindow.ShowWindow();
     }
     UpdateStack(){
-        console.log("update stack",this.count);
         $("#itemstack-count"+this.id).text(this.count);
         this.div=$("#"+this.id);
     }
     PutSameItem(itemstack){
         this.count+=itemstack.count;
-    }
-    Remove(){
-        $("#"+this.id).remove();
     }
     MoveTo(container){
         // if (this.incontainer) {
@@ -114,7 +113,6 @@ class ItemStack {
         // }
         $(this.div).appendTo(container.parentdiv);
         this.incontainer = container;
-        container.volume -= this.wholeVolume;  // 减少新容器的体积
         this.BindEvents();
     }
 }

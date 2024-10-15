@@ -6,20 +6,37 @@ class Npc{
         this.workSpeed=randInt(1,10);
         this.age=randInt(18,60);
         this.workCompany=null;
-        
+        this.workType=null;
         this.属性={
             '智力':randInt(1,10),
-            '体力':randInt(1,10),
+            '体能':randInt(1,10),
             '精神':randInt(1,10),
             '教育':randInt(1,10),
             '外貌':randInt(1,10)
         }
+        this.states={
+            '健康':100,
+            '心情':100,
+            '效率':100,
+            '知识':[{
+                'name':'省力',
+                'level':0
+            }]
+        }
         //薪水
-        this.salary=Math.round(20+this.age*1.5+this.属性['智力']*2+this.属性['体力']*1.2+this.属性['精神']*1.1+this.属性['教育']*1.3+this.属性['外貌']*1.6);
+        this.salary=Math.round(20+this.age*1.5+this.属性['智力']*2+this.属性['体能']*1.2+this.属性['精神']*1.1+this.属性['教育']*1.3+this.属性['外貌']*1.6);
         this.infowindow=null;
     }
+    SetWork(worktype){
+        this.workType=worktype;
+        switch(worktype){
+            case '搬运工':
+                
+                break;
+        }
+    }
     UpdateSalary(){
-        this.salary=Math.round(20+this.age*1.5+this.属性['智力']*2+this.属性['体力']*1.2+this.属性['精神']*1.1+this.属性['教育']*1.3+this.属性['外貌']*1.6);
+        this.salary=Math.round(20+this.age*1.5+this.属性['智力']*2+this.属性['体能']*1.2+this.属性['精神']*1.1+this.属性['教育']*1.3+this.属性['外貌']*1.6);
     }
     get salary(){
         return this._salary;

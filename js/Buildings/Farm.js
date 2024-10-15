@@ -6,9 +6,20 @@ class Farm extends Building{
 		this.container=new ItemContainer(5,this.window.body,this);
         this.container.canmovein=false;
         $(this.window.body).attr("container_id",this.container.id);
-        this.window.body.append("<div id='farm_"+this.id+"_container_volume'>基础容量 0/"+this.container.maxVolume.toFixed(2)+"</div><div>种植<form><select id='farm_"+this.id+"_plant_type'> <option value='rice'>水稻</option> <option value='vegetable'>蔬菜</option> <option value='fruit'>水果</option> </select></form></div><div>自动转移至<form><select id='farm_"+this.id+"_container_transfer'></select></form></div>");
+        this.window.body.append("<div id='farm_"+this.id+"_container_volume'>基础容量 0/"+this.container.maxVolume.toFixed(2)+"</div><div>种植<form><select id='farm_"+this.id+"_plant_type'> <option value='rice'>水稻</option> <option value='vegetable'>蔬菜</option> <option value='fruit'>水果</option> </select></form></div><div>自动转移至<form><select id='farm_"+this.id+"_container_transfer'></select></form><div id='pause_work"+this.id+"' class='btn normal'>暂停种植</div></div>");
         this.isrunning=true;
         this.getitempertimes=2;
+		this.playerpaused=false;
+		let that=this;
+		$("#pause_work"+this.id).click(()=>{
+			this.playerpaused=!this.playerpaused;
+			this.PauseWorking();
+			if(this.isrunning){
+				$("#pause_work"+this.id).text("暂停种植");
+			}else{
+				$("#pause_work"+this.id).text("恢复运行");
+			}
+		});
     }
     UpdateCargos(){
 		$("#farm_"+this.id+"_container_transfer").empty();
@@ -22,7 +33,7 @@ class Farm extends Building{
 		$("#farm_"+this.id+"_container_volume").text("基础容量 "+已用+"/"+this.container.maxVolume.toFixed(2));
 		if(已用<this.container.maxVolume && !this.isrunning){
 			//恢复运行
-			console.log("恢复运行");
+			//console.log("恢复运行");
 			this.PauseWorking();
 		}
 	}
@@ -30,20 +41,19 @@ class Farm extends Building{
 		if(this.isrunning){
 			this.farmprogress.PauseProgress();
 			this.isrunning=false;
-			console.log("暂停");
 		}else{
+			if(!this.playerpaused){
 			this.farmprogress.ContinueProgress();
 			this.isrunning=true;
-			console.log("恢复");
+			//console.log("恢复");
+			}
 		}
 	}
     Work(){
         let that=this;
 		this.farmprogress=new ProgressBar('progress_'+progresses,this.getitempertimes*1000,()=>{
-			
 			let itemcount=randInt(100,500);
 			let newitemstack=new ItemStack(new Rice(),itemcount);
-			
 			let success = this.container.PutItemIn(newitemstack,true);
 			if(!success){
 				if(allbuildings['cargos'].length==0){

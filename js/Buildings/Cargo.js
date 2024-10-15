@@ -14,11 +14,8 @@ class Cargo extends Building{
 		$("#cargovolume_"+this.id).text("仓库容量 "+已用.toFixed(2)+"/"+that.container.maxVolume.toFixed(2));
 	}
 	PutItemStackIn(itemstack){
-		let success = this.container.PutItemIn(itemstack);
-		if (success) {
-			itemstack.MoveTo(this.container);  // 确保这行代码被执行
-		}
-		return success;
+		return this.container.PutItemIn(itemstack);
+		
 	}
 	BuildFinished(){
 		for(let b of allbuildings['drilling']){

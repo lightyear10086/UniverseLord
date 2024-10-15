@@ -42,14 +42,9 @@ class ItemContainer{
         this.parentbuild.OnContainerUpdate();
         return true;
     }
-    RemoveItemStack(itemstack, removeDiv = true){
-        if(!this.cangetout){
-            return false;
-        }
+    RemoveItemStack(itemstack){
         this.itemstacks = this.itemstacks.filter(is => is !== itemstack);
-        // if (removeDiv) {
-        //     itemstack.Remove();
-        // }
+        //$("#"+itemstack.id).remove();
         this.RecalculateVolume();
         //this.parentbuild.OnContainerUpdate();
         //this.itemstacks.splice(this.itemstacks.indexOf(itemstack), 1);
@@ -65,7 +60,13 @@ class ItemContainer{
             this.AddItemToWhitelist(itemname);
         }
     }
-    PutItemIn(itemstack, trymax = false) {
+    MoveItemOut(itemstack){
+        this.itemstacks.splice(this.itemstacks.indexOf(itemstack), 1);
+        this.RecalculateVolume();
+        itemstack.UpdateStack();
+        return true;
+    }
+    PutItemIn(itemstack, trymax = false,isDragging=false) {
         if(this.volume<=0){
             return false;
         }
@@ -81,14 +82,14 @@ class ItemContainer{
             Alert("该容器不允许放入该物品");
             return false;
         }
-        console.log("Putting item in container",itemstack.item.name,itemstack.count);
         if (itemstack.wholeVolume <= this.volume) {
             let existingStack = this.itemstacks.find(is => is.item.name === itemstack.item.name);
             if (existingStack) {
                 existingStack.PutSameItem(itemstack);
-                itemstack.Remove();
+                if(isDragging){
+                    $("#"+itemstack.id).remove();
+                }
             } else {
-                console.log("Putting item in container");
                 itemstack.MoveTo(this);
                 this.itemstacks.push(itemstack);
             }
@@ -101,7 +102,6 @@ class ItemContainer{
                 maxCount=maxCount==0?1:maxCount;
                 let stack=this.itemstacks.filter(i=>i.item.name===itemstack.item.name);
                 stack[0].count+=maxCount;
-                console.log(stack[0].count);
                 this.RecalculateVolume();
                 itemstack.UpdateStack();
                 return true;
