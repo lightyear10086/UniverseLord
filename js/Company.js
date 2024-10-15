@@ -31,11 +31,12 @@ class Company{
         this.infowindow.title=this.name;
         $(this.infowindow.body).html("<p>名称: "+this.name+"</p>"+"<p>资金: "+this.money+"</p>"+"<div class='btn normal' id='show_employees_"+this.id+"'>查看员工</div><div id='company_info_"+this.id+"'></div>");
         this.infowindow.ShowWindow();
+        let that=this;
         $("#show_employees_"+this.id).click(function(){
             console.log("查看员工");
-            $("#company_info_"+this.id).html("<div id='employees_list_"+this.id+"'></div>");
-            for(let npc of PlayersCompany.employees){
-                $("#employees_list_"+this.id).append("<div id='employee_"+npc.name.replace(' ','_')+"'>"+npc.name+"</div>");
+            $("#company_info_"+that.id).html("<div id='employees_list_"+that.id+"'></div>");
+            for(let npc of that.employees){
+                $("#employees_list_"+that.id).append("<div id='employee_"+npc.name.replace(' ','_')+"'>"+npc.name+"</div>");
                 $("#employee_"+npc.name.replace(' ','_')).click(function(){
                     npc.infowindow.ShowWindow();
                 });
