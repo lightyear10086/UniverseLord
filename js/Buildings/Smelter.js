@@ -5,6 +5,7 @@ class Smelter extends Building{
         this.window=new WindowElement("smelterwindow_"+this.id,"金属冶炼厂"+this.id,500,300);
         this.window.HideWindow();
         this.workProgress=null;
+        this.working=false;
         this.smelterMap={
             "Iron":[
                 {
@@ -61,7 +62,7 @@ class Smelter extends Building{
             $("#smelter_aim_product"+that.id).empty().append(productoptionhtml);
         });
         $("#smelter_workbegin"+this.id).click(function () {
-            if(that.workProgress!=null){
+            if(that.workProgress!=null && that.working){
                 return;
             }
             let product=that.smelterMap[$("#smelter_mat_select"+that.id).val()].filter(p=>p.name==$("#smelter_aim_product"+that.id).val())[0];
@@ -87,14 +88,25 @@ class Smelter extends Building{
 		}
 	}
     Work(){
+        if(this.workProgress!=null){
+            this.workProgress.StartProgress();
+            return;
+        }
         this.workProgress=new ProgressBar('progress_'+progresses,this.nowSmeltingType.time*1000,()=>{
             let mat=this.container.GetItemStackByName(this.nowSmeltingType.mat);
+            if(mat==null){
+                this.workProgress.PauseProgress();
+                this.working=false;
+                return;
+            }
+            this.working=true;
             let product=new ResourceItemMap[this.nowSmeltingType.product]();
             let productStack=new ItemStack(product,this.nowSmeltingType.count);
             this.container.RemoveItemFromStack(mat,1);
             this.container.PutItemIn(productStack,true);
             if(mat.count<=0){
                 this.workProgress.PauseProgress();
+                this.working=false;
             }
         },this.window.body.children(".div_container"),"正在冶炼");
         this.workProgress.repeat=true;

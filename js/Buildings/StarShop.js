@@ -39,10 +39,13 @@ class StarShop extends Building{
             }
             PlayersCompany.money+=Math.round(this.nowSoldingItem.item.price*this.nowSoldingItemCount);
             let solditemtype=this.container.itemstacks[randInt(0,this.container.itemstacks.length-1)];
-            let solditemcount=randInt(1,Math.round(solditemtype.count*0.1));
-            this.shoppingprogress.UpdateTitle("正在卖 "+solditemtype.item.name+"x"+solditemcount);
-            this.nowSoldingItem=solditemtype;
-            this.nowSoldingItemCount=solditemcount;
+            if(solditemtype!=null){
+                let solditemcount=randInt(1,Math.round(solditemtype.count*0.1));
+                this.shoppingprogress.UpdateTitle("正在卖 "+solditemtype.item.name+"x"+solditemcount);
+                this.nowSoldingItem=solditemtype;
+                this.nowSoldingItemCount=solditemcount;
+            }
+            
         },$(this.window.body).children('.progress_container'),"正在卖货");
         this.shoppingprogress.repeat=true;
     }

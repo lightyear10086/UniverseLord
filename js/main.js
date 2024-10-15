@@ -116,7 +116,6 @@ function Alert(msg,level=0){
 }
 function DayUpdate(){
 	for(let cmp of allcompanies){
-		console.log(cmp);
 		cmp.PayAllEmployees();
 	}
 }
