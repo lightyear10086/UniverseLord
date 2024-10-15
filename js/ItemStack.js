@@ -12,7 +12,7 @@ class ItemStack {
     }
     BindEvents(){
         let that=this;
-        $("#"+this.id).on({
+        $("#"+this.id).off().on({
             ondragstart:function(){
                 return false;
             },
@@ -44,9 +44,7 @@ class ItemStack {
                 if(that.droppableBelow!=null){
                     let aimcontainer = allcontainers.get($(that.droppableBelow).attr('container_id'));
                     if(aimcontainer!=that.incontainer){
-                        if(aimcontainer.PutItemIn(that)){
-                            that.incontainer.RemoveItemStack(that);
-                        }
+                        aimcontainer.PutItemIn(that);
                     }
                 }
                 // 重置位置和样式
@@ -99,16 +97,12 @@ class ItemStack {
         this.itemstackwindow.ShowWindow();
     }
     UpdateStack(){
+        console.log("update stack",this.count);
         $("#itemstack-count"+this.id).text(this.count);
+        this.div=$("#"+this.id);
     }
     PutSameItem(itemstack){
-        if(this.item.name==itemstack.item.name){
-            this.count+=itemstack.count;
-            this.wholeVolume+=itemstack.wholeVolume;
-            this.UpdateStack();
-            return true;
-        }
-        return false;
+        this.count+=itemstack.count;
     }
     Remove(){
         $("#"+this.id).remove();

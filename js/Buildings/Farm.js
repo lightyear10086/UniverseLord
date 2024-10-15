@@ -1,6 +1,6 @@
 class Farm extends Building{
     constructor(){
-        super(allbuildings['farms'].length,"农场","种植农作物",3);
+        super(allbuildings['farms'].length,"农场","种植农作物",0);
         allbuildings['farms'].push(this);
         this.window=new WindowElement("farmwindow_"+this.id,"农场"+this.id,500,300);
 		this.container=new ItemContainer(5,this.window.body,this);

@@ -47,9 +47,9 @@ class ItemContainer{
             return false;
         }
         this.itemstacks = this.itemstacks.filter(is => is !== itemstack);
-        if (removeDiv) {
-            itemstack.Remove();
-        }
+        // if (removeDiv) {
+        //     itemstack.Remove();
+        // }
         this.RecalculateVolume();
         //this.parentbuild.OnContainerUpdate();
         //this.itemstacks.splice(this.itemstacks.indexOf(itemstack), 1);
@@ -66,6 +66,9 @@ class ItemContainer{
         }
     }
     PutItemIn(itemstack, trymax = false) {
+        if(this.volume<=0){
+            return false;
+        }
         if (!this.canputin) {
             Alert("该容器不允许放入物品");
             return false;
@@ -78,6 +81,7 @@ class ItemContainer{
             Alert("该容器不允许放入该物品");
             return false;
         }
+        console.log("Putting item in container",itemstack.item.name,itemstack.count);
         if (itemstack.wholeVolume <= this.volume) {
             let existingStack = this.itemstacks.find(is => is.item.name === itemstack.item.name);
             if (existingStack) {
@@ -94,14 +98,13 @@ class ItemContainer{
         } else {
             if (trymax && itemstack.count > 1) {
                 let maxCount = Math.floor(this.volume / itemstack.item.volume);
-                if (maxCount > 0) {
-                    let newStack = new ItemStack(itemstack.item, maxCount);
-                    this.PutItemIn(newStack, false);
-                    itemstack.count -= maxCount;
-                    this.RecalculateVolume();
-                    itemstack.UpdateStack();
-                    return true;
-                }
+                maxCount=maxCount==0?1:maxCount;
+                let stack=this.itemstacks.filter(i=>i.item.name===itemstack.item.name);
+                stack[0].count+=maxCount;
+                console.log(stack[0].count);
+                this.RecalculateVolume();
+                itemstack.UpdateStack();
+                return true;
             }
             this.RecalculateVolume();
             itemstack.UpdateStack();
