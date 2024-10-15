@@ -43,27 +43,32 @@ class ProgressBar{
 		this.StartProgress();
 	}
 	StartProgress(){
-		var that=this;
+		//var that=this;
 		this.progress=setInterval(()=>{
-			that.nowtime+=17;
-			const progress=(that.nowtime/that.ptime)*100;
+			this.nowtime+=17
+			//that.nowtime+=17;
+			const progress=(this.nowtime/this.ptime)*100;
 			this.progresspercent=progress;
-			if(that.progresspertickcall!=null){
-				that.progresspertickcall();
+			if(this.progresspertickcall!=null){
+				this.progresspertickcall();
 			}
 			//console.log(`进度:${progress.toFixed(2)}%`);
-			$("#bar_"+that.id).css("width",progress.toFixed(2).toString()+"%");
-			if(that.nowtime>=that.ptime){
-				that.finishcallback();
+			$("#bar_"+this.id).css("width",progress.toFixed(2).toString()+"%");
+
+			if(this.nowtime>=this.ptime){
+				this.finishcallback();
 				if(!this.repeat){
-					clearInterval(that.progress);
+					clearInterval(this.progress);
 				}
-				that.nowtime=0;
-				if(that.progressbegincallback!=null){
-					that.progressbegincallback();
+				this.nowtime=0;
+				if(this.progressbegincallback!=null){
+					this.progressbegincallback();
 				}
-				$("#bar_"+that.id).css("width","0%");
+				$("#bar_"+this.id).css("width","0%");
 			}
 		},17);
 	}
 }
+
+a=function(){console.log(this);};
+b=function(){a()};
