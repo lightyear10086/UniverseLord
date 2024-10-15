@@ -4,43 +4,49 @@ class Smelter extends Building{
         allbuildings['smelters'].push(this);
         this.window=new WindowElement("smelterwindow_"+this.id,"金属冶炼厂"+this.id,500,300);
         this.window.HideWindow();
+        this.workProgress=null;
         this.smelterMap={
-            "铁矿":[
+            "Iron":[
                 {
-                    "name":"铁锭",
-                    "count":1
+                    "name":"IronIngot",
+                    "count":1,
+                    "time":3
                 }
             ],
-            "铝矿":[
+            "Aluminum":[
                 {
-                    "name":"铝锭",
-                    "count":1
+                    "name":"AluminumIngot",
+                    "count":1,
+                    "time":4
                 }
             ],
-            "铜矿":[
+            "Copper":[
                 {
-                    "name":"铜锭",
-                    "count":1
+                    "name":"CopperIngot",
+                    "count":1,
+                    "time":4
                 }
             ],
-            "岩石":[
+            "Stone":[
                 {
-                    "name":"石板",
-                    "count":1
+                    "name":"StoneBrick",
+                    "count":1,
+                    "time":3
                 },{
-                    "name":"石英",
-                    "count":1
+                    "name":"Quartz",
+                    "count":1,
+                    "time":3
                 }
             ]
         };
+        this.nowSmeltingType=null;
         this.window.body.append("<div id='smelter_"+this.id+"_container_volume'><div class='progress_bar'></div></div><div>自动转移至<form><select id='smelter_"+this.id+"_container_transfer'></select></form>将<form style='display:inline-block'><select id='smelter_mat_select"+this.id+"'></select></form>冶炼为<form style='display:inline-block'><select id='smelter_aim_product"+this.id+"'></select></form><div class='btn normal inline' id='smelter_workbegin"+this.id+"'>开始冶炼</div></div><div class='div_container'></div>");
         this.container=new ItemContainer(100,$(this.window.body).children(".div_container"),this);
-        this.container.AddItemsToWhitelist(["Iron","Copper"]);
-        console.log(this.container.putitemwhitelists);
-        $("#smelter_mat_select"+this.id).append("<option value='铁矿'>铁矿</option><option value='铝矿'>铝矿</option><option value='钛矿'>钛矿</option><option value='铜矿'>铜矿</option><option value='岩石'>岩石</option><option value='金矿'>金矿</option>");
+        this.container.AddItemsToWhitelist(["Iron","Copper","IronIngot"]);
+        $("#smelter_mat_select"+this.id).append("<option value='Iron'>铁矿</option><option value='Aluminum'>铝矿</option><option value='Copper'>铜矿</option><option value='Stone'>岩石</option>");
         let that=this;
         let productoptionhtml="";
-        for(let p of this.smelterMap['铁矿']){
+        for(let p of this.smelterMap['Iron']){
             productoptionhtml+="<option value='"+p.name+"'>"+p.name+"</option>";
         }
         $("#smelter_aim_product"+this.id).append(productoptionhtml);
@@ -55,6 +61,11 @@ class Smelter extends Building{
             $("#smelter_aim_product"+that.id).empty().append(productoptionhtml);
         });
         $("#smelter_workbegin"+this.id).click(function () {
+            if(that.workProgress!=null){
+                return;
+            }
+            let product=that.smelterMap[$("#smelter_mat_select"+that.id).val()].filter(p=>p.name==$("#smelter_aim_product"+that.id).val())[0];
+            that.nowSmeltingType={"mat":$("#smelter_mat_select"+that.id).val(),"product":product.name,"count":product.count,"time":product.time};
             that.Work();
         });
         this.volumeBar=new ProgressBar('progress_'+progresses,0,null,$(this.window.body).children(".progress_bar"));
@@ -76,6 +87,17 @@ class Smelter extends Building{
 		}
 	}
     Work(){
-
+        this.workProgress=new ProgressBar('progress_'+progresses,this.nowSmeltingType.time*1000,()=>{
+            let mat=this.container.GetItemStackByName(this.nowSmeltingType.mat);
+            let product=new ResourceItemMap[this.nowSmeltingType.product]();
+            let productStack=new ItemStack(product,this.nowSmeltingType.count);
+            this.container.RemoveItemFromStack(mat,1);
+            this.container.PutItemIn(productStack,true);
+            if(mat.count<=0){
+                this.workProgress.PauseProgress();
+            }
+        },this.window.body.children(".div_container"),"正在冶炼");
+        this.workProgress.repeat=true;
+        this.workProgress.StartProgress();
     }
 }

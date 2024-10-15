@@ -102,6 +102,9 @@ class ItemStack {
     UpdateStack(){
         $("#itemstack-count"+this.id).text(this.count);
         this.div=$("#"+this.id);
+        if(this.count<=0){
+            $(this.div).remove();
+        }
     }
     PutSameItem(itemstack){
         this.count+=itemstack.count;

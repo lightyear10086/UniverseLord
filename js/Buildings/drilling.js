@@ -56,19 +56,20 @@ class drilling extends Building{
 			}
 			let success = this.container.PutItemIn(newitemstack);
 			if(!success){
-				if(allbuildings['cargos'].length==0){
-					that.PauseWorking();
-				}else{
-					// 如果无法放入钻井容器，尝试放入选定的仓库
-					let selectedCargoId = $("#drilling_"+this.id+"_container_transfer").val().replace('cargo_', '');
-					let selectedCargo = allbuildings['cargos'].find(c => c.id == selectedCargoId);
-					if(selectedCargo){
-						if(!selectedCargo.PutItemStackIn(newitemstack)){
-							Alert(this.name+"容量不足");
-							that.PauseWorking();
-						}
-					}
-				}
+				that.PauseWorking();
+				// if(allbuildings['cargos'].length==0){
+				// 	that.PauseWorking();
+				// }else{
+				// 	// 如果无法放入钻井容器，尝试放入选定的仓库
+				// 	let selectedCargoId = $("#drilling_"+this.id+"_container_transfer").val().replace('cargo_', '');
+				// 	let selectedCargo = allbuildings['cargos'].find(c => c.id == selectedCargoId);
+				// 	if(selectedCargo){
+				// 		if(!selectedCargo.PutItemStackIn(newitemstack)){
+				// 			Alert(this.name+"容量不足");
+				// 			that.PauseWorking();
+				// 		}
+				// 	}
+				// }
 				
 			}
 			

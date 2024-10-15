@@ -5,7 +5,7 @@ function InitBuildingWindow(){
 		console.log($(this).attr('data'));
 		switch ($(this).attr('data')){
 			case 'cargo':
-				if(resources['money']<200){
+				if(PlayersCompany.money<200){
 					Alert("你需要至少200单位的货币");
 					break;
 				}
@@ -22,7 +22,7 @@ function InitBuildingWindow(){
 				buildnewcargo.StartProgress();
 				break;
 			case 'drilling':
-				if(resources['money']<500){
+				if(PlayersCompany.money<500){
 					Alert("你需要至少500单位的货币");
 					break;
 				}
@@ -44,7 +44,7 @@ function InitBuildingWindow(){
 				buildnewdrilling.StartProgress();
 				break;
 			case 'farm':
-				if(resources['money']<50){
+				if(PlayersCompany.money<50){
 					Alert("你需要至少50单位的货币");
 					break;
 				}
@@ -63,7 +63,7 @@ function InitBuildingWindow(){
 				buildnewfarm.StartProgress();
 				break;
 				case 'smelter':
-					if(resources['money']<600){
+					if(PlayersCompany.money<600){
 						Alert("你需要至少600单位的货币");
 						break;
 					}

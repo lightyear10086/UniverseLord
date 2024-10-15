@@ -38,6 +38,9 @@ class ItemContainer{
             return false;
         }
         itemstack.count -= count;
+        if(itemstack.count<=0){
+            this.RemoveItemStack(itemstack);
+        }
         this.RecalculateVolume();
         this.parentbuild.OnContainerUpdate();
         return true;
@@ -66,6 +69,9 @@ class ItemContainer{
         itemstack.UpdateStack();
         return true;
     }
+    GetItemStackByName(itemname){
+        return this.itemstacks.find(is => is.item.name === itemname);
+    }
     PutItemIn(itemstack, trymax = false,isDragging=false) {
         if(this.volume<=0){
             return false;
@@ -78,8 +84,8 @@ class ItemContainer{
             Alert("不能从其他容器移动过来");
             return false;
         }
-        if(this.putitemwhitelists.length!=0 && !(itemstack.item.name in this.putitemwhitelists)){
-            Alert("该容器不允许放入该物品");
+        if(this.putitemwhitelists.length>0 && this.putitemwhitelists.indexOf(itemstack.item.name)<0){
+            Alert("该容器不允许放入 "+itemstack.item.name);
             return false;
         }
         if (itemstack.wholeVolume <= this.volume) {
