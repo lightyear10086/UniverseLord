@@ -188,3 +188,16 @@ html,body{
 	border-left: solid 5px slateblue;
 	border-right: solid 5px slateblue;
 }
+.inline{
+	display: inline-block;
+}
+form{
+	width: 60px;
+	padding-left: 6px;
+	padding-right: 6px;
+	
+}
+select{
+	background-color: coral;
+	color: white;
+}

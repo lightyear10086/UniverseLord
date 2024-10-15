@@ -8,7 +8,7 @@ class Farm extends Building{
         $(this.window.body).attr("container_id",this.container.id);
         this.window.body.append("<div id='farm_"+this.id+"_container_volume'>基础容量 0/"+this.container.maxVolume.toFixed(2)+"</div><div>种植<form><select id='farm_"+this.id+"_plant_type'> <option value='rice'>水稻</option> <option value='vegetable'>蔬菜</option> <option value='fruit'>水果</option> </select></form></div><div>自动转移至<form><select id='farm_"+this.id+"_container_transfer'></select></form></div>");
         this.isrunning=true;
-        this.getitempertimes=20;
+        this.getitempertimes=2;
     }
     UpdateCargos(){
 		$("#farm_"+this.id+"_container_transfer").empty();

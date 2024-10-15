@@ -5,6 +5,7 @@ var allbuildings={
 	'farms':[],
 	'science':[],
 	'getnpc':[],
+	'smelters':[]
 	};
 var isbuilding=[];
 var progresses=0;

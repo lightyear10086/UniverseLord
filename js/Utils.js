@@ -15,6 +15,8 @@ class ItemContainer{
         this.canmovein=true;
         $(this.parentdiv).attr('droppable','true');
         $(this.parentdiv).attr('container_id',this.id);
+        this.putitemwhitelists=[];
+        this.outitemwhitelists=[];
     }
     set volume(value){
         this._volume = Math.min(Math.max(value, 0), this.maxVolume);
@@ -53,6 +55,16 @@ class ItemContainer{
         //this.itemstacks.splice(this.itemstacks.indexOf(itemstack), 1);
         return true;
     }
+    AddItemToWhitelist(itemname){
+        if(this.putitemwhitelists.indexOf(itemname)<0){
+            this.putitemwhitelists.push(itemname);
+        }
+    }
+    AddItemsToWhitelist(itemnames){
+        for(let itemname of itemnames){
+            this.AddItemToWhitelist(itemname);
+        }
+    }
     PutItemIn(itemstack, trymax = false) {
         if (!this.canputin) {
             Alert("该容器不允许放入物品");
@@ -62,13 +74,17 @@ class ItemContainer{
             Alert("不能从其他容器移动过来");
             return false;
         }
-        
+        if(this.putitemwhitelists.length!=0 && !(itemstack.item.name in this.putitemwhitelists)){
+            Alert("该容器不允许放入该物品");
+            return false;
+        }
         if (itemstack.wholeVolume <= this.volume) {
             let existingStack = this.itemstacks.find(is => is.item.name === itemstack.item.name);
             if (existingStack) {
                 existingStack.PutSameItem(itemstack);
                 itemstack.Remove();
             } else {
+                console.log("Putting item in container");
                 itemstack.MoveTo(this);
                 this.itemstacks.push(itemstack);
             }

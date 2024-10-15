@@ -1,6 +1,6 @@
 var allwindows={};
 function InitBuildingWindow(){
-	let buildmanagerwindowbody=allwindows['建造'].body;
+	let buildmanagerwindowbody=allwindows['buildnewwindow'].body;
 	$(".buildnew").click(function(){
 		console.log($(this).attr('data'));
 		switch ($(this).attr('data')){
@@ -61,6 +61,25 @@ function InitBuildingWindow(){
 					farm.Work();
 				},buildmanagerwindowbody);
 				buildnewfarm.StartProgress();
+				break;
+				case 'smelter':
+					if(resources['money']<600){
+						Alert("你需要至少600单位的货币");
+						break;
+					}
+					changeMoney(-600);
+					let smelter=new Smelter();
+					let buildnewsmelter=new ProgressBar('progress_'+progresses,smelter.buildtime*1000,function(){
+						Alert("金属冶炼厂建好了");
+						smelter.UpdateCargos();
+						$(buildmanagerwindowbody).find("#buildmanagerbuttons").append($(smelter.div));
+						buildnewsmelter.DeleteProgress();
+						$(smelter.div).click(function(){
+							smelter.window.ShowWindow();
+						});
+					},buildmanagerwindowbody);
+					buildnewsmelter.StartProgress();
+					break;
 			default:
 				break;
 		}

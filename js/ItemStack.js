@@ -8,11 +8,11 @@ class ItemStack {
         this.div="<div class='item-stack' id='"+this.id+"'>"+this.item.abbreviation+"<div class='item-stack-count' id='itemstack-count"+this.id+"'>"+this.count+"</div></div>";
         this.containerDiv=null;
         this.incontainer=null;
-        this.itemstackwindow=null;
+        this.itemstackwindow=allwindows[this.name];
     }
     BindEvents(){
         let that=this;
-        $("#"+this.id).off().on({
+        $("#"+this.id).on({
             ondragstart:function(){
                 return false;
             },
@@ -44,8 +44,8 @@ class ItemStack {
                 if(that.droppableBelow!=null){
                     let aimcontainer = allcontainers.get($(that.droppableBelow).attr('container_id'));
                     if(aimcontainer!=that.incontainer){
-                        if(that.incontainer.RemoveItemStack(that)){
-                            aimcontainer.PutItemIn(that);
+                        if(aimcontainer.PutItemIn(that)){
+                            that.incontainer.RemoveItemStack(that);
                         }
                     }
                 }
@@ -63,6 +63,7 @@ class ItemStack {
                 that.droppableBelow = null;
             }
         });
+        //console.log("bind events",$("#"+this.id));
     }
     get count(){
         return this._count;
@@ -91,7 +92,11 @@ class ItemStack {
         this.UpdateStack();
     }
     ShowInfoWindow(){
-        GetItemWindow(this.item).ShowWindow();
+        console.log("show info window",this.itemstackwindow);
+        if(this.itemstackwindow==null){
+            this.itemstackwindow=GetItemWindow(this.item);
+        }
+        this.itemstackwindow.ShowWindow();
     }
     UpdateStack(){
         $("#itemstack-count"+this.id).text(this.count);

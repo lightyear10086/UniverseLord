@@ -23,5 +23,8 @@ class Cargo extends Building{
 		for(let farm of allbuildings['farms']){
 			farm.UpdateCargos();
 		}
+		for(let smelter of allbuildings['smelters']){
+			smelter.UpdateCargos();
+		}
 	}
 }

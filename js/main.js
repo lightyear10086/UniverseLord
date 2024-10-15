@@ -32,23 +32,29 @@ function ResetToolTip(){
 }
 
 function InitWindows(){
-	BuildNew=new WindowElement(1,"建造",500,300,"<div class='buildnew'><div class='btn normal buildnew' data='cargo'>建造仓库</div><div class='btn normal buildnew' data='drilling'>建造钻井</div><div class='btn normal buildnew' data='farm'>建造农场</div></div><br><div id='buildmanagerbuttons'></div>");
-	let testbuilding=new TestBuilding();
-	let bulletstack=new ItemStack(new Bullet(),1000);
-	testbuilding.container.PutItemIn(bulletstack,true);
-	$(testbuilding.window.body).children(".progress_bar").after("<div class='fire'></div>")
-	testbuilding.window.HideWindow();
-	let testprogressbar=new ProgressBar('test',80,function(){
-		if(!testbuilding.container.RemoveItemFromStack(bulletstack,1)){
-			this.PauseProgress();
-		}
-	},$(testbuilding.window.body).children(".fire"),"近防炮开火");
-	testprogressbar.repeat=true;
-	testprogressbar.StartProgress();
-	let buildmanagerwindowbody=allwindows['建造'].body;
-	$(buildmanagerwindowbody).find("#buildmanagerbuttons").append($(testbuilding.div));
-	$(testbuilding.div).click(function(){
-		testbuilding.window.ShowWindow();
+	BuildNew=new WindowElement("buildnewwindow","建造",500,300,"<div class='buildnew'><div class='btn normal buildnew' data='cargo'>建造仓库</div><div class='btn normal buildnew' data='drilling'>建造钻井</div><div class='btn normal buildnew' data='farm'>建造农场</div></div><div class='btn normal buildnew' data='smelter'>建造冶炼厂</div></div><br><div id='buildmanagerbuttons'></div>");
+	// let testbuilding=new TestBuilding();
+	// let bulletstack=new ItemStack(new Bullet(),1000);
+	// testbuilding.container.PutItemIn(bulletstack,true);
+	// $(testbuilding.window.body).children(".progress_bar").after("<div class='fire'></div>")
+	// testbuilding.window.HideWindow();
+	// let testprogressbar=new ProgressBar('test',80,function(){
+	// 	if(!testbuilding.container.RemoveItemFromStack(bulletstack,1)){
+	// 		this.PauseProgress();
+	// 	}
+	// },$(testbuilding.window.body).children(".fire"),"近防炮开火");
+	// testprogressbar.repeat=true;
+	// testprogressbar.StartProgress();
+	
+
+	//let buildmanagerwindowbody=allwindows['建造'].body;
+	//$(buildmanagerwindowbody).find("#buildmanagerbuttons").append($(testbuilding.div));
+	// $(testbuilding.div).click(function(){
+	// 	testbuilding.window.ShowWindow();
+	// });
+
+	$("#show_company_info").click(function(){
+		PlayersCompany.ShowInfoWindow();
 	});
 	starshop=new StarShop();
 	starshop.Shopping();
@@ -77,13 +83,12 @@ function GetNpcWindow(npc){
 	return window;
 }
 function GetItemWindow(item){
-	if(allwindows[item.langname]!=null){
-		return allwindows[item.langname];
+	if(allwindows[item.name]!=null){
+		return allwindows[item.name];
 	}
 	let iteminfo=item.getInfo();
 	let iteminfodiv="<div>名称 "+iteminfo['langname']+"</div><div>描述 "+iteminfo['description']+"</div><div>单位体积 "+iteminfo['volume']+"</div><div>简写 "+iteminfo['abbreviation']+"</div>";
 	let win=new WindowElement(item.name,item.langname,500,300,iteminfodiv);
-	win.destroyonclose=true;
 	return win;
 }
 function InitUniverse(){
