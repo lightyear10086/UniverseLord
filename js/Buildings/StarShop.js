@@ -37,7 +37,7 @@ class StarShop extends Building{
             if(this.nowSoldingItemCount==0){
                 this.container.RemoveItemStack(this.nowSoldingItem,true);
             }
-            changeMoney(this.nowSoldingItem.item.price*this.nowSoldingItemCount);
+            PlayersCompany.money+=Math.round(this.nowSoldingItem.item.price*this.nowSoldingItemCount);
             let solditemtype=this.container.itemstacks[randInt(0,this.container.itemstacks.length-1)];
             let solditemcount=randInt(1,Math.round(solditemtype.count*0.1));
             this.shoppingprogress.UpdateTitle("正在卖 "+solditemtype.item.name+"x"+solditemcount);

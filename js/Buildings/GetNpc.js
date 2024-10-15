@@ -14,15 +14,15 @@ class GetNpc extends Building{
     }
     
     RefreshNpcList(){
-        if(resources['money']<this.refreshcost){
+        if(PlayersCompany.money<this.refreshcost){
             return;
         }
-        changeMoney(-this.refreshcost);
+        PlayersCompany.money-=this.refreshcost;
         if(this.waitForJobNocList.length>0){
             for(let npc of this.waitForJobNocList){
                 if(npc.workCompany==null){
                     allnpcs.splice(allnpcs.indexOf(npc),1);
-                    if(npc.infowindow!=null){
+                    if(npc.infowindow!=null && npc.workCompany==null){
                         npc.infowindow.HideWindow();
                     }
                 }

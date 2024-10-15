@@ -9,7 +9,7 @@ function InitBuildingWindow(){
 					Alert("你需要至少200单位的货币");
 					break;
 				}
-				changeMoney(-200);
+				PlayersCompany.money-=200;
 				let cargo=new Cargo(100);
 				let buildnewcargo=new ProgressBar('progress_'+progresses,cargo.buildtime*1000,function(){
 					cargo.BuildFinished();
@@ -26,7 +26,7 @@ function InitBuildingWindow(){
 					Alert("你需要至少500单位的货币");
 					break;
 				}
-				changeMoney(-500);
+				PlayersCompany.money-=500;
 				let drilling_=new drilling();
 				let buildnewdrilling=new ProgressBar('progress_'+progresses,drilling_.buildtime*1000,function(){
 					Alert("钻井建好了");
@@ -48,7 +48,7 @@ function InitBuildingWindow(){
 					Alert("你需要至少50单位的货币");
 					break;
 				}
-				changeMoney(-50);
+				PlayersCompany.money-=50
 				let farm=new Farm();
 				let buildnewfarm=new ProgressBar('progress_'+progresses,farm.buildtime*1000,function(){
 					Alert("农场建好了");
@@ -67,7 +67,7 @@ function InitBuildingWindow(){
 						Alert("你需要至少600单位的货币");
 						break;
 					}
-					changeMoney(-600);
+					PlayersCompany.money-=600;
 					let smelter=new Smelter();
 					let buildnewsmelter=new ProgressBar('progress_'+progresses,smelter.buildtime*1000,function(){
 						Alert("金属冶炼厂建好了");

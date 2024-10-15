@@ -16,6 +16,7 @@ var timedate={
 	'year':3000
 }
 var timeprogress=null;
+var playerNpc=null;
 function ResetToolTip(){
 	$("[tip=true]").mouseenter(function(){
 		$("#tooltip").show();
@@ -32,6 +33,7 @@ function ResetToolTip(){
 }
 
 function InitWindows(){
+	
 	BuildNew=new WindowElement("buildnewwindow","建造",500,300,"<div class='buildnew'><div class='btn normal buildnew' data='cargo'>建造仓库</div><div class='btn normal buildnew' data='drilling'>建造钻井</div><div class='btn normal buildnew' data='farm'>建造农场</div></div><div class='btn normal buildnew' data='smelter'>建造冶炼厂</div></div><br><div id='buildmanagerbuttons'></div>");
 	// let testbuilding=new TestBuilding();
 	// let bulletstack=new ItemStack(new Bullet(),1000);
@@ -112,15 +114,24 @@ function Alert(msg,level=0){
 	});
 	ResetToolTip();
 }
+function DayUpdate(){
+	for(let cmp of allcompanies){
+		console.log(cmp);
+		cmp.PayAllEmployees();
+	}
+}
+function MonthUpdate(){}
+function YearUpdate(){}
 $(function(){
-	InitWindows();
-	UpdateInfo();
 	
+	PlayersCompany=new Company("请输入公司名称");
+	playerNpc=new Npc();
+	InitWindows();
 	for(let i=0;i<1000;i++){
 		allplanets.push(new planet(randInt(-10000,10000),randInt(-10000,10000),randInt(0,100)))
 	}
 
-	PlayersCompany=new Company("请输入公司名称");
+	
 	$("#company_name").click(function(){
 		// 获取当前文本内容
         var currentText = $(this).text().replace("公司","");
@@ -159,23 +170,28 @@ $(function(){
 	$("#tooltip").hide();
 	ResetToolTip();
 	$("#timedate").html(timedate.year+"年"+timedate.month+"月"+timedate.day+"日 "+timedate.hour+"时");
-	timeprogress=new ProgressBar("timeprogress",10000,()=>{
+	timeprogress=new ProgressBar("timeprogress",1000,()=>{
 		timedate.hour++;
 		if(timedate.hour>=24){
 			timedate.hour=1;
 			timedate.day++;
+			DayUpdate();
 		}
 		if(timedate.day>=30){
 			timedate.day=1;
 			timedate.month++;
+			MonthUpdate();
 		}
 		if(timedate.month>=12){
 			timedate.month=1;
 			timedate.year++;
+			YearUpdate();
 		}
 		$("#timedate").html(timedate.year+"年"+timedate.month+"月"+timedate.day+"日 "+timedate.hour+"时");
 	},$("#timeprogressbar"));
 	
 	timeprogress.repeat=true;
 	timeprogress.StartProgress();
+	PlayersCompany.controller=playerNpc;
+	PlayersCompany.money=10000;
 })
