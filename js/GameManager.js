@@ -15,6 +15,7 @@ var allbuildings={
 	'smelters':[],
 	'companyheadquarters':[]
 	};
+var randstarname=["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 var isbuilding=[];
 var progresses=0;
 var buildingmax=3;
@@ -49,4 +50,4 @@ function ChangeContainer(from,to,itemstack){
 	to.PutItem(itemstack);
 	from.RemoveItemStack(itemstack);
 }
-export{allbuildings,allcontainers,ResourceItemMap,itemstacks,UpdateInfo,ChangeContainer,AddProgress,GetProgress,AddItemStack,RemoveItemStack,GetItemStack};
+export{allbuildings,allcontainers,ResourceItemMap,itemstacks,randstarname,UpdateInfo,ChangeContainer,AddProgress,GetProgress,AddItemStack,RemoveItemStack,GetItemStack};

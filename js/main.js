@@ -156,8 +156,8 @@ $(function(){
 	PlayersCompany=new Company("请输入公司名称");
 	playerNpc=new Npc();
 	InitWindows();
-	for(let i=0;i<1000;i++){
-		allplanets.push(new planet(randInt(-10000,10000),randInt(-10000,10000),randInt(0,100)))
+	for(let i=0;i<100;i++){
+		allplanets.push(new planet({x:randInt(-100,100),y:randInt(-100,100),z:randInt(-100,100)},randInt(0,100)));
 	}
 
 	
