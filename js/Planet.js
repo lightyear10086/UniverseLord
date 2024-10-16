@@ -1,3 +1,4 @@
+import { allplanets } from "./main.js";
 class planet{
     constructor(pos,type){
         this.id = "planet"+allplanets.length;
@@ -9,3 +10,4 @@ class planet{
         }
     }
 }
+export{planet};

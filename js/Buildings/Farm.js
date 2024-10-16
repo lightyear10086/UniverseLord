@@ -1,3 +1,10 @@
+import {Building} from "../building.js";
+import {ItemContainer,randInt} from "../Utils.js";
+import {ProgressBar} from "../progressbar.js";
+import {WindowElement} from "../WindowElement.js";
+import {Rice} from "../ResourceItems/Rice.js";
+import { allbuildings,GetProgress } from "../GameManager.js";
+import { ItemStack } from "../ItemStack.js";
 class Farm extends Building{
     constructor(){
         super(allbuildings['farms'].length,"农场","种植农作物",0);
@@ -51,7 +58,7 @@ class Farm extends Building{
 	}
     Work(){
         let that=this;
-		this.farmprogress=new ProgressBar('progress_'+progresses,this.getitempertimes*1000,()=>{
+		this.farmprogress=new ProgressBar('progress_'+GetProgress(),this.getitempertimes*1000,()=>{
 			let itemcount=randInt(100,500);
 			let newitemstack=new ItemStack(new Rice(),itemcount);
 			let success = this.container.PutItemIn(newitemstack,true);
@@ -92,3 +99,5 @@ class Farm extends Building{
 		this.farmprogress.StartProgress();
     }
 }
+
+export {Farm};

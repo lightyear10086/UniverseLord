@@ -1,3 +1,12 @@
+import {Building} from "../building.js";
+import {ItemContainer,randInt} from "../Utils.js";
+import {ProgressBar} from "../progressbar.js";
+import {WindowElement} from "../WindowElement.js";
+import {Iron} from "../ResourceItems/Iron.js";
+import {Cu} from "../ResourceItems/Cu.js";
+import {Gold} from "../ResourceItems/Gold.js";
+import { allbuildings,GetProgress } from "../GameManager.js";
+import { ItemStack } from "../ItemStack.js";
 class drilling extends Building{
 	constructor(){
 		super(allbuildings['drilling'].length,"钻井","钻取矿物",10);
@@ -43,7 +52,7 @@ class drilling extends Building{
 	}
 	Digging(){
 		let that=this;
-		this.digprogress=new ProgressBar('progress_'+progresses,this.getitempertimes*1000,()=>{
+		this.digprogress=new ProgressBar('progress_'+GetProgress(),this.getitempertimes*1000,()=>{
 			//随机挖掘出铁或铜或金
 			let itemtype=randInt(1,100);
 			let newitemstack=null;
@@ -78,3 +87,5 @@ class drilling extends Building{
 		this.digprogress.StartProgress();
 	}
 }
+
+export {drilling};

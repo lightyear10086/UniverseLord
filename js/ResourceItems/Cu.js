@@ -1,3 +1,5 @@
+import {ResourceItem} from "../ResourceItem.js";
+
 //铜
 class Cu extends ResourceItem {
     constructor() {
@@ -6,3 +8,5 @@ class Cu extends ResourceItem {
         this.price=10;
     }
 }
+
+export {Cu};

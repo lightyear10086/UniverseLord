@@ -1,3 +1,11 @@
+import { Building } from "../building.js";
+import { ItemContainer } from "../Utils.js";
+import { WindowElement } from "../WindowElement.js";
+import { ProgressBar } from "../progressbar.js";
+import { GetProgress } from "../GameManager.js";
+import { allbuildings } from "../GameManager.js";
+import { ResourceItemMap } from "../GameManager.js";
+import { ItemStack } from "../ItemStack.js";
 class Smelter extends Building{
     constructor(){
         super(allbuildings['smelters'].length,"金属冶炼厂","冶炼",0.5);
@@ -69,7 +77,7 @@ class Smelter extends Building{
             that.nowSmeltingType={"mat":$("#smelter_mat_select"+that.id).val(),"product":product.name,"count":product.count,"time":product.time};
             that.Work();
         });
-        this.volumeBar=new ProgressBar('progress_'+progresses,0,null,$(this.window.body).children(".progress_bar"));
+        this.volumeBar=new ProgressBar('progress_'+GetProgress(),0,null,$(this.window.body).children(".progress_bar"));
         this.OnContainerUpdate();
     }
     UpdateProducts(){
@@ -92,7 +100,7 @@ class Smelter extends Building{
             this.workProgress.StartProgress();
             return;
         }
-        this.workProgress=new ProgressBar('progress_'+progresses,this.nowSmeltingType.time*1000,()=>{
+        this.workProgress=new ProgressBar('progress_'+GetProgress(),this.nowSmeltingType.time*1000,()=>{
             let mat=this.container.GetItemStackByName(this.nowSmeltingType.mat);
             if(mat==null){
                 this.workProgress.PauseProgress();
@@ -113,3 +121,5 @@ class Smelter extends Building{
         this.workProgress.StartProgress();
     }
 }
+
+export {Smelter};

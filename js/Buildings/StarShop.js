@@ -1,3 +1,9 @@
+import { Building } from "../building.js";
+import { ItemContainer,randInt } from "../Utils.js";
+import { WindowElement } from "../WindowElement.js";
+import { ProgressBar } from "../progressbar.js";
+import { allbuildings,GetProgress } from "../GameManager.js";
+import { PlayersCompany } from "../main.js";
 class StarShop extends Building{
 	constructor(){
 		super(allbuildings['starshop'].length,"星际商店","出售货物",5);
@@ -27,7 +33,7 @@ class StarShop extends Building{
         this.isshopping=true;
     }
     Shopping(){
-        this.shoppingprogress=new ProgressBar('progress_'+progresses,5000,()=>{
+        this.shoppingprogress=new ProgressBar('progress_'+GetProgress(),5000,()=>{
             if(this.container.itemstacks.length==0){
                 this.PauseShopping();
                 return;
@@ -50,3 +56,5 @@ class StarShop extends Building{
         this.shoppingprogress.repeat=true;
     }
 }
+
+export {StarShop};

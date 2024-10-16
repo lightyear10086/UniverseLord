@@ -4,37 +4,45 @@
 		<meta charset="utf-8" />
 		<title></title>
 		<link rel="stylesheet" href="css/main.css" />
-		<script src="js/jq.js"></script>
-		<script src="https://cdn.bootcdn.net/ajax/libs/jquery-color/2.1.2/jquery.color.js"></script>
-		<script src="js/Planet.js"></script>
-		<script src="js/ItemStack.js"></script>
-		<script src="js/ResourceItem.js"></script>
-		<script src="js/Utils.js"></script>
-		<script src="js/building.js"></script>
-		<script src="js/Company.js"></script>
-		<script src="js/ResourceItems/Iron.js"></script>
-		<script src="js/ResourceItems/Cu.js"></script>
-		<script src="js/ResourceItems/Gold.js"></script>
-		<script src="js/ResourceItems/Rice.js"></script>
-		<script src="js/ResourceItems/Bullet.js"></script>
-		<script src="js/ResourceItems/IronIngot.js"></script>
-		<script src="js/Buildings/drilling.js"></script>
-		<script src="js/Buildings/Farm.js"></script>
+		<script type="importmap">
+			{
+			  "imports": {
+				"three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+				"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+			  }
+			}
+		  </script>
+		<script src="js/jq.js" type="module"></script>
+		<script src="js/jqColor.js" type="module"></script>
+		<script src="js/Planet.js" type="module"></script>
+		<script src="js/ItemStack.js" type="module"></script>
+		<script src="js/ResourceItem.js" type="module"></script>
+		<script src="js/Utils.js" type="module"></script>
+		<script src="js/building.js" type="module"></script>
+		<script src="js/Company.js" type="module"></script>
+		<script src="js/ResourceItems/Iron.js" type="module"></script>
+		<script src="js/ResourceItems/Cu.js" type="module"></script>
+		<script src="js/ResourceItems/Gold.js" type="module"></script>
+		<script src="js/ResourceItems/Rice.js" type="module"></script>
+		<script src="js/ResourceItems/Bullet.js" type="module"></script>
+		<script src="js/ResourceItems/IronIngot.js" type="module"></script>
+		<script src="js/Buildings/drilling.js" type="module"></script>
+		<script src="js/Buildings/Farm.js" type="module"></script>
 		
 		
-		<script src="js/progressbar.js"></script>
-		<script src="js/Buildings/Cargo.js"></script>
-		<script src="js/Buildings/StarShop.js"></script>
-		<script src="js/Buildings/GetNpc.js"></script>
-		<script src="js/Buildings/TestBuilding.js"></script>
-		<script src="js/Buildings/Smelter.js"></script>
-		<script src="js/windowelement.js"></script>
-		<script src="js/WindowManager.js"></script>
+		<script src="js/progressbar.js" type="module"></script>
+		<script src="js/Buildings/Cargo.js" type="module"></script>
+		<script src="js/Buildings/StarShop.js" type="module"></script>
+		<script src="js/Buildings/GetNpc.js" type="module"></script>
+		<script src="js/Buildings/TestBuilding.js" type="module"></script>
+		<script src="js/Buildings/Smelter.js" type="module"></script>
+		<script src="js/windowelement.js" type="module"></script>
+		<script src="js/WindowManager.js" type="module"></script>
+		<script src="js/StarMapInit.js" type="module"></script>
+		<script src="js/Npc.js" type="module"></script>
+		<script src="js/main.js" type="module"></script>
 		
-		<script src="js/Npc.js"></script>
-		<script src="js/main.js"></script>
-		
-		<script src="js/GameManager.js"></script>
+		<script src="js/GameManager.js" type="module"></script>
 		
 		
 	</head>
@@ -47,6 +55,7 @@
 				<div id="build" class="btn normal">建造设施</div>
 			</div>
 			<div id="company_name">输入公司名</div><div class='btn normal' id='show_company_info'>详细信息</div>
+			<div class='btn normal' id='show_universe_info'>星图</div>
 			<div class="timeinfo">
 				<div id="timeprogressbar"></div>
 				<div id="timedate"></div>
@@ -57,7 +66,6 @@
 		<div id="tooltip"></div>
 		
 		<div id="gamealertmessage"></div>
-		
 		
 	</body>
 </html>

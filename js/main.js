@@ -1,4 +1,17 @@
+import { Company } from "./Company.js";
+import { StarShop } from "./Buildings/StarShop.js";
+import { GetNpc } from "./Buildings/GetNpc.js";
+import {Npc} from "./Npc.js";
+import { WindowElement } from "./WindowElement.js";
+import { InitStarMap } from "./StarMapInit.js";
+import { ProgressBar } from "./progressbar.js";
+import { InitBuildingWindow,allwindows } from "./WindowManager.js";
+import { planet } from "./Planet.js";
+import { randInt } from "./Utils.js";
+import { CompanyHeadQuarters } from "./Buildings/CompanyHeadQuarters.js";
+
 var BuildNew=null;
+var UniverseMapWindow=null;
 var moveingItemStack=null;
 var releaseItemStackContainer=null;
 var allplanets=[];
@@ -58,6 +71,17 @@ function InitWindows(){
 	$("#show_company_info").click(function(){
 		PlayersCompany.ShowInfoWindow();
 	});
+
+	UniverseMapWindow=new WindowElement('universemapwindow','星图',800,600,"<div id='starmap'></div>");
+	
+	UniverseMapWindow.ShowWindow(()=>{
+		InitStarMap();
+		$("#starmap").children('canvas').css({'width':'800px','height':'600px'});
+	});
+	$("#show_universe_info").click(function(){
+		UniverseMapWindow.ShowWindow();
+	});
+
 	starshop=new StarShop();
 	starshop.Shopping();
 	getnpc=new GetNpc();
@@ -83,6 +107,12 @@ function GetNpcWindow(npc){
 	ResetToolTip();
 	npc.infowindow=window;
 	return window;
+}
+function GetContractWindow(contract){
+	let contractinfo=contract.getInfo();
+	let contractinfodiv="<div>名称 "+contractinfo['langname']+"</div><div>描述 "+contractinfo['description']+"</div><div>单位体积 "+contractinfo['volume']+"</div><div>简写 "+contractinfo['abbreviation']+"</div><div>详情 "+contractinfo['detailcontent']+"</div>";
+	let win=new WindowElement(contract.id,contract.langname,500,800,contractinfodiv);
+	return win;
 }
 function GetItemWindow(item){
 	if(allwindows[item.name]!=null){
@@ -193,4 +223,6 @@ $(function(){
 	timeprogress.StartProgress();
 	PlayersCompany.controller=playerNpc;
 	PlayersCompany.money=10000;
-})
+});
+
+export {ResetToolTip,InitWindows,GetNpcWindow,GetContractWindow,GetItemWindow,DayUpdate,MonthUpdate,YearUpdate,Alert,InitUniverse,playerNpc,timedate,timeprogress,PlayersCompany,allcompanies,allplanets,allnpcs,chrs,planettype,starshop,getnpc,BuildNew,UniverseMapWindow,moveingItemStack,releaseItemStackContainer};

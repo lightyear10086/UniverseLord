@@ -1,8 +1,14 @@
+import { ItemContainer } from "../Utils.js";
+import { Building } from "../building.js";
+import { allbuildings } from "../GameManager.js";
+import { WindowElement } from "../WindowElement.js";
+import { ProgressBar } from "../progressbar.js";
+import { GetProgress } from "../GameManager.js";
 class Cargo extends Building{
 	constructor(volume){
 		super(allbuildings['cargos'].length,"仓库","存储货物",5);
 		this.window=new WindowElement("cargowindow_"+this.id,"仓库"+this.id,500,300,"<div id='cargovolume_"+this.id+"' class='cargo_volume'>仓库容量 "+"0/"+volume.toFixed(2)+"</div><div class='progress_bar'></div><div class='div_container'></div>");
-		this.volumeBar=new ProgressBar('progress_'+progresses,0,null,$(this.window.body).children(".progress_bar"));
+		this.volumeBar=new ProgressBar('progress_'+GetProgress(),0,null,$(this.window.body).children(".progress_bar"));
 		this.container=new ItemContainer(volume,$(this.window.body).children(".div_container"),this);
 		//$(this.window.body).attr("container_id",this.container.id);
 		allbuildings['cargos'].push(this);
@@ -29,3 +35,5 @@ class Cargo extends Building{
 		}
 	}
 }
+
+export {Cargo};

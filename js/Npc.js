@@ -1,3 +1,6 @@
+import { allnpcs } from "./main.js";
+import { randInt } from "./Utils.js";
+import { GetProgress } from "./GameManager.js";
 class Npc{
     constructor(){
         allnpcs.push(this);
@@ -62,8 +65,10 @@ class Npc{
         }
     }
     Work(){
-        this.workProgress=new ProgressBar('progress_'+progresses,this.workSpeed*1000,()=>{
+        this.workProgress=new ProgressBar('progress_'+GetProgress(),this.workSpeed*1000,()=>{
 
         });
     }
 }
+
+export {Npc};

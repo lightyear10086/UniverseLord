@@ -1,3 +1,4 @@
+import { allcontainers } from "./GameManager.js";
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -91,7 +92,12 @@ class ItemContainer{
         if (itemstack.wholeVolume <= this.volume) {
             let existingStack = this.itemstacks.find(is => is.item.name === itemstack.item.name);
             if (existingStack) {
-                existingStack.PutSameItem(itemstack);
+                if(itemstack.item.stackable){
+                    existingStack.PutSameItem(itemstack);
+                }else{
+                    itemstack.MoveTo(this);
+                    this.itemstacks.push(itemstack);
+                }
                 if(isDragging){
                     $("#"+itemstack.id).remove();
                 }
@@ -123,3 +129,5 @@ class ItemContainer{
         this.parentbuild.OnContainerUpdate();
     }
 }
+
+export {ItemContainer,randInt};

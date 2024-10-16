@@ -1,10 +1,14 @@
+import { AddItemStack,GetItemStack,allcontainers } from "./GameManager.js";
+import { Contract } from "./ResourceItems/Contract.js";
+import { allwindows } from "./WindowManager.js";
+import { GetItemWindow,GetContractWindow } from "./main.js";
 class ItemStack {
     constructor(item, count) {
         this.item = item;
         this.count = count;
         this.wholeVolume = item.volume * count;
-        itemstacks++;
-        this.id ="itemstack"+ itemstacks;
+        AddItemStack();
+        this.id ="itemstack"+ GetItemStack();
         this.div="<div class='item-stack' id='"+this.id+"'>"+this.item.abbreviation+"<div class='item-stack-count' id='itemstack-count"+this.id+"'>"+this.count+"</div></div>";
         this.containerDiv=null;
         this.incontainer=null;
@@ -95,7 +99,12 @@ class ItemStack {
     ShowInfoWindow(){
         console.log("show info window",this.itemstackwindow);
         if(this.itemstackwindow==null){
-            this.itemstackwindow=GetItemWindow(this.item);
+            if(this.item instanceof Contract){
+                this.itemstackwindow=GetContractWindow(this.item);
+            }else{
+                this.itemstackwindow=GetItemWindow(this.item);
+            }
+            
         }
         this.itemstackwindow.ShowWindow();
     }
@@ -119,3 +128,4 @@ class ItemStack {
         this.BindEvents();
     }
 }
+export{ItemStack};

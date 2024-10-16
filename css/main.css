@@ -4,6 +4,13 @@ html,body{
 	background-image: url('../img/grid.png');
 	background-repeat: repeat;
 }
+#starmap{
+	width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
 .div_container{
 	height: 95%;
 	width: 100%;
@@ -63,7 +70,7 @@ html,body{
 .windowbar{
 	background-color:rgb(15, 59, 133);
 	width: 100%;
-	height: 10%;
+	height: 25px;
 	text-align: center;
 	line-height: 150%;
 	color: white;

@@ -17,3 +17,5 @@ class Building{
 	UpdateCargos(){}
 	Work(){}
 }
+
+export {Building};

@@ -1,3 +1,4 @@
+import { AddProgress } from "./GameManager.js";
 class ProgressBar{
 	constructor(id,ptime,finishcallback,parentelement,title=""){
 		this.id=id;
@@ -14,7 +15,7 @@ class ProgressBar{
 		this.progresspercent=0;
 		this.title=title;
 		this.progressval=0;
-		progresses++;
+		AddProgress();
 	}
 	UpdateTitle(title){
 		$("#progress_title"+this.id).text(title);
@@ -70,5 +71,4 @@ class ProgressBar{
 	}
 }
 
-a=function(){console.log(this);};
-b=function(){a()};
+export {ProgressBar};

@@ -1,3 +1,5 @@
+import {ResourceItem} from "../ResourceItem.js";
+
 class Rice extends ResourceItem {
     constructor() {
         super("Rice", "基础农作物",0.01,"RC");
@@ -5,3 +7,5 @@ class Rice extends ResourceItem {
         this.price=1;
     }
 }
+
+export {Rice};

@@ -1,3 +1,4 @@
+import { allwindows } from "./WindowManager.js";
 class WindowElement{
 	constructor(id,title,width=500,height=300,content=""){
 		this.id=id;
@@ -35,12 +36,12 @@ class WindowElement{
 	SetContent(content){
 		this.body.html(content);
 	}
-	ShowWindow(){
+	ShowWindow(callback=null){
 		if(this.ishiding){
-			$("#window_"+this.id).show(500);
+			this.UpdateWindow();
+			$("#window_"+this.id).show(500).promise().done(callback==null?null:callback);
 			this.ishiding=false;
 		}else{
-			console.log("已经显示，强调");
 			$("#window_"+this.id).children('.windowbody').animate({backgroundColor:"red"},"slow");
 			$("#window_"+this.id).children('.windowbody').animate({backgroundColor:"rgb(12, 47, 107)"},"slow");
 			$("#window_"+this.id).children('.windowbar').animate({backgroundColor:"red"},"slow");
@@ -65,3 +66,5 @@ class WindowElement{
 	}
 	
 }
+
+export {WindowElement};

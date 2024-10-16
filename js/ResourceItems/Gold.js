@@ -1,4 +1,6 @@
 //Gold
+import {ResourceItem} from "../ResourceItem.js";
+
 class Gold extends ResourceItem {
     constructor(){
         super("Gold", "稀有金属材料",0.5,"AU");
@@ -6,3 +8,5 @@ class Gold extends ResourceItem {
         this.price=100;
     }
 }
+
+export {Gold};

@@ -1,3 +1,10 @@
+import { Building } from "../building.js";
+import { ItemContainer } from "../Utils.js";
+import { WindowElement } from "../WindowElement.js";
+import { ProgressBar } from "../progressbar.js";
+import { allbuildings } from "../GameManager.js";
+import { PlayersCompany,allnpcs,GetNpcWindow } from "../main.js";
+import { Npc } from "../Npc.js";
 //建筑：招聘npc
 class GetNpc extends Building{
     constructor(){
@@ -6,6 +13,7 @@ class GetNpc extends Building{
         this.refreshcost=10;
         this.waitForJobNocList=[];
         this.listCount=5;
+        this.refreshtimes=0;
         this.RefreshNpcList();
         let that=this;
         $("#refreshnpclist").click(function(){
@@ -14,9 +22,10 @@ class GetNpc extends Building{
     }
     
     RefreshNpcList(){
-        if(PlayersCompany.money<this.refreshcost){
+        if(this.refreshtimes>0 && PlayersCompany.money<this.refreshcost){
             return;
         }
+        this.refreshtimes++;
         PlayersCompany.money-=this.refreshcost;
         if(this.waitForJobNocList.length>0){
             for(let npc of this.waitForJobNocList){
@@ -51,3 +60,5 @@ class GetNpc extends Building{
         this.autorefresh.StartProgress();
     }
 }
+
+export {GetNpc};

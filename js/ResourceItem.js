@@ -6,6 +6,8 @@ class ResourceItem{
 		this.volume=volume;
 		this.abbreviation=abbreviation;
 		this.price=0;
+		//物品是否可堆叠
+		this.stackable=true;
 	}
 	getInfo(){
 		return {
@@ -17,3 +19,5 @@ class ResourceItem{
         }
 	}
 }
+
+export {ResourceItem};
