@@ -3,7 +3,7 @@ import { StarShop } from "./Buildings/StarShop.js";
 import { GetNpc } from "./Buildings/GetNpc.js";
 import {Npc} from "./Npc.js";
 import { WindowElement } from "./WindowElement.js";
-import { InitStarMap } from "./StarMapInit.js";
+import { InitStarMap,StarForce } from "./StarMapInit.js";
 import { ProgressBar } from "./progressbar.js";
 import { InitBuildingWindow,allwindows } from "./WindowManager.js";
 import { planet } from "./Planet.js";
@@ -18,10 +18,13 @@ var allplanets=[];
 var allnpcs=[];
 var allcompanies=[];
 var chrs=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+var cmpname=["元","象","乐","天","星","云","德","际","光","广","博","派","崔","风"];
+var cmpnametype=["科技","能源","制造","贸易","服务","重工"];
 var planettype=["star","planet"];
 var starshop=null;
 var getnpc=null;
 var PlayersCompany=null;
+var starinfowindow=null;
 var timedate={
 	'hour':0,
 	'day':1,
@@ -114,6 +117,17 @@ function GetContractWindow(contract){
 	let win=new WindowElement(contract.id,contract.langname,500,800,contractinfodiv);
 	return win;
 }
+function ShowStarInfoWindow(star){
+	let starinfo=star.getInfo();
+	$(starinfowindow.body).children("#starinfo").empty();
+	$(starinfowindow.body).children("#starinfo").append("<div>名称 "+starinfo['name']+"</div><div>势力 "+starinfo['belongForce'].name+"</div><div>位置 ("+starinfo['position'].x.toFixed(0)+","+starinfo['position'].y.toFixed(0)+","+starinfo['position'].z.toFixed(0)+")</div><div class='company_list'></div>");
+	if(star.companies.length>0){
+		for(let cmp of star.companies){
+			$(starinfowindow.body).children("#starinfo").children(".company_list").append("<div class='btn normal'>"+cmp.name+"</div>");
+		}
+	}
+	starinfowindow.ShowWindow();
+}
 function GetItemWindow(item){
 	if(allwindows[item.name]!=null){
 		return allwindows[item.name];
@@ -130,6 +144,14 @@ function InitUniverse(){
 			planetid+=chrs[Math.floor(Math.random()*26)];
 		}
 		let p=new planet(planetid,{x:Math.floor(Math.random()*100),y:Math.floor(Math.random()*100),z:Math.floor(Math.random()*100)},"");
+	}
+	let forcename=["凯","特","斯","拉","维","尔","德","康","提","伏","克","姆","罗","格"];
+	for(let i=0;i<5;i++){
+		let _forcename="";
+		for(let j=0;j<randInt(2,3);j++){
+			_forcename+=forcename[randInt(0,forcename.length-1)];
+		}
+		let newforce=new StarForce(_forcename);
 	}
 }
 function Alert(msg,level=0){
@@ -156,6 +178,7 @@ $(function(){
 	PlayersCompany=new Company("请输入公司名称");
 	playerNpc=new Npc();
 	InitWindows();
+	InitUniverse();
 	for(let i=0;i<100;i++){
 		allplanets.push(new planet({x:randInt(-100,100),y:randInt(-100,100),z:randInt(-100,100)},randInt(0,100)));
 	}
@@ -223,6 +246,21 @@ $(function(){
 	timeprogress.StartProgress();
 	PlayersCompany.controller=playerNpc;
 	PlayersCompany.money=10000;
+	starinfowindow=new WindowElement("starinfowindow","星球信息",500,300,"<div id='starinfo'></div>");
+	starinfowindow.HideWindow();
+
+	let randCompanyCount=randInt(10,100);
+	let allnormalplanets=allplanets.filter(planet=>planet.type=="planet");
+	for(let i=0;i<randCompanyCount;i++){
+		let _cmpnamelength=randInt(2,3);
+		let _cmpname="";
+		for(let j=0;j<_cmpnamelength;j++){
+			_cmpname+=cmpname[randInt(0,cmpname.length-1)];
+		}
+		let _cmpnametype=cmpnametype[randInt(0,cmpnametype.length-1)];
+		let cmp=new Company(_cmpname+_cmpnametype);
+		allnormalplanets[randInt(0,allnormalplanets.length-1)].addCompany(cmp);
+	}
 });
 
-export {ResetToolTip,InitWindows,GetNpcWindow,GetContractWindow,GetItemWindow,DayUpdate,MonthUpdate,YearUpdate,Alert,InitUniverse,playerNpc,timedate,timeprogress,PlayersCompany,allcompanies,allplanets,allnpcs,chrs,planettype,starshop,getnpc,BuildNew,UniverseMapWindow,moveingItemStack,releaseItemStackContainer};
+export {ResetToolTip,InitWindows,GetNpcWindow,GetContractWindow,GetItemWindow,DayUpdate,MonthUpdate,YearUpdate,Alert,InitUniverse,playerNpc,timedate,timeprogress,PlayersCompany,allcompanies,allplanets,allnpcs,chrs,planettype,starshop,getnpc,BuildNew,UniverseMapWindow,moveingItemStack,releaseItemStackContainer,cmpname,cmpnametype,ShowStarInfoWindow};

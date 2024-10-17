@@ -4,6 +4,14 @@ html,body{
 	background-image: url('../img/grid.png');
 	background-repeat: repeat;
 }
+#starmaptooltip{
+	position: absolute;
+	background-color: rgba(162, 162, 162,0.6);
+	color: white;
+	padding: 5px;
+	width: fit-content;
+	border-top: solid 2px rgb(255, 196, 0);
+}
 #starmap{
 	width: 100%;
     height: 100%;
