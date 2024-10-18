@@ -15,7 +15,7 @@ class Company{
         this.infowindow=new WindowElement("company_info_"+id,name,600,600,"<div class='company_info'></div><div class='company_action'><div class='btn normal company_headquater'>公司总部</div><div class='btn normal' id='show_employees_"+this.id+"'>查看员工</div></div><div class='employees_list'></div>");
         this.infowindow.HideWindow();
         this.name = name;
-        this.employees=new Array();
+        this.employees=new Map();
         this.controller=null;
         this.money=0;
         //公司信用值
@@ -48,21 +48,23 @@ class Company{
         }
     }
     FireEmployee(npc){
-        let index=this.employees.indexOf(npc);
-        if(index>=0){
-            this.employees.splice(index,1);
-            npc.infowindow.HideWindow();
-            $(npc.infowindow.div).remove();
-            delete allwindows[npc.infowindow.id];
-            npc.infowindow=null;
-            Alert(npc.name+"已离职");
-            this.UpdateEmployeeInfo();
-        }
+        
+        npc.infowindow.HideWindow();
+        $(npc.infowindow.div).remove();
+        delete allwindows[npc.infowindow.id];
+        npc.infowindow=null;
+        console.log(this.employees.get(npc.name.replace(' ','_'))['contract']);
+        this.companyHeadQuarters.container.RemoveItemFromStack(this.employees.get(npc.name.replace(' ','_'))['contract'],1);
+        //delete this.employees[npc.name.replace(' ','_')];
+        this.employees.delete(npc.name.replace(' ','_'));
+        Alert(npc.name+"已离职");
+        this.UpdateEmployeeInfo();
+        
     }
     //聘用NPC
     EmployNpc(npc){
         let that=this;
-        this.employees.push(npc);
+        
         npc.infowindow.HideWindow();
         $(npc.infowindow.div).remove();
         delete allwindows[npc.infowindow.id];
@@ -74,10 +76,14 @@ class Company{
             that.FireEmployee(npc);
         });
 
-        let contract=new Contract("contract_employee_"+this.employees.length,"雇佣合同",this.name+"与"+npc.name+"的雇佣合同",[this.controller,npc],"<h1>"+this.name+"与"+npc.name+"的雇佣合同</h1><p>甲方："+this.name+"</p><p>乙方："+npc.name+"</p><p>合同内容：甲方雇佣乙方为员工，乙方同意在甲方公司工作，甲方同意在乙方工作期间支付乙方工资。</p><p>合同期限：无限期</p><p>甲方（盖章）："+this.name+"</p><p>乙方（盖章）："+npc.name+"</p>");
+        let contract=new Contract("contract_employee_"+this.employees.length,"雇佣合同","雇佣合同",this.name+"与"+npc.name+"的雇佣合同",[this.controller,npc],"<h1>"+this.name+"与"+npc.name+"的雇佣合同</h1><p>甲方："+this.name+"</p><p>乙方："+npc.name+"</p><p>合同内容：甲方雇佣乙方为员工，乙方同意在甲方公司工作，甲方同意在乙方工作期间支付乙方工资。</p><p>合同期限：无限期</p><p>甲方（盖章）："+this.name+"</p><p>乙方（盖章）："+npc.name+"</p>");
         let contractStack=new ItemStack(contract,1);
         this.companyHeadQuarters.container.PutItemIn(contractStack);
         Alert(npc.name+"已加入公司");
+        this.employees.set(npc.name.replace(' ','_'),{
+            'npc':npc,
+            'contract':contract
+        });
         this.UpdateEmployeeInfo();
     }
     ShowInfoWindow(){
@@ -99,17 +105,19 @@ class Company{
     //为所有员工发工资
     PayAllEmployees(){
         for(let npc of this.employees){
-            this.money-=npc.salary;
-            Alert("已支付"+npc.name+"工资 "+npc.salary+" 元");
+            this.money-=npc[1]['npc'].salary;
+            Alert("已支付"+npc[1]['npc'].name+"工资 "+npc[1]['npc'].salary+" 元");
         }
     }
     UpdateEmployeeInfo(){
         let employeelistdiv = $(this.infowindow.body).children(".employees_list");
         $(employeelistdiv).empty();
         for(let npc of this.employees){
-            $(employeelistdiv).append("<div class='btn normal' id='employee_"+npc.name.replace(' ','_')+"'>"+npc.name+"</div>");
-            $("#employee_"+npc.name.replace(' ','_')).click(function(){
-                npc.infowindow.ShowWindow();
+            console.log(npc);
+            $(employeelistdiv).append("<div class='btn normal' id='employee_"+npc[0].replace(' ','_')+"'>"+npc[0]+"</div>");
+            $("#employee_"+npc[0].replace(' ','_')).click(function(){
+                console.log(npc);
+                npc[1]['npc'].infowindow.ShowWindow();
             });
         }
     }

@@ -140,20 +140,7 @@ function InitStarMap() {
                 let distance=Math.sqrt(Math.pow(allplanets[i].position.x-allplanets[otherStarIndex].position.x,2)+Math.pow(allplanets[i].position.y-allplanets[otherStarIndex].position.y,2)+Math.pow(allplanets[i].position.z-allplanets[otherStarIndex].position.z,2));
                 if(distance<90){
                     drawLine(scene, allplanets[i].position, allplanets[otherStarIndex].position);
-                    allplanets[i].next=allplanets[otherStarIndex];
-                    allplanets[otherStarIndex].last=allplanets[i];
                 }
-            }
-        }
-        function setnextsameforce(planet){
-            if(planet.next!=null){
-                planet.next.belongForce=planet.belongForce;
-                setnextsameforce(planet.next);
-            }
-        }
-        for(let _planet of allplanets){
-            if(_planet.last==null){
-                setnextsameforce(_planet);
             }
         }
     }
@@ -244,4 +231,4 @@ class StarForce{
         allForces.push(this);
     }
 }
-export {InitStarMap,allForces,StarForce};
+export {InitStarMap,allForces,StarForce,backgroundColor};

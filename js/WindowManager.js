@@ -5,6 +5,7 @@ import { Farm } from "./Buildings/Farm.js";
 import { Smelter } from "./Buildings/Smelter.js";
 import { ProgressBar } from "./progressbar.js";
 import { GetProgress } from "./GameManager.js";
+import { Starport } from "./Buildings/Starport.js";
 var allwindows={};
 function InitBuildingWindow(){
 	let buildmanagerwindowbody=allwindows['buildnewwindow'].body;
@@ -86,6 +87,23 @@ function InitBuildingWindow(){
 						});
 					},buildmanagerwindowbody);
 					buildnewsmelter.StartProgress();
+					break;
+				case 'starport':
+					if(PlayersCompany.money<1000){
+						Alert("你需要至少1000单位的货币");
+						break;
+					}
+					PlayersCompany.money-=1000;
+					let _starport=new Starport();
+					let buildnewstarport=new ProgressBar('progress_'+GetProgress(),_starport.buildtime*1000,function(){
+						Alert("星港建好了");
+						$(buildmanagerwindowbody).find("#buildmanagerbuttons").append($(_starport.div));
+						buildnewstarport.DeleteProgress();
+						$(_starport.div).click(function(){
+							_starport.buildWindow.ShowWindow();
+						});
+					},buildmanagerwindowbody);
+					buildnewstarport.StartProgress();
 					break;
 			default:
 				break;

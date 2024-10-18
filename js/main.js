@@ -17,6 +17,7 @@ var releaseItemStackContainer=null;
 var allplanets=[];
 var allnpcs=[];
 var allcompanies=[];
+var allspaceships=[];
 var chrs=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 var cmpname=["元","象","乐","天","星","云","德","际","光","广","博","派","崔","风"];
 var cmpnametype=["科技","能源","制造","贸易","服务","重工"];
@@ -50,7 +51,7 @@ function ResetToolTip(){
 
 function InitWindows(){
 	
-	BuildNew=new WindowElement("buildnewwindow","建造",500,300,"<div class='buildnew'><div class='btn normal buildnew' data='cargo'>建造仓库</div><div class='btn normal buildnew' data='drilling'>建造钻井</div><div class='btn normal buildnew' data='farm'>建造农场</div></div><div class='btn normal buildnew' data='smelter'>建造冶炼厂</div></div><br><div id='buildmanagerbuttons'></div>");
+	BuildNew=new WindowElement("buildnewwindow","建造",500,300,"<div class='buildnew'><div class='btn normal buildnew' data='cargo'>建造仓库</div><div class='btn normal buildnew' data='drilling'>建造钻井</div><div class='btn normal buildnew' data='farm'>建造农场</div></div><div class='btn normal buildnew' data='smelter'>建造冶炼厂</div><div class='btn normal buildnew' data='starport'>建造星港</div></div><br><div id='buildmanagerbuttons'></div>");
 	// let testbuilding=new TestBuilding();
 	// let bulletstack=new ItemStack(new Bullet(),1000);
 	// testbuilding.container.PutItemIn(bulletstack,true);
@@ -263,4 +264,4 @@ $(function(){
 	}
 });
 
-export {ResetToolTip,InitWindows,GetNpcWindow,GetContractWindow,GetItemWindow,DayUpdate,MonthUpdate,YearUpdate,Alert,InitUniverse,playerNpc,timedate,timeprogress,PlayersCompany,allcompanies,allplanets,allnpcs,chrs,planettype,starshop,getnpc,BuildNew,UniverseMapWindow,moveingItemStack,releaseItemStackContainer,cmpname,cmpnametype,ShowStarInfoWindow};
+export {ResetToolTip,InitWindows,GetNpcWindow,GetContractWindow,GetItemWindow,DayUpdate,MonthUpdate,YearUpdate,Alert,InitUniverse,ShowStarInfoWindow,playerNpc,timedate,timeprogress,PlayersCompany,allcompanies,allplanets,allnpcs,chrs,planettype,starshop,getnpc,BuildNew,UniverseMapWindow,moveingItemStack,releaseItemStackContainer,cmpname,cmpnametype,allspaceships};

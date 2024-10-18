@@ -45,6 +45,7 @@ class ItemStack {
                 }
             },
             mouseup: function(e){
+                console.log("mouseup",that.droppableBelow);
                 if(that.droppableBelow!=null){
                     let aimcontainer = allcontainers.get($(that.droppableBelow).attr('container_id'));
                     let oldcontainer=that.incontainer;

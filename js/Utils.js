@@ -1,4 +1,5 @@
 import { allcontainers } from "./GameManager.js";
+import { Alert } from "./main.js";
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -73,6 +74,9 @@ class ItemContainer{
     GetItemStackByName(itemname){
         return this.itemstacks.find(is => is.item.name === itemname);
     }
+    GetItemStackByAbbreviation(abbreviation){
+        return this.itemstacks.filter(is => is.item.abbreviation === abbreviation);
+    }
     PutItemIn(itemstack, trymax = false,isDragging=false) {
         if(this.volume<=0){
             return false;
@@ -117,10 +121,10 @@ class ItemContainer{
                 this.RecalculateVolume();
                 itemstack.UpdateStack();
                 return true;
+            }else{
+                Alert("该容器容量不足");
+                return false;
             }
-            this.RecalculateVolume();
-            itemstack.UpdateStack();
-            return false;
         }
     }
     RecalculateVolume(){

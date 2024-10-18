@@ -5,6 +5,7 @@ import {WindowElement} from "../WindowElement.js";
 import {Rice} from "../ResourceItems/Rice.js";
 import { allbuildings,GetProgress } from "../GameManager.js";
 import { ItemStack } from "../ItemStack.js";
+import { Alert } from "../main.js";
 class Farm extends Building{
     constructor(){
         super(allbuildings['farms'].length,"农场","种植农作物",0);

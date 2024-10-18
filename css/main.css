@@ -63,6 +63,25 @@ html,body{
 	height: 16px;
 	width: 0%;
 }
+.ship_info{
+	width: 95%;
+	height: 60px;
+	border: solid 1px;
+	margin: 5px;
+	cursor: pointer;
+	display: inline-block;
+}
+.ship_info:hover{
+	background-color: lightgray;
+	color: black;
+}
+.inportship_info{
+	margin: 10px;
+	display: inline-block;
+}
+.ship_module{
+	margin: 10px;
+}
 .hidewindow{
 	float: right;
 	width: 30px;
