@@ -12,7 +12,7 @@ class Company{
         this.id = id;
         allcompanies.push(this);
         this.companyHeadQuarters=new CompanyHeadQuarters(name);
-        this.infowindow=new WindowElement("company_info_"+id,name,600,600,"<div class='company_info'></div><div class='company_action'><div class='btn normal company_headquater'>公司总部</div><div class='btn normal' id='show_employees_"+this.id+"'>查看员工</div></div><div class='employees_list'></div>");
+        this.infowindow=new WindowElement("company_info_"+id,name,300,500,"<div class='company_info'><p class='company_force_info'>所在势力 无</p><p class='company_planet_info'>所在星球 无</p><div class='company_money'></div></div><div class='company_action'><div class='btn normal company_headquater'>公司总部</div><div class='btn normal' id='show_employees_"+this.id+"'>查看员工</div></div><div class='employees_list'></div>");
         this.infowindow.HideWindow();
         this.name = name;
         this.employees=new Map();
@@ -23,9 +23,34 @@ class Company{
         
         let that=this;
         $(this.infowindow.body).children('.company_action').children('.company_headquater').click(function(){
-            console.log("查看公司总部");
             that.companyHeadQuarters.window.ShowWindow();
         });
+        this.locatedForce=null;
+        this.locatedPlanet=null;
+    }
+    get locatedPlanet(){
+        return this._locatedPlanet;
+    }
+    set locatedPlanet(newPlanet){
+        if(newPlanet==null){
+            this._locatedPlanet=null;
+            $(this.infowindow.body).children('.company_info').children('.company_planet_info').text("所在星球 无");
+            return;
+        }
+        this._locatedPlanet = newPlanet;
+        $(this.infowindow.body).children('.company_info').children('.company_planet_info').text("所在星球 "+newPlanet.name);
+    }
+    get locatedForce(){
+        return this._locatedForce;
+    }
+    set locatedForce(newForce){
+        if(newForce==null){
+            this._locatedForce=null;
+            $(this.infowindow.body).children('.company_info').children(".company_force_info").text("所在势力 无");
+            return;
+        }
+        this._locatedForce = newForce;
+        $(this.infowindow.body).children('.company_info').children(".company_force_info").text("所在势力 "+newForce.name);
     }
     get name(){
         return this._name;
@@ -53,8 +78,8 @@ class Company{
         $(npc.infowindow.div).remove();
         delete allwindows[npc.infowindow.id];
         npc.infowindow=null;
-        console.log(this.employees.get(npc.name.replace(' ','_'))['contract']);
         this.companyHeadQuarters.container.RemoveItemFromStack(this.employees.get(npc.name.replace(' ','_'))['contract'],1);
+        
         //delete this.employees[npc.name.replace(' ','_')];
         this.employees.delete(npc.name.replace(' ','_'));
         Alert(npc.name+"已离职");
@@ -82,13 +107,13 @@ class Company{
         Alert(npc.name+"已加入公司");
         this.employees.set(npc.name.replace(' ','_'),{
             'npc':npc,
-            'contract':contract
+            'contract':contractStack
         });
         this.UpdateEmployeeInfo();
     }
     ShowInfoWindow(){
         this.infowindow.title=this.name;
-        $(this.infowindow.body).children('.company_info').html("<div class='company_info'><p>名称: "+this.name+"</p>"+"<p>资金: "+this.money+"</p>"+"</div>");
+        $(this.infowindow.body).children('.company_info').children('.company_money').html("<p>名称: "+this.name+"</p>"+"<p>资金: "+this.money+"</p>");
         this.infowindow.ShowWindow();
         let that=this;
         $("#show_employees_"+this.id).click(function(){
@@ -100,7 +125,7 @@ class Company{
         let chartData=new Array();
     }
     UpdateCompanyInfo(){
-        $(this.infowindow.body).children('.company_info').html("<p>名称: "+this.name+"</p>"+"<p>资金: "+this.money+"</p>");
+        $(this.infowindow.body).children('.company_info').children('.company_money').html("<p>名称: "+this.name+"</p>"+"<p>资金: "+this.money+"</p>");
     }
     //为所有员工发工资
     PayAllEmployees(){
@@ -113,10 +138,8 @@ class Company{
         let employeelistdiv = $(this.infowindow.body).children(".employees_list");
         $(employeelistdiv).empty();
         for(let npc of this.employees){
-            console.log(npc);
             $(employeelistdiv).append("<div class='btn normal' id='employee_"+npc[0].replace(' ','_')+"'>"+npc[0]+"</div>");
             $("#employee_"+npc[0].replace(' ','_')).click(function(){
-                console.log(npc);
                 npc[1]['npc'].infowindow.ShowWindow();
             });
         }

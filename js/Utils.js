@@ -1,5 +1,6 @@
 import { allcontainers } from "./GameManager.js";
-import { Alert } from "./main.js";
+import { Alert,allcompanies,allplanets } from "./main.js";
+import { StarForce } from "./StarMapInit.js";
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -31,12 +32,16 @@ class ItemContainer{
     }
     RemoveItemFromStack(itemstack,count){
         if(!this.cangetout){
+            Alert("该容器不允许取出物品");
             return false;
         }
+        console.log(this.itemstacks,itemstack,this.itemstacks.indexOf(itemstack));
         if(this.itemstacks.indexOf(itemstack)<0){
+            Alert("该物品不在该容器中");
             return false;
         }
         if(itemstack.count<count){
+            Alert("该物品数量不足");
             return false;
         }
         itemstack.count -= count;

@@ -46,7 +46,6 @@ class GetNpc extends Building{
         for(let npc of this.waitForJobNocList){
             $("#npclist").append("<div class='btn normal' id='npcnamebtn_"+npc.id+"'>"+npc.name+"</div>");
             document.getElementById("npcnamebtn_"+npc.id).addEventListener("click",function(){
-                console.log("显示npc窗口");
                 GetNpcWindow(npc).ShowWindow();
             });
         }

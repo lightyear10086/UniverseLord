@@ -3,7 +3,7 @@ import { StarShop } from "./Buildings/StarShop.js";
 import { GetNpc } from "./Buildings/GetNpc.js";
 import {Npc} from "./Npc.js";
 import { WindowElement } from "./WindowElement.js";
-import { InitStarMap,StarForce } from "./StarMapInit.js";
+import { allForces, InitStarMap,StarForce } from "./StarMapInit.js";
 import { ProgressBar } from "./progressbar.js";
 import { InitBuildingWindow,allwindows } from "./WindowManager.js";
 import { planet } from "./Planet.js";
@@ -184,7 +184,8 @@ $(function(){
 		allplanets.push(new planet({x:randInt(-100,100),y:randInt(-100,100),z:randInt(-100,100)},randInt(0,100)));
 	}
 
-	
+	PlayersCompany.locatedForce=allForces[randInt(0,allForces.length-1)];
+	PlayersCompany.locatedPlanet=allplanets[randInt(0,allplanets.length-1)];
 	$("#company_name").click(function(){
 		// 获取当前文本内容
         var currentText = $(this).text().replace("公司","");
@@ -213,9 +214,6 @@ $(function(){
             var newText = input.val()+"公司";
             PlayersCompany.ChangeName(newText);
         }
-	});
-	$("#show_company_info").click(function(){
-
 	});
 	$("#build").click(function(){
 		BuildNew.ShowWindow();
