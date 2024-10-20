@@ -1,8 +1,21 @@
 import { allcontainers } from "./GameManager.js";
-import { Alert,allcompanies,allplanets } from "./main.js";
-import { StarForce } from "./StarMapInit.js";
+import { Alert } from "./main.js";
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function hashCode(str) {
+    let hash = 5381;
+    let i = str.length;
+
+    while (i) {
+        hash = (hash * 33) ^ str.charCodeAt(--i);
+    }
+
+    return hash >>> 0; // 确保返回一个正整数
+}
+function ObjHash(obj){
+    const str = JSON.stringify(obj, Object.keys(obj).sort()); // 序列化对象并排序键
+    return hashCode(str);
 }
 class ItemContainer{
     constructor(volume,parentdiv,parentbuild){
@@ -35,7 +48,6 @@ class ItemContainer{
             Alert("该容器不允许取出物品");
             return false;
         }
-        console.log(this.itemstacks,itemstack,this.itemstacks.indexOf(itemstack));
         if(this.itemstacks.indexOf(itemstack)<0){
             Alert("该物品不在该容器中");
             return false;
@@ -139,4 +151,4 @@ class ItemContainer{
     }
 }
 
-export {ItemContainer,randInt};
+export {ItemContainer,randInt,ObjHash};

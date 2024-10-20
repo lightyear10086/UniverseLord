@@ -18,7 +18,7 @@ var allplanets=[];
 var allnpcs=[];
 var allcompanies=[];
 var allspaceships=[];
-var chrs=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+var chrs=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 var cmpname=["元","象","乐","天","星","云","德","际","光","广","博","派","崔","风"];
 var cmpnametype=["科技","能源","制造","贸易","服务","重工"];
 var planettype=["star","planet"];
@@ -121,12 +121,22 @@ function GetContractWindow(contract){
 function ShowStarInfoWindow(star){
 	let starinfo=star.getInfo();
 	$(starinfowindow.body).children("#starinfo").empty();
-	$(starinfowindow.body).children("#starinfo").append("<div>名称 "+starinfo['name']+"</div><div>势力 "+starinfo['belongForce'].name+"</div><div>位置 ("+starinfo['position'].x.toFixed(0)+","+starinfo['position'].y.toFixed(0)+","+starinfo['position'].z.toFixed(0)+")</div><div class='company_list'></div>");
+	$(starinfowindow.body).children("#starinfo").append("<div>名称 "+starinfo['name']+"</div>势力 <div class='btn normal forceinfo'>"+(starinfo['belongForce']?starinfo['belongForce'].name:"无")+"</div><div>位置 ("+starinfo['position'].x.toFixed(0)+","+starinfo['position'].y.toFixed(0)+","+starinfo['position'].z.toFixed(0)+")</div><div class='company_list'></div>");
 	if(star.companies.length>0){
 		for(let cmp of star.companies){
 			$(starinfowindow.body).children("#starinfo").children(".company_list").append("<div class='btn normal'>"+cmp.name+"</div>");
+			$(starinfowindow.body).children("#starinfo").children(".company_list").children(".btn:last-child").click(function(){
+				let cmp=allcompanies.find(cmp=>cmp.name==$(this).text());
+				cmp.infowindow.ShowWindow();
+			});
 		}
 	}
+	if($(starinfowindow.body).children("#starinfo").children('.forceinfo').text!="无"){
+		$(starinfowindow.body).children("#starinfo").children('.forceinfo').click(function(){
+			starinfo['belongForce'].ShowForceWindow();
+		});
+	}
+	
 	starinfowindow.ShowWindow();
 }
 function GetItemWindow(item){
@@ -139,12 +149,12 @@ function GetItemWindow(item){
 	return win;
 }
 function InitUniverse(){
-	for(let i=0;i<10;i++){
+	for(let i=0;i<30;i++){
 		let planetid="planet";
-		for(let j=0;j<5;j++){
+		for(let j=0;j<50;j++){
 			planetid+=chrs[Math.floor(Math.random()*26)];
 		}
-		let p=new planet(planetid,{x:Math.floor(Math.random()*100),y:Math.floor(Math.random()*100),z:Math.floor(Math.random()*100)},"");
+		let p=new planet(planetid,{x:randInt(-100,100),y:randInt(-100,100),z:randInt(-100,100)},randInt(0,100));
 	}
 	let forcename=["凯","特","斯","拉","维","尔","德","康","提","伏","克","姆","罗","格"];
 	for(let i=0;i<5;i++){
@@ -180,9 +190,6 @@ $(function(){
 	playerNpc=new Npc();
 	InitWindows();
 	InitUniverse();
-	for(let i=0;i<100;i++){
-		allplanets.push(new planet({x:randInt(-100,100),y:randInt(-100,100),z:randInt(-100,100)},randInt(0,100)));
-	}
 
 	PlayersCompany.locatedForce=allForces[randInt(0,allForces.length-1)];
 	PlayersCompany.locatedPlanet=allplanets[randInt(0,allplanets.length-1)];
@@ -258,8 +265,12 @@ $(function(){
 		}
 		let _cmpnametype=cmpnametype[randInt(0,cmpnametype.length-1)];
 		let cmp=new Company(_cmpname+_cmpnametype);
-		allnormalplanets[randInt(0,allnormalplanets.length-1)].addCompany(cmp);
+		cmp.money=randInt(10000,100000);
+		let randplanet=allnormalplanets[randInt(0,allnormalplanets.length-1)];
+		randplanet.addCompany(cmp);
+		cmp.locatedPlanet=randplanet;
 	}
+	$("#gamealertmessage").hide();
 });
 
 export {ResetToolTip,InitWindows,GetNpcWindow,GetContractWindow,GetItemWindow,DayUpdate,MonthUpdate,YearUpdate,Alert,InitUniverse,ShowStarInfoWindow,playerNpc,timedate,timeprogress,PlayersCompany,allcompanies,allplanets,allnpcs,chrs,planettype,starshop,getnpc,BuildNew,UniverseMapWindow,moveingItemStack,releaseItemStackContainer,cmpname,cmpnametype,allspaceships};

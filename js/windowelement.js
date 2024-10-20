@@ -16,7 +16,7 @@ class WindowElement{
 		this.HideWindow(true);
 		this.body=$("#windowbody_"+this.id);
 		allwindows[this.id]=this;
-		if(content!="")this.SetContent(content);
+		if(content!=""){this.SetContent(content);}
 		this.destroyonclose=false;
 	}
 	get title(){
@@ -34,7 +34,7 @@ class WindowElement{
 		});
 	}
 	SetContent(content){
-		this.body.html(content);
+		$(this.body).append(content);
 	}
 	ShowWindow(callback=null){
 		if(this.ishiding){
@@ -52,19 +52,20 @@ class WindowElement{
 		this.body.html(content);
 	}
 	HideWindow(isconstructing=false){
-		if(!this.destroyonclose){
-			if(isconstructing){
-				$("#window_"+this.id).hide();
-			}else{
-				$("#window_"+this.id).hide(500);
+		let that=this;
+		$("#window_"+this.id).hide(500,function(){
+			if(that.destroyonclose){
+				$("#window_"+this.id).remove();
+				delete allwindows[this.id];
 			}
+		});
 		this.ishiding=true;
-		}else{
-			$("#window_"+this.id).remove();
-			delete allwindows[this.id];
-		}
+		
 	}
-	
+	DestroyWindow(){
+		$("#window_"+this.id).remove();
+		delete allwindows[this.id];
+	}
 }
 
 export {WindowElement};

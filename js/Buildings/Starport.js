@@ -32,7 +32,7 @@ class Starport extends Building {
         let helper=new THREE.GridHelper(20,10);
         helper.position.set(10,0,10);
         scene.add(helper);
-        scene.add(new THREE.AxesHelper(20));
+        //scene.add(new THREE.AxesHelper(20));
         const light=new THREE.PointLight(0xffffff,80);
         light.position.set(5,15,0);
         light.castShadow=true;
@@ -45,18 +45,15 @@ class Starport extends Building {
         const ambientLight=new THREE.AmbientLight();
         scene.add(ambientLight);
         const frustumSize = 100;
-        const camera=new THREE.OrthographicCamera(
-            frustumSize  / -2,
-            frustumSize  / 2,
-            frustumSize / 2,
-            frustumSize / -2,
-            0.1,
-            1000
-        )
-        camera.position.set(15,5,15);
-        
         const renderer=new THREE.WebGLRenderer();
-        renderer.setSize(120,120);
+        renderer.setSize(300,120);
+        const camera=new THREE.PerspectiveCamera(30,renderer.getSize().x/renderer.getSize().y,1,1000);
+        camera.position.set(15,5,15);
+        let tanFOV=Math.tan(((Math.PI/180)*camera.fov/2));
+        camera.aspect=renderer.getSize().x/renderer.getSize().y;
+        camera.fov=(360/Math.PI)*Math.atan(tanFOV*(renderer.getSize().x/renderer.getSize().y));
+        camera.updateProjectionMatrix();
+
         $(dom).append(renderer.domElement);
         const controls=new OrbitControls(camera,renderer.domElement);
         controls.enableDamping=true;
@@ -69,7 +66,7 @@ class Starport extends Building {
         loader.load(gltfpath,function(gltf){
             scene.add(gltf.scene);
             gltf.scene.position.set(10,8,10);
-            gltf.asset
+            gltf.scene.scale.set(50, 50, 50);
             controls.target=gltf.scene.position;
         },undefined,function(error){
             console.error(error);

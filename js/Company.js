@@ -11,7 +11,7 @@ class Company{
         let id=allcompanies.length;
         this.id = id;
         allcompanies.push(this);
-        this.companyHeadQuarters=new CompanyHeadQuarters(name);
+        this.companyHeadQuarters=new CompanyHeadQuarters(name,this);
         this.infowindow=new WindowElement("company_info_"+id,name,300,500,"<div class='company_info'><p class='company_force_info'>所在势力 无</p><p class='company_planet_info'>所在星球 无</p><div class='company_money'></div></div><div class='company_action'><div class='btn normal company_headquater'>公司总部</div><div class='btn normal' id='show_employees_"+this.id+"'>查看员工</div></div><div class='employees_list'></div>");
         this.infowindow.HideWindow();
         this.name = name;
@@ -27,6 +27,7 @@ class Company{
         });
         this.locatedForce=null;
         this.locatedPlanet=null;
+        this.buildings=new Array();
     }
     get locatedPlanet(){
         return this._locatedPlanet;

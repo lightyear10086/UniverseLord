@@ -4,17 +4,17 @@ import { randInt } from "./Utils.js";
 import { Company } from "./Company.js";
 import { allForces } from "./StarMapInit.js";
 class planet{
-    constructor(pos,type){
+    constructor(name,pos,type){
         this.id = "planet"+allplanets.length;
         this.last=null;
         this.next=null;
-        this.belongForce=allForces[randInt(0,allForces.length-1)];
+        this.belongForce=null;
         this.position = {
             x:pos.x,
             y:pos.y,
             z:pos.z
         };
-        this.name="";
+        this.name=this.id.replace("planet","");
         if(type>=90){
             this.type="sun";
         }else{
@@ -28,6 +28,20 @@ class planet{
         }
         this.starmapobj=null;
         this.companies=new Array();
+        allplanets.push(this);
+    }
+    get belongForce(){
+        return this._belongForce;
+    }
+    set belongForce(value){
+        if(this._belongForce!=null){
+            this._belongForce.planets.splice(this._belongForce.planets.indexOf(this),1);
+        }
+        this._belongForce=value;
+        if(value!=null){
+            value.planets.push(this);
+        }
+        
     }
     addCompany(company){
         this.companies.push(company);

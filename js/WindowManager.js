@@ -26,6 +26,7 @@ function InitBuildingWindow(){
 					$(cargo.div).click(function(){
 						cargo.window.ShowWindow();
 					});
+					PlayersCompany.buildings.push(cargo);
 				},buildmanagerwindowbody);
 				buildnewcargo.StartProgress();
 				break;
@@ -48,6 +49,7 @@ function InitBuildingWindow(){
 						drilling_.window.ShowWindow();
 					});
 					drilling_.Digging();
+					PlayersCompany.buildings.push(drilling_);
 				},buildmanagerwindowbody);
 				buildnewdrilling.StartProgress();
 				break;
@@ -67,6 +69,7 @@ function InitBuildingWindow(){
 						farm.window.ShowWindow();
 					});
 					farm.Work();
+					PlayersCompany.buildings.push(farm);
 				},buildmanagerwindowbody);
 				buildnewfarm.StartProgress();
 				break;
@@ -85,6 +88,7 @@ function InitBuildingWindow(){
 						$(smelter.div).click(function(){
 							smelter.window.ShowWindow();
 						});
+						PlayersCompany.buildings.push(smelter);
 					},buildmanagerwindowbody);
 					buildnewsmelter.StartProgress();
 					break;
@@ -102,6 +106,7 @@ function InitBuildingWindow(){
 						$(_starport.div).click(function(){
 							_starport.buildWindow.ShowWindow();
 						});
+						PlayersCompany.buildings.push(_starport);
 					},buildmanagerwindowbody);
 					buildnewstarport.StartProgress();
 					break;

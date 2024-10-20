@@ -21,12 +21,14 @@ class GetNpc extends Building{
         });
     }
     
-    RefreshNpcList(){
+    RefreshNpcList(isautorefresh=false){
         if(this.refreshtimes>0 && PlayersCompany.money<this.refreshcost){
             return;
         }
         this.refreshtimes++;
-        PlayersCompany.money-=this.refreshcost;
+        if(!isautorefresh){
+            PlayersCompany.money-=this.refreshcost;
+        }
         if(this.waitForJobNocList.length>0){
             for(let npc of this.waitForJobNocList){
                 if(npc.workCompany==null){
@@ -53,7 +55,7 @@ class GetNpc extends Building{
     RefreshListAuto(){
         let that=this;
         this.autorefresh=new ProgressBar("autorefresh_"+this.id,60000,function(){
-            that.RefreshNpcList();
+            that.RefreshNpcList(true);
         },$(this.window.body).children(".progress_bar"),"即将自动刷新");
         this.autorefresh.repeat=true;
         this.autorefresh.StartProgress();

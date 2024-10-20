@@ -4,6 +4,14 @@ html,body{
 	background-image: url('../img/grid.png');
 	background-repeat: repeat;
 }
+.force_info{
+	height: 100%;
+}
+.force_info_planets{
+	overflow-y: auto;
+	overflow-x: hidden;
+	width:100%;
+}
 #starmaptooltip{
 	position: absolute;
 	background-color: rgba(162, 162, 162,0.6);
@@ -46,7 +54,7 @@ html,body{
 	cursor: pointer;
 	user-select: none;
 	margin: 10px;
-	display: inline;
+	display: inline-block;
 	clear:left;  /* 添加这一行 */
 }
 .btn:hover{
@@ -151,6 +159,9 @@ html,body{
 .buildnew.btn, #buildmanagerbuttons.btn {
 	clear: none;
 }
+.alert{
+	background-color: tomato;
+}
 #tooltip{
 	position: absolute;
 	background-color: rgb(24, 42, 160);
@@ -164,7 +175,7 @@ html,body{
 	display: inline-block;
 }
 .timeinfo{
-	float:right;
+	display: inline-block;
 	height: 20.8px;
 } 
 #timedate,#timeprogressbar{
@@ -173,7 +184,7 @@ html,body{
 #info{
 	background-color: rgb(13, 12, 96);
 	color: white;
-	height: 24px;
+	height: auto;
 }
 #actions{
 	display: inline-block;

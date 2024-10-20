@@ -4,6 +4,7 @@ import { randInt } from '../js/Utils.js';
 import { OrthographicCamera } from 'three';
 import { allplanets,ShowStarInfoWindow } from './main.js';
 import{OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import { WindowElement } from './WindowElement.js';
 
 var maincam=null;
 var selectedStar=null;
@@ -50,10 +51,12 @@ function showStarInfo(star) {
     selectedStar.material.color.set(0xffffff);
     maincam.lookAt(selectedStar.position);
     
-    controls.target = selectedStar.position;
+    controls.target.copy(selectedStar.position);
+    
+    // 禁用右键拖动
+    controls.enablePan = false;
     
     ShowStarInfoWindow(allplanets.filter(planet=>planet.starmapobj==star)[0]);
-
 }
 
 // 在函数外部定义这些变量，使它们在多次鼠标事件之间保持状态
@@ -114,7 +117,14 @@ function InitStarMap() {
     controls.minDistance=100;
     controls.maxDistance=500;
     controls.maxPolarAngle=Math.PI/2;
-
+    
+    // 添加以下行来启用右键拖动（初始状态）
+    controls.enablePan = true;
+    controls.mouseButtons = {
+        LEFT: THREE.MOUSE.ROTATE,
+        MIDDLE: THREE.MOUSE.DOLLY,
+        RIGHT: THREE.MOUSE.PAN
+    };
 
     renderer.setSize( container.clientWidth, container.clientHeight );
     container.appendChild( renderer.domElement );
@@ -228,7 +238,47 @@ class StarForce{
     constructor(name){
         this.name=name+势力标签[randInt(0,势力标签.length-1)];
         this.planets=new Array();
+        
+        let noforceplanets=allplanets.filter(planet=>planet.belongForce==null);
+        let force_planets_init_count=randInt(0,noforceplanets.length-1);
+        for(let i=0;i<force_planets_init_count;i++){
+            noforceplanets[i].belongForce=this;
+        }
         allForces.push(this);
+        this.forceWindow=new WindowElement("force"+allForces.length,this.name,300,300);
+        $(this.forceWindow.body).append("<div class='force_info'></div>");
+        this.HideForceWindow();
+    }
+    HideForceWindow(){
+        $(this.forceWindow.body).children(".force_info").empty();
+        this.forceWindow.HideWindow();
+    }
+    ShowForceWindow(){
+        $(this.forceWindow.body).children(".force_info").empty();
+        $(this.forceWindow.body).children(".force_info").append("<div class='force_info_title'>"+this.name+"</div>");
+        let force_planets_info="<div class='force_info_planets'>";
+        for(let i=0;i<this.planets.length;i++){
+            force_planets_info+="<div class='btn normal force_info_planet' id='planet_info_"+this.planets[i].name+"'>"+this.planets[i].name+"</div>";
+        }
+        force_planets_info+="</div>";
+        $(this.forceWindow.body).children(".force_info").append(force_planets_info);
+        for(let i of this.planets){
+            $("#planet_info_"+i.name).click(function(){
+                ShowStarInfoWindow(i);
+            });
+        }
+        this.forceWindow.ShowWindow();
+    }
+    GetForcePlanets(){
+        return this.planets;
     }
 }
 export {InitStarMap,allForces,StarForce,backgroundColor};
+
+function resetControls() {
+    if (controls) {
+        controls.enablePan = true;
+        controls.target.set(0, 0, 0);
+        controls.update();
+    }
+}

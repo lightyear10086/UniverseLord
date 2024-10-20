@@ -7,6 +7,7 @@ import {Cu} from "../ResourceItems/Cu.js";
 import {Gold} from "../ResourceItems/Gold.js";
 import { allbuildings,GetProgress } from "../GameManager.js";
 import { ItemStack } from "../ItemStack.js";
+import { Water } from "../ResourceItems/Water.js";
 class drilling extends Building{
 	constructor(){
 		super(allbuildings['drilling'].length,"钻井","钻取矿物",10);
@@ -56,12 +57,14 @@ class drilling extends Building{
 			//随机挖掘出铁或铜或金
 			let itemtype=randInt(1,100);
 			let newitemstack=null;
-			if(itemtype>=1 && itemtype<=45){
+			if(itemtype>=1 && itemtype<=30){
 				newitemstack=new ItemStack(new Iron(),randInt(2,4));
-			}else if(itemtype>=46 && itemtype<=90){
+			}else if(itemtype>=31 && itemtype<=50){
 				newitemstack=new ItemStack(new Cu(),randInt(2,4));
-			}else if(itemtype>=91 && itemtype<=100){
+			}else if(itemtype>=51 && itemtype<=56){
 				newitemstack=new ItemStack(new Gold(),1);
+			}else if(itemtype>=57 && itemtype<=100){
+				newitemstack=new ItemStack(new Water(),randInt(2,5));
 			}
 			let success = this.container.PutItemIn(newitemstack);
 			if(!success){
