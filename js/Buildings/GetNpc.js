@@ -1,5 +1,5 @@
 import { Building } from "../building.js";
-import { ItemContainer } from "../Utils.js";
+import { ItemContainer,ObjHash } from "../Utils.js";
 import { WindowElement } from "../WindowElement.js";
 import { ProgressBar } from "../progressbar.js";
 import { allbuildings } from "../GameManager.js";
@@ -8,8 +8,8 @@ import { Npc } from "../Npc.js";
 //建筑：招聘npc
 class GetNpc extends Building{
     constructor(){
-        super(allbuildings['getnpc'].length,"人才市场","招聘",5);
-        this.window=new WindowElement("getnpcwindow_"+this.id,"人才市场"+this.id,500,300,"<div class='btn normal' id='refreshnpclist'>刷新列表</div><div class='progress_bar'></div><div id='npclist'></div>");
+        super(allbuildings['getnpc'].length+ObjHash(allbuildings['getnpc']),"人才市场","招聘",5);
+        this.window=new WindowElement("getnpcwindow_"+this.id,"人才市场",500,300,"<div class='btn normal' id='refreshnpclist'>刷新列表</div><div class='progress_bar'></div><div id='npclist'></div>");
         this.refreshcost=10;
         this.waitForJobNocList=[];
         this.listCount=5;

@@ -1,13 +1,13 @@
 import { Building } from "../building.js";
-import { ItemContainer,randInt } from "../Utils.js";
+import { ItemContainer,randInt,ObjHash } from "../Utils.js";
 import { WindowElement } from "../WindowElement.js";
 import { ProgressBar } from "../progressbar.js";
 import { allbuildings,GetProgress } from "../GameManager.js";
 import { PlayersCompany } from "../main.js";
 class StarShop extends Building{
 	constructor(){
-		super(allbuildings['starshop'].length,"星际商店","出售货物",5);
-        this.window=new WindowElement("starshopwindow_"+this.id,"星际商店"+this.id,500,300,"<div id='starshopvolume_"+this.id+"' class='buildingwindowcontent'>星际商店容量 0/9999</div><div class='progress_container'></div><div class='div_container'></div>");
+		super(allbuildings['starshop'].length+ObjHash(allbuildings['starshop']),"星际商店","出售货物",5);
+        this.window=new WindowElement("starshopwindow_"+this.id,"星际商店",500,300,"<div id='starshopvolume_"+this.id+"' class='buildingwindowcontent'>星际商店容量 0/9999</div><div class='progress_container'></div><div class='div_container'></div>");
         this.container=new ItemContainer(9999,$(this.window.body).children('.div_container'),this);
         this.isshopping=false;
         this.nowSoldingItem=null;

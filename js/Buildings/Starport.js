@@ -5,10 +5,11 @@ import { WindowElement } from "../WindowElement.js";
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import{OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import { backgroundColor } from "../StarMapInit.js";
+import { ObjHash } from "../Utils.js";
 import * as THREE from 'three';
 class Starport extends Building {
     constructor(){
-        super(allbuildings['starports'].length,"星港","建造/停泊星际飞船",1.5);
+        super(allbuildings['starports'].length+ObjHash(allbuildings['starports']),"星港","建造/停泊星际飞船",1.5);
         this.spaceships=[];
         this.buildedshipcount=0;
         this.buildWindow=new WindowElement("starport_"+this.id,this.name,500,1000,"<div class='btn normal buildship'>建造</div><form><select class='build_ship_list'></select></form><div class='progress'></div><div class='shiplist'></div>");
@@ -34,24 +35,19 @@ class Starport extends Building {
         scene.add(helper);
         //scene.add(new THREE.AxesHelper(20));
         const light=new THREE.PointLight(0xffffff,80);
-        light.position.set(5,15,0);
-        light.castShadow=true;
-        //Set up shadow properties for the light
-        light.shadow.mapSize.width = 512; // default
-        light.shadow.mapSize.height = 512; // default
-        light.shadow.camera.near = 0.5; // default
-        light.shadow.camera.far = 500 // default
+        light.intensity=1;
         scene.add(light);
         const ambientLight=new THREE.AmbientLight();
         scene.add(ambientLight);
         const frustumSize = 100;
         const renderer=new THREE.WebGLRenderer();
-        renderer.setSize(300,120);
-        const camera=new THREE.PerspectiveCamera(30,renderer.getSize().x/renderer.getSize().y,1,1000);
+        let rendsize=new THREE.Vector2();
+        renderer.getSize(rendsize);
+        const camera=new THREE.PerspectiveCamera(30,rendsize.x/rendsize.y,1,1000);
         camera.position.set(15,5,15);
         let tanFOV=Math.tan(((Math.PI/180)*camera.fov/2));
-        camera.aspect=renderer.getSize().x/renderer.getSize().y;
-        camera.fov=(360/Math.PI)*Math.atan(tanFOV*(renderer.getSize().x/renderer.getSize().y));
+        camera.aspect=rendsize.x/rendsize.y;
+        camera.fov=(360/Math.PI)*Math.atan(tanFOV*(rendsize.x/rendsize.y));
         camera.updateProjectionMatrix();
 
         $(dom).append(renderer.domElement);
@@ -63,11 +59,18 @@ class Starport extends Building {
         controls.maxDistance=500;
         controls.maxPolarAngle=Math.PI/2;
         const loader=new GLTFLoader();
+        let mat=new THREE.MeshBasicMaterial({color:0x000000,wireframe:true});
+
         loader.load(gltfpath,function(gltf){
+            console.log(gltf.scene.children);
+            const mesh=new THREE.Mesh(gltf.scene.children[0].geometry,mat);
+            mesh.scale.set(1,1,10);
+            mesh.position.set(10,8,10);
+            scene.add(mesh);
             scene.add(gltf.scene);
             gltf.scene.position.set(10,8,10);
-            gltf.scene.scale.set(50, 50, 50);
             controls.target=gltf.scene.position;
+
         },undefined,function(error){
             console.error(error);
         });
@@ -82,6 +85,7 @@ class Starport extends Building {
         function animate(){
             requestAnimationFrame(animate);
             controls.update();
+            light.position.set(camera.position.x,camera.position.y,camera.position.z);
             render();
         }
         function render(){

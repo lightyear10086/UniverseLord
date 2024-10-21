@@ -1,5 +1,5 @@
 import {Building} from "../building.js";
-import {ItemContainer,randInt} from "../Utils.js";
+import {ItemContainer,randInt,ObjHash} from "../Utils.js";
 import {ProgressBar} from "../progressbar.js";
 import {WindowElement} from "../WindowElement.js";
 import {Rice} from "../ResourceItems/Rice.js";
@@ -8,9 +8,9 @@ import { ItemStack } from "../ItemStack.js";
 import { Alert } from "../main.js";
 class Farm extends Building{
     constructor(){
-        super(allbuildings['farms'].length,"农场","种植农作物",0);
+        super(allbuildings['farms'].length+ObjHash(allbuildings['farms']),"农场","种植农作物",0);
         allbuildings['farms'].push(this);
-        this.window=new WindowElement("farmwindow_"+this.id,"农场"+this.id,500,300);
+        this.window=new WindowElement("farmwindow_"+this.id,"农场",500,300);
 		this.container=new ItemContainer(5,this.window.body,this);
         this.container.canmovein=false;
         $(this.window.body).attr("container_id",this.container.id);

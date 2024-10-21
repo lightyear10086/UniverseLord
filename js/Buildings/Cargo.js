@@ -16,6 +16,7 @@ class Cargo extends Building{
 		allbuildings['cargos'].push(this);
 		let that=this;
 		$(this.window.body).children(".destroy_building").click(function(){that.DestroyBuilding();});
+		this.编号=allbuildings['cargos'].length-1;
 	}
 	OnContainerUpdate(){
 		let that=this;

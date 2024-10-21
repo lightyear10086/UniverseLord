@@ -1,5 +1,5 @@
 import { Building } from "../building.js";
-import { ItemContainer } from "../Utils.js";
+import { ItemContainer,ObjHash } from "../Utils.js";
 import { WindowElement } from "../WindowElement.js";
 import { ProgressBar } from "../progressbar.js";
 import { GetProgress } from "../GameManager.js";
@@ -8,9 +8,9 @@ import { ResourceItemMap } from "../GameManager.js";
 import { ItemStack } from "../ItemStack.js";
 class Smelter extends Building{
     constructor(){
-        super(allbuildings['smelters'].length,"金属冶炼厂","冶炼",0.5);
+        super(allbuildings['smelters'].length+ObjHash(allbuildings['smelters']),"金属冶炼厂","冶炼",0.5);
         allbuildings['smelters'].push(this);
-        this.window=new WindowElement("smelterwindow_"+this.id,"金属冶炼厂"+this.id,500,300);
+        this.window=new WindowElement("smelterwindow_"+this.id,"金属冶炼厂",500,300);
         this.window.HideWindow();
         this.workProgress=null;
         this.working=false;
