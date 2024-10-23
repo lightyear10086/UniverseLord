@@ -53,7 +53,7 @@ class WindowElement{
 	}
 	HideWindow(isconstructing=false){
 		let that=this;
-		$("#window_"+this.id).hide(500,function(){
+		$("#window_"+this.id).hide(isconstructing?0:500,function(){
 			if(that.destroyonclose){
 				$("#window_"+this.id).remove();
 				delete allwindows[this.id];

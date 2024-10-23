@@ -43,6 +43,13 @@ class ItemContainer{
     get volume(){
         return this._volume;
     }
+    GetUsedVolume(){
+        return this.maxVolume - this.volume;
+    }
+    GetUsedVolumePercent(){
+        return ((this.maxVolume - this.volume) / this.maxVolume).toFixed(2) * 100;
+    }
+
     RemoveItemFromStack(itemstack,count){
         if(!this.cangetout){
             Alert("该容器不允许取出物品");
@@ -139,7 +146,7 @@ class ItemContainer{
                 itemstack.UpdateStack();
                 return true;
             }else{
-                Alert("该容器容量不足");
+                Alert(this.parentbuild.name+"容量不足");
                 return false;
             }
         }

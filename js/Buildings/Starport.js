@@ -5,21 +5,27 @@ import { WindowElement } from "../WindowElement.js";
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import{OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import { backgroundColor } from "../StarMapInit.js";
-import { ObjHash } from "../Utils.js";
+import { ItemContainer, ObjHash } from "../Utils.js";
 import * as THREE from 'three';
 class Starport extends Building {
     constructor(){
         super(allbuildings['starports'].length+ObjHash(allbuildings['starports']),"星港","建造/停泊星际飞船",1.5);
         this.spaceships=[];
         this.buildedshipcount=0;
-        this.buildWindow=new WindowElement("starport_"+this.id,this.name,500,1000,"<div class='btn normal buildship'>建造</div><form><select class='build_ship_list'></select></form><div class='progress'></div><div class='shiplist'></div>");
+        this.buildWindow=new WindowElement("starport_"+this.id,this.name,500,1000,"建造材料<div class='container_volume'></div><div class='div_container' style='height:20%;width:95%;border:1px solid white;margin-right:14px;'></div><div class='btn normal buildship'>建造</div><form><select class='build_ship_list'></select></form><div class='progress'></div><div class='shiplist'></div>");
+        this.buildresourcecontainer=new ItemContainer(500,$(this.buildWindow.body).children('.div_container'),this);
         for(let scinfo of shpaceshipconstructorinfo){
             $(this.buildWindow.body).children("form").children('.build_ship_list').append("<option value='"+scinfo.id+"'>"+scinfo.name+"</option>");
         }
+        this.volumeBar= new ProgressBar("starport_cargo_volume"+this.id,0,null,$(this.buildWindow.body).children('.container_volume'),"容量");
         $(this.buildWindow.body).children('.buildship').click(()=>{
             this.BuildNewSpaceship();
         })
         this.buildWindow.HideWindow();
+    }
+    OnContainerUpdate(){
+        let 已用=this.buildresourcecontainer.maxVolume-this.buildresourcecontainer.volume;
+        this.volumeBar.SetProgress((已用/this.buildresourcecontainer.maxVolume).toFixed(2)*100);
     }
     SetSpaceShipModule(dom,gltfpath){
         if($(dom).children().length>0){
@@ -64,7 +70,7 @@ class Starport extends Building {
         loader.load(gltfpath,function(gltf){
             console.log(gltf.scene.children);
             const mesh=new THREE.Mesh(gltf.scene.children[0].geometry,mat);
-            mesh.scale.set(1,1,10);
+            mesh.scale.set(gltf.scene.children[0].scale.x,gltf.scene.children[0].scale.y,gltf.scene.children[0].scale.z);
             mesh.position.set(10,8,10);
             scene.add(mesh);
             scene.add(gltf.scene);

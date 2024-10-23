@@ -6,6 +6,7 @@ import { GetProgress } from "../GameManager.js";
 import { allbuildings } from "../GameManager.js";
 import { ResourceItemMap } from "../GameManager.js";
 import { ItemStack } from "../ItemStack.js";
+import { Alert } from "../main.js";
 class Smelter extends Building{
     constructor(){
         super(allbuildings['smelters'].length+ObjHash(allbuildings['smelters']),"金属冶炼厂","冶炼",0.5);
@@ -73,6 +74,15 @@ class Smelter extends Building{
             if(that.workProgress!=null && that.working){
                 return;
             }
+            if(that.container.GetUsedVolume()==0){
+                Alert("没有原料");
+                this.noresourcetip=$(this).after("<div style='color:red' class='no_resource'>没有原料</div>");
+
+                return;
+            }
+            if(this.noresourcetip!=null){
+                $(this.noresourcetip).remove();
+            }
             let product=that.smelterMap[$("#smelter_mat_select"+that.id).val()].filter(p=>p.name==$("#smelter_aim_product"+that.id).val())[0];
             that.nowSmeltingType={"mat":$("#smelter_mat_select"+that.id).val(),"product":product.name,"count":product.count,"time":product.time};
             that.Work();
@@ -100,6 +110,7 @@ class Smelter extends Building{
             this.workProgress.StartProgress();
             return;
         }
+        
         this.workProgress=new ProgressBar('progress_'+GetProgress(),this.nowSmeltingType.time*1000,()=>{
             let mat=this.container.GetItemStackByName(this.nowSmeltingType.mat);
             if(mat==null){

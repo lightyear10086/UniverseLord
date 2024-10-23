@@ -10,7 +10,7 @@ import { ItemStack } from "../ItemStack.js";
 import { Water } from "../ResourceItems/Water.js";
 class drilling extends Building{
 	constructor(){
-		super(allbuildings['drilling'].length+ObjHash(allbuildings['drilling']),"钻井","钻取矿物",10);
+		super(allbuildings['drilling'].length+ObjHash(allbuildings['drilling']),"钻井","钻取矿物",2);
 		allbuildings['drilling'].push(this);
 		this.window=new WindowElement("drillingwindow_"+this.id,"钻井",500,300,"<div id='drilling_"+this.id+"_container_volume'>基础容量 0/</div><div>自动转移至<form><select id='drilling_"+this.id+"_container_transfer'></select></form><div id='btn_pause_drilling_"+this.id+"' class='btn'>暂停运行</div></div><div class='progress'></div><div class='div_container'></div>");
 		this.container=new ItemContainer(10,$(this.window.body).children(".div_container"),this);

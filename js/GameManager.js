@@ -7,6 +7,7 @@ import {Bullet} from "./ResourceItems/Bullet.js";
 import { PlayersCompany } from "./main.js";
 import { ship00001 } from "./Spaceships/ship00001.js";
 import { ship00002 } from "./Spaceships/ship00002.js";
+import { ship00003 } from "./Spaceships/ship00003.js";
 var allbuildings={
 	'cargos':[],
 	'drilling':[],
@@ -21,7 +22,7 @@ var allbuildings={
 var shpaceshipconstructorinfo=[
 	{'name':'星穹之光级','id':1,'constructor':ship00001},
 	{'name':'王国之心级','id':2,'constructor':ship00002},
-	{'name':'星辰之翼级','id':3},
+	{'name':'星辰之翼级','id':3,'constructor':ship00003},
 	{'name':'极光级','id':4},
 	{'name':'征服者级','id':5},
 ]

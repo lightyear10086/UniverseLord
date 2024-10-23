@@ -1,4 +1,4 @@
-import { allplanets,cmpname,cmpnametype } from "./main.js";
+import { allplanets,cmpname,cmpnametype, ShowStarInfoWindow } from "./main.js";
 import {randstarname} from "./GameManager.js";
 import { randInt } from "./Utils.js";
 import { Company } from "./Company.js";
@@ -28,7 +28,14 @@ class planet{
         }
         this.starmapobj=null;
         this.companies=new Array();
+        this.btndiv="<div id='planet"+this.name+"btn' class='btn normal'>"+this.name+"</div>";
         allplanets.push(this);
+    }
+    SetBtn(){
+        let that=this;
+        $("#planet"+this.name+"btn").click(function(){
+            ShowStarInfoWindow(that);
+        })
     }
     get belongForce(){
         return this._belongForce;

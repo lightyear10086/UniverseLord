@@ -12,7 +12,7 @@ class Company{
         this.id = id;
         allcompanies.push(this);
         this.companyHeadQuarters=new CompanyHeadQuarters(name,this);
-        this.infowindow=new WindowElement("company_info_"+id,name,300,500,"<div class='company_info'><p class='company_force_info'>所在势力 无</p><p class='company_planet_info'>所在星球 无</p><div class='company_money'></div></div><div class='company_action'><div class='btn normal company_headquater'>公司总部</div><div class='btn normal' id='show_employees_"+this.id+"'>查看员工</div></div><div class='employees_list'></div>");
+        this.infowindow=new WindowElement("company_info_"+id,name,300,500,"<div class='company_info'><p class='company_force_info'>所在势力 无</p>所在星球<div class='company_planet_info'></div><div class='company_money'></div></div><div class='company_action'><div class='btn normal company_headquater'>公司总部</div><div class='btn normal' id='show_employees_"+this.id+"'>查看员工</div></div><div class='employees_list'></div>");
         this.infowindow.HideWindow();
         this.name = name;
         this.employees=new Map();
@@ -35,11 +35,12 @@ class Company{
     set locatedPlanet(newPlanet){
         if(newPlanet==null){
             this._locatedPlanet=null;
-            $(this.infowindow.body).children('.company_info').children('.company_planet_info').text("所在星球 无");
+            $(this.infowindow.body).children('.company_info').children('.company_planet_info').html("<div>无</div>");
             return;
         }
         this._locatedPlanet = newPlanet;
-        $(this.infowindow.body).children('.company_info').children('.company_planet_info').text("所在星球 "+newPlanet.name);
+        $(this.infowindow.body).children('.company_info').children('.company_planet_info').html(newPlanet.btndiv);
+        newPlanet.SetBtn();
     }
     get locatedForce(){
         return this._locatedForce;
@@ -115,7 +116,12 @@ class Company{
     ShowInfoWindow(){
         this.infowindow.title=this.name;
         $(this.infowindow.body).children('.company_info').children('.company_money').html("<p>名称: "+this.name+"</p>"+"<p>资金: "+this.money+"</p>");
+        console.log(this.locatedPlanet.btndiv);
+        $(this.infowindow.body).children('.company_info').children('.company_planet_info').html(this.locatedPlanet.btndiv);
+        this.locatedPlanet.SetBtn();
+
         this.infowindow.ShowWindow();
+
         let that=this;
         $("#show_employees_"+this.id).click(function(){
             that.UpdateEmployeeInfo();
