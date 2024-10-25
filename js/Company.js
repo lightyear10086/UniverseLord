@@ -116,7 +116,6 @@ class Company{
     ShowInfoWindow(){
         this.infowindow.title=this.name;
         $(this.infowindow.body).children('.company_info').children('.company_money').html("<p>名称: "+this.name+"</p>"+"<p>资金: "+this.money+"</p>");
-        console.log(this.locatedPlanet.btndiv);
         $(this.infowindow.body).children('.company_info').children('.company_planet_info').html(this.locatedPlanet.btndiv);
         this.locatedPlanet.SetBtn();
 

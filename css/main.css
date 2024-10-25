@@ -246,3 +246,14 @@ select{
 	background-color: coral;
 	color: white;
 }
+.tabs-title{
+	display: inline-block;
+	background-color: silver;
+	text-align: center;
+	width: 80px;
+	margin-left: -10px;
+	clip-path: polygon(90% 0, 100% 100%, 0% 100%, 10% 0%);
+}
+.tabs-title:hover{
+	background-color: white;
+}

@@ -8,7 +8,7 @@ import { ProgressBar } from "./progressbar.js";
 import { InitBuildingWindow,allwindows } from "./WindowManager.js";
 import { planet } from "./Planet.js";
 import { randInt } from "./Utils.js";
-import { CompanyHeadQuarters } from "./Buildings/CompanyHeadQuarters.js";
+import { CompanyPart } from "./CompanyPart.js";
 
 var BuildNew=null;
 var UniverseMapWindow=null;
@@ -193,6 +193,7 @@ $(function(){
 
 	PlayersCompany.locatedForce=allForces[randInt(0,allForces.length-1)];
 	PlayersCompany.locatedPlanet=allplanets[randInt(0,allplanets.length-1)];
+	
 	$("#company_name").click(function(){
 		// 获取当前文本内容
         var currentText = $(this).text().replace("公司","");
@@ -271,6 +272,8 @@ $(function(){
 		cmp.locatedPlanet=randplanet;
 	}
 	$("#gamealertmessage").hide();
+	$(document).foundation();
+	console.log("初始化完成");
 });
 
 export {ResetToolTip,InitWindows,GetNpcWindow,GetContractWindow,GetItemWindow,DayUpdate,MonthUpdate,YearUpdate,Alert,InitUniverse,ShowStarInfoWindow,playerNpc,timedate,timeprogress,PlayersCompany,allcompanies,allplanets,allnpcs,chrs,planettype,starshop,getnpc,BuildNew,UniverseMapWindow,moveingItemStack,releaseItemStackContainer,cmpname,cmpnametype,allspaceships};
