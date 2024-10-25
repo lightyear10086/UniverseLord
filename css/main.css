@@ -252,8 +252,17 @@ select{
 	text-align: center;
 	width: 80px;
 	margin-left: -10px;
+	padding-left:10px;
+	padding-right:10px;
 	clip-path: polygon(90% 0, 100% 100%, 0% 100%, 10% 0%);
+	z-index: 1;
+	position: relative;
 }
 .tabs-title:hover{
 	background-color: white;
+}
+.tabs-title.active{
+	background-color: white;
+	z-index: 99;
+	position: relative;
 }

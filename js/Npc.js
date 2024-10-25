@@ -10,6 +10,7 @@ class Npc{
         this.age=randInt(18,60);
         this.workCompany=null;
         this.workType=null;
+        this.workPart=null;
         this.属性={
             '智力':randInt(1,10),
             '体能':randInt(1,10),

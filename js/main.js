@@ -272,6 +272,9 @@ $(function(){
 		cmp.locatedPlanet=randplanet;
 	}
 	$("#gamealertmessage").hide();
+
+	
+
 	$(document).foundation();
 	console.log("初始化完成");
 });

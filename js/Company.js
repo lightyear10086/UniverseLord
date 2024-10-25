@@ -1,4 +1,4 @@
-import { allcompanies,PlayersCompany,Alert } from "./main.js";
+import { allcompanies,PlayersCompany,Alert,allnpcs } from "./main.js";
 import { WindowElement } from "./WindowElement.js";
 import { UpdateInfo } from "./GameManager.js";
 import { allwindows } from "./WindowManager.js";
@@ -112,6 +112,7 @@ class Company{
             'contract':contractStack
         });
         this.UpdateEmployeeInfo();
+        this.companyHeadQuarters.SetNpcToPart(npc,this.companyHeadQuarters.parts.get('人力资源部'));
     }
     ShowInfoWindow(){
         this.infowindow.title=this.name;
@@ -144,11 +145,12 @@ class Company{
         let employeelistdiv = $(this.infowindow.body).children(".employees_list");
         $(employeelistdiv).empty();
         for(let npc of this.employees){
-            $(employeelistdiv).append("<div class='btn normal' id='employee_"+npc[0].replace(' ','_')+"'>"+npc[0]+"</div>");
-            $("#employee_"+npc[0].replace(' ','_')).click(function(){
-                npc[1]['npc'].infowindow.ShowWindow();
-            });
+            $(employeelistdiv).append("<div class='btn normal npc' npc-id='"+npc[1].npc.id+"'>"+npc[0]+"</div>");
         }
+        $(".npc").on('click',function(){
+            let npc=allnpcs.find(npc=>npc.id==$(this).attr('npc-id'));
+            npc.infowindow.ShowWindow();
+        });
     }
     ChangeName(newName){
         this.name = newName;
