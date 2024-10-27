@@ -96,8 +96,20 @@ class Company{
         $(npc.infowindow.div).remove();
         delete allwindows[npc.infowindow.id];
         npc.infowindow=null;
-        let iteminfodiv="<div>名字 "+npc.name+"</div><div tip=true tip-content='决定科研速度'>智力"+npc.GetInfo()['attributes']['智力']+"</div><div tip=true tip-content='决定工作极限时间'>体能"+npc.GetInfo()['attributes']['体能']+"</div><div tip=true tip-content='决定稳定程度'>精神"+npc.GetInfo()['attributes']['精神']+"</div><div tip=true tip-content='决定提升速度'>教育"+npc.GetInfo()['attributes']['教育']+"</div><div tip=true tip-content='决定产出量'>外貌"+npc.GetInfo()['attributes']['外貌']+"</div><div id='npc_salary_"+npc.name.replace(' ','_')+"'>工资要求 "+npc.salary+"/小时</div></div><div class='btn normal' id='fire_employee_"+npc.name.replace(' ','_')+"'>解雇</div>";
+        let iteminfodiv="<div>名字 "+npc.name+"</div><div tip=true tip-content='决定科研速度'>智力"+npc.GetInfo()['attributes']['智力']+"</div><div tip=true tip-content='决定工作极限时间'>体能"+npc.GetInfo()['attributes']['体能']+"</div><div tip=true tip-content='决定稳定程度'>精神"+npc.GetInfo()['attributes']['精神']+"</div><div tip=true tip-content='决定提升速度'>教育"+npc.GetInfo()['attributes']['教育']+"</div><div tip=true tip-content='决定产出量'>外貌"+npc.GetInfo()['attributes']['外貌']+"</div><div id='npc_salary_"+npc.name.replace(' ','_')+"'>工资要求 "+npc.salary+"/小时</div></div><div class='btn normal' id='fire_employee_"+npc.name.replace(' ','_')+"'>解雇</div><div class='work_company_part'></div><div class='div_container'></div>";
         npc.infowindow=new WindowElement(npc.name.replace(' ','_'),npc.name,500,300,iteminfodiv);
+        npc.container=new ItemContainer(npc.GetInfo()['attributes']['体能']*10,$(npc.infowindow.body).children('.div_container'),npc);
+        $(npc.infowindow.body).children('.work_company_part').append("<form>工作于<select></select>部门</form>");
+        let select=$($(npc.infowindow.body).children('.work_company_part').children('form').children('select')[0]);
+        for(let part of this.companyHeadQuarters.parts){
+            select.append("<option value='"+part[1].name+"'>"+part[1].name+"</option>");
+        }
+        $(select).change(function(){
+            let part=that.companyHeadQuarters.parts.get($(this).val());
+            npc.workPart=part;
+            part.employees.push(npc);
+            part.UpdateDiv();
+        });
         npc.workCompany=this;
         $("#fire_employee_"+npc.name.replace(' ','_')).click(function(){
             that.FireEmployee(npc);
