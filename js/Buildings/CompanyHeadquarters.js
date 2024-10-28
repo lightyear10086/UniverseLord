@@ -1,17 +1,19 @@
 import { Building } from "../building.js";
-import { allbuildings } from "../GameManager.js";
+import { allbuildings,GetProgress } from "../GameManager.js";
 import { WindowElement } from "../WindowElement.js";
 import { ItemContainer,ObjHash } from "../Utils.js";
 import { CompanyPart } from "../CompanyPart.js";
 import { Alert } from "../main.js";
+import { ProgressBar } from "../progressbar.js";
 class CompanyHeadQuarters extends Building{
     constructor(companyname,cmp){
         super(allbuildings['companyheadquarters'].length+ObjHash(allbuildings['companyheadquarters']),companyname+"公司总部",companyname+"公司总部",10);
         this.cmp=cmp;
         allbuildings['companyheadquarters'].push(this); 
-        this.window=new WindowElement("companyheadquarters_"+this.id,companyname+"公司总部",600,600,"<div class='company_parts'>公司部门<form style='width:100%;'><input type='text' id='company"+this.cmp.id+"_part_name' placeholder='新建部门'><div class='btn normal new_part'>新建部门</div></form><ul class='tabs' id='company"+this.cmp.id+"_parts_tabs'></ul><div class='tabs-content' ></div></div>总部仓库<div class='div_container'></div>");
+        this.window=new WindowElement("companyheadquarters_"+this.id,companyname+"公司总部",420,400,"<div class='company_parts'>公司部门<form style='width:100%;'><input type='text' id='company"+this.cmp.id+"_part_name' placeholder='新建部门'><div class='btn normal new_part'>新建部门</div></form><ul class='tabs' id='company"+this.cmp.id+"_parts_tabs'></ul><div class='tabs-content' ></div></div>总部仓库<div class='progress_bar'></div><div id='cargovolume_"+this.id+"'></div><div class='div_container'></div>");
         this.window.HideWindow();
         this.container=new ItemContainer(100,$(this.window.body).children(".div_container"),this);
+        this.volumeBar=new ProgressBar('progress_'+GetProgress(),0,null,$(this.window.body).children(".progress_bar"));
         this.lastshowpart=null;
         this.parts=new Map();
         let that=this;
@@ -28,7 +30,20 @@ class CompanyHeadQuarters extends Building{
             that.SetPart(new CompanyPart(that.cmp.id+'_part_'+partname,partname,that.cmp,""));
             $("#company"+that.cmp.id+"_part_name").val("");
         });
-        this.SetPart(new CompanyPart(this.cmp.id+'_part_人力资源部',"人力资源部",this.cmp,""));
+        this.SetPart(new CompanyPart(this.cmp.id+'_part_待分配',"待分配",this.cmp,""));
+    }
+    UpdateWindow(){
+        for(let _part of this.parts.values()){
+            _part.UpdateDiv();
+        }
+    }
+    FireEmployee(npc){
+        for(let _part of this.parts.values()){
+            if(_part.employees.includes(npc)){
+                _part.FireEmployee(npc);
+            }
+
+        }
     }
     SetNpcToPart(npc,_part){
         if(!npc in this.cmp.employees.values()){
@@ -63,6 +78,10 @@ class CompanyHeadQuarters extends Building{
     }
     OnContainerUpdate(){
         this.window.UpdateWindow();
+        let that=this;
+		let 已用=this.container.maxVolume-this.container.volume;
+		this.volumeBar.SetProgress(已用/this.container.maxVolume.toFixed(2)*100);
+		$("#cargovolume_"+this.id).text("仓库容量 "+已用.toFixed(2)+"/"+that.container.maxVolume.toFixed(2));
     }
 }
 export {CompanyHeadQuarters};

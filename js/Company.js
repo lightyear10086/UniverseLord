@@ -3,7 +3,7 @@ import { WindowElement } from "./WindowElement.js";
 import { UpdateInfo } from "./GameManager.js";
 import { allwindows } from "./WindowManager.js";
 import { ItemContainer } from "./Utils.js";
-import { CompanyHeadQuarters } from "./Buildings/CompanyHeadQuarters.js";
+import { CompanyHeadQuarters } from "./Buildings/CompanyHeadquarters.js";
 import { Contract } from "./ResourceItems/Contract.js";
 import { ItemStack } from "./ItemStack.js";
 class Company{
@@ -25,6 +25,7 @@ class Company{
         $(this.infowindow.body).children('.company_action').children('.company_headquater').click(function(){
             that.companyHeadQuarters.window.ShowWindow();
         });
+        this.companyCargo=this.companyHeadQuarters.container;
         this.locatedForce=null;
         this.locatedPlanet=null;
         this.buildings=new Array();
@@ -74,8 +75,10 @@ class Company{
             UpdateInfo();
         }
     }
+    PutItemInHeadquarter(itemstack){
+        this.companyHeadQuarters.container.PutItemIn(itemstack);
+    }
     FireEmployee(npc){
-        
         npc.infowindow.HideWindow();
         $(npc.infowindow.div).remove();
         delete allwindows[npc.infowindow.id];
@@ -84,9 +87,9 @@ class Company{
         
         //delete this.employees[npc.name.replace(' ','_')];
         this.employees.delete(npc.name.replace(' ','_'));
+        this.companyHeadQuarters.FireEmployee(npc);
         Alert(npc.name+"已离职");
         this.UpdateEmployeeInfo();
-        
     }
     //聘用NPC
     EmployNpc(npc){
@@ -124,7 +127,7 @@ class Company{
             'contract':contractStack
         });
         this.UpdateEmployeeInfo();
-        this.companyHeadQuarters.SetNpcToPart(npc,this.companyHeadQuarters.parts.get('人力资源部'));
+        this.companyHeadQuarters.SetNpcToPart(npc,this.companyHeadQuarters.parts.get('待分配'));
     }
     ShowInfoWindow(){
         this.infowindow.title=this.name;
@@ -159,10 +162,11 @@ class Company{
         for(let npc of this.employees){
             $(employeelistdiv).append("<div class='btn normal npc' npc-id='"+npc[1].npc.id+"'>"+npc[0]+"</div>");
         }
-        $(".npc").on('click',function(){
-            let npc=allnpcs.find(npc=>npc.id==$(this).attr('npc-id'));
-            npc.infowindow.ShowWindow();
-        });
+        // $(".npc").on('click',function(){
+        //     let npc=allnpcs.find(npc=>npc.id==$(this).attr('npc-id'));
+        //     npc.infowindow.ShowWindow();
+        // });
+        this.companyHeadQuarters.UpdateWindow();
     }
     ChangeName(newName){
         this.name = newName;

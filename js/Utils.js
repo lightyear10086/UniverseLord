@@ -71,6 +71,12 @@ class ItemContainer{
         this.parentbuild.OnContainerUpdate();
         return true;
     }
+    RemoveItemStackByName(itemname,count){
+        let itemstack = this.itemstacks.find(is => is.item.name === itemname);
+        if(itemstack){
+            return this.RemoveItemFromStack(itemstack,count);
+        }
+    }
     RemoveItemStack(itemstack){
         this.itemstacks = this.itemstacks.filter(is => is !== itemstack);
         //$("#"+itemstack.id).remove();
@@ -156,6 +162,24 @@ class ItemContainer{
         this.volume = this.maxVolume - usedVolume;
         this.parentbuild.OnContainerUpdate();
     }
+    
 }
-
-export {ItemContainer,randInt,ObjHash};
+function CreateEnum(definition){
+    const strToValueMap={};
+    const numToDescMap={};
+    for(const enumName of Object.keys(definition)){
+        const [value,desc] = definition[enumName];
+        strToValueMap[enumName]=value;
+        numToDescMap[value]=desc;
+    }
+    return {
+        ...strToValueMap,
+        getDesc(enumName){
+            return (definition[enumName] && definition[enumName][1]) || '';
+        },
+        getDescFromValue(value){
+            return numToDescMap[value] || '';
+        }
+    }
+}
+export {ItemContainer,randInt,ObjHash,CreateEnum};

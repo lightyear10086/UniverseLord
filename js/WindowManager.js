@@ -18,6 +18,7 @@ function InitBuildingWindow(){
 					break;
 				}
 				PlayersCompany.money-=200;
+				PlayersCompany.companyCargo.RemoveItemStackByName("Iron",10);
 				let cargo=new Cargo(100);
 				let buildnewcargo=new ProgressBar('progress_'+GetProgress(),cargo.buildtime*1000,function(){
 					cargo.BuildFinished();

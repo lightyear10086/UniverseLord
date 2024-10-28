@@ -8,7 +8,8 @@ import { ProgressBar } from "./progressbar.js";
 import { InitBuildingWindow,allwindows } from "./WindowManager.js";
 import { planet } from "./Planet.js";
 import { randInt } from "./Utils.js";
-import { CompanyPart } from "./CompanyPart.js";
+import { ItemStack } from "./ItemStack.js";
+import { Iron } from "./ResourceItems/Iron.js";
 
 var BuildNew=null;
 var UniverseMapWindow=null;
@@ -193,7 +194,7 @@ $(function(){
 
 	PlayersCompany.locatedForce=allForces[randInt(0,allForces.length-1)];
 	PlayersCompany.locatedPlanet=allplanets[randInt(0,allplanets.length-1)];
-	
+	PlayersCompany.PutItemInHeadquarter(new ItemStack(new Iron(),100));
 	$("#company_name").click(function(){
 		// 获取当前文本内容
         var currentText = $(this).text().replace("公司","");
