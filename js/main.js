@@ -10,6 +10,7 @@ import { planet } from "./Planet.js";
 import { randInt } from "./Utils.js";
 import { ItemStack } from "./ItemStack.js";
 import { Iron } from "./ResourceItems/Iron.js";
+import { allcontainers } from "./GameManager.js";
 
 var BuildNew=null;
 var UniverseMapWindow=null;
@@ -178,9 +179,21 @@ function Alert(msg,level=0){
 	});
 	ResetToolTip();
 }
+function HourUpdate(){
+	for(let contain of allcontainers.values()){
+		for(let itemstack of contain.itemstacks){
+			itemstack.HourEvent();
+		}
+	}
+}
 function DayUpdate(){
 	for(let cmp of allcompanies){
 		cmp.PayAllEmployees();
+	}
+	for(let contain of allcontainers.values()){
+		for(let itemstack of contain.itemstacks){
+			itemstack.DayEvent();
+		}
 	}
 }
 function MonthUpdate(){}
@@ -232,6 +245,7 @@ $(function(){
 	$("#timedate").html(timedate.year+"年"+timedate.month+"月"+timedate.day+"日 "+timedate.hour+"时");
 	timeprogress=new ProgressBar("timeprogress",1000,()=>{
 		timedate.hour++;
+		HourUpdate();
 		if(timedate.hour>=24){
 			timedate.hour=1;
 			timedate.day++;

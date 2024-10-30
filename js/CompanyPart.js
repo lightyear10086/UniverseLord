@@ -14,7 +14,10 @@ class CompanyPart {
         this.belongTo = belongTo;
         this.description = des;
         this.employees = [];
-        this.div="<div class='tabs-panel' id='"+this.id+"'>"+this.name+"<br>"+this.description+"<div class='employee-list'></div></div>";
+        this.div="<div class='tabs-panel' id='"+this.id+"'>"+this.name+"<br>"+this.description+"<div class='employee-list'></div><div class='btn alert' id='fire-employee-"+this.id+"'>解散部门</div></div>";
+        if(name=="待分配"){
+            this.div=this.div.replace("<div class='btn alert' id='fire-employee-"+this.id+"'>解散部门</div>","");
+        }
         this.workType=WorkType.NONE;
     }
     FireEmployee(npc){
@@ -22,7 +25,17 @@ class CompanyPart {
             this.employees.splice(this.employees.indexOf(npc),1);
         }
     }
+    RemoveEmployee(npc){
+        if(this.employees.includes(npc)){
+            this.employees.splice(this.employees.indexOf(npc),1);
+            this.UpdateDiv();
+        }
+    }
+    RemovePart(){
+        $("#"+this.id).remove();
+    }
     UpdateDiv(){
+        let that=this;
         $("#"+this.id).children('.employee-list').empty();
         for(let i=0;i<this.employees.length;i++){
             $("#"+this.id).children('.employee-list').append("<div class='btn normal npc' npc-id='"+this.employees[i].id+"'>"+this.employees[i].name+"</div>");

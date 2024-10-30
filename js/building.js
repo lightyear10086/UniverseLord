@@ -13,6 +13,10 @@ class Building{
 	}
 	DestroyBuilding(){
 		this.div.remove();
+		this.OnDestroyed();
+	}
+	OnDestroyed(){
+
 	}
 	UpdateLevel(){
 		this.level++;

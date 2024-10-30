@@ -14,7 +14,8 @@ function hashCode(str) {
     return hash >>> 0; // 确保返回一个正整数
 }
 function ObjHash(obj){
-    const str = JSON.stringify(obj, Object.keys(obj).sort()); // 序列化对象并排序键
+    let str = JSON.stringify(obj, Object.keys(obj).sort()); // 序列化对象并排序键
+    str+=Date.now()+randInt(0,1000000000);
     return hashCode(str);
 }
 class ItemContainer{
@@ -160,7 +161,7 @@ class ItemContainer{
     RecalculateVolume(){
         let usedVolume = this.itemstacks.reduce((total, is) => total + is.wholeVolume, 0);
         this.volume = this.maxVolume - usedVolume;
-        this.parentbuild.OnContainerUpdate();
+        // this.parentbuild.OnContainerUpdate();
     }
     
 }

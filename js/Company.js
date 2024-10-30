@@ -11,11 +11,12 @@ class Company{
         let id=allcompanies.length;
         this.id = id;
         allcompanies.push(this);
+        this.employees=new Map();
         this.companyHeadQuarters=new CompanyHeadQuarters(name,this);
         this.infowindow=new WindowElement("company_info_"+id,name,300,500,"<div class='company_info'><p class='company_force_info'>所在势力 无</p>所在星球<div class='company_planet_info'></div><div class='company_money'></div></div><div class='company_action'><div class='btn normal company_headquater'>公司总部</div><div class='btn normal' id='show_employees_"+this.id+"'>查看员工</div></div><div class='employees_list'></div>");
         this.infowindow.HideWindow();
         this.name = name;
-        this.employees=new Map();
+        
         this.controller=null;
         this.money=0;
         //公司信用值
@@ -109,9 +110,7 @@ class Company{
         }
         $(select).change(function(){
             let part=that.companyHeadQuarters.parts.get($(this).val());
-            npc.workPart=part;
-            part.employees.push(npc);
-            part.UpdateDiv();
+            that.companyHeadQuarters.MoveEmployeeToPart(npc.workPart,npc,part);
         });
         npc.workCompany=this;
         $("#fire_employee_"+npc.name.replace(' ','_')).click(function(){

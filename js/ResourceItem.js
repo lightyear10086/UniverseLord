@@ -9,6 +9,10 @@ class ResourceItem{
 		//物品是否可堆叠
 		this.stackable=true;
 	}
+	HourEvent(){}
+	DayEvent(){}
+	MonthEvent(){}
+	YearEvent(){}
 	getInfo(){
 		return {
             "name":this.name,

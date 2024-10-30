@@ -8,11 +8,12 @@ import {Gold} from "../ResourceItems/Gold.js";
 import { allbuildings,GetProgress } from "../GameManager.js";
 import { ItemStack } from "../ItemStack.js";
 import { Water } from "../ResourceItems/Water.js";
+import { Coal } from "../ResourceItems/Coal.js";
 class drilling extends Building{
 	constructor(){
 		super(allbuildings['drilling'].length+ObjHash(allbuildings['drilling']),"钻井","钻取矿物",2);
 		allbuildings['drilling'].push(this);
-		this.window=new WindowElement("drillingwindow_"+this.id,"钻井",500,300,"<div id='drilling_"+this.id+"_container_volume'>基础容量 0/</div><div>自动转移至<form><select id='drilling_"+this.id+"_container_transfer'></select></form><div id='btn_pause_drilling_"+this.id+"' class='btn'>暂停运行</div></div><div class='progress'></div><div class='div_container'></div>");
+		this.window=new WindowElement("drillingwindow_"+this.id,"钻井",500,300,"<div id='drilling_"+this.id+"_container_volume'>基础容量 0/</div><div>自动转移至<form><select id='drilling_"+this.id+"_container_transfer'><option value='none'>无</option></select></form><div id='btn_pause_drilling_"+this.id+"' class='btn'>暂停运行</div></div><div class='progress'></div><div class='div_container'></div>");
 		this.container=new ItemContainer(10,$(this.window.body).children(".div_container"),this);
 		this.container.canmovein=false;
 		$(this.window.body).children(".div_container").attr("container_id",this.container.id);
@@ -36,6 +37,7 @@ class drilling extends Building{
 	}
 	UpdateCargos(){
 		$("#drilling_"+this.id+"_container_transfer").empty();
+		$("#drilling_"+this.id+"_container_transfer").append("<option value='none'>无</option>");
 		for(let b of allbuildings['cargos']){
 			$("#drilling_"+this.id+"_container_transfer").append("<option value='cargo_"+b.id+"'>仓库"+b.id+"</option>");
 		}
@@ -63,28 +65,38 @@ class drilling extends Building{
 				newitemstack=new ItemStack(new Cu(),randInt(2,4));
 			}else if(itemtype>=51 && itemtype<=56){
 				newitemstack=new ItemStack(new Gold(),1);
-			}else if(itemtype>=57 && itemtype<=100){
+			}else if(itemtype>=57 && itemtype<=80){
 				newitemstack=new ItemStack(new Water(),randInt(2,5));
+			}else if(itemtype>=81 && itemtype<=100){
+				newitemstack=new ItemStack(new Coal(),randInt(2,10));
 			}
-			let success = this.container.PutItemIn(newitemstack);
-			if(!success){
-				that.PauseWorking();
-				// if(allbuildings['cargos'].length==0){
-				// 	that.PauseWorking();
-				// }else{
-				// 	// 如果无法放入钻井容器，尝试放入选定的仓库
-				// 	let selectedCargoId = $("#drilling_"+this.id+"_container_transfer").val().replace('cargo_', '');
-				// 	let selectedCargo = allbuildings['cargos'].find(c => c.id == selectedCargoId);
-				// 	if(selectedCargo){
-				// 		if(!selectedCargo.PutItemStackIn(newitemstack)){
-				// 			Alert(this.name+"容量不足");
-				// 			that.PauseWorking();
-				// 		}
-				// 	}
-				// }
-				
+			let selectedCargoId=$("#drilling_"+this.id+"_container_transfer").val().replace('cargo_', '');
+			let selectedCargo = allbuildings['cargos'].find(c => c.id == selectedCargoId);
+			if(selectedCargo){
+				if(!selectedCargo.PutItemStackIn(newitemstack)){
+					Alert(this.name+"容量不足");
+					that.PauseWorking();
+				}
+			}else{
+				let success = this.container.PutItemIn(newitemstack);
+				if(!success){
+					that.PauseWorking();
+					// if(allbuildings['cargos'].length==0){
+					// 	that.PauseWorking();
+					// }else{
+					// 	// 如果无法放入钻井容器，尝试放入选定的仓库
+					// 	let selectedCargoId = $("#drilling_"+this.id+"_container_transfer").val().replace('cargo_', '');
+					// 	let selectedCargo = allbuildings['cargos'].find(c => c.id == selectedCargoId);
+					// 	if(selectedCargo){
+					// 		if(!selectedCargo.PutItemStackIn(newitemstack)){
+					// 			Alert(this.name+"容量不足");
+					// 			that.PauseWorking();
+					// 		}
+					// 	}
+					// }
+					
+				}
 			}
-			
 		},$(this.window.body).children('.progress'),"正在钻取矿物");
 		this.digprogress.repeat=true;
 		this.digprogress.StartProgress();
