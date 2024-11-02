@@ -115,6 +115,7 @@ class ItemStack {
         this.itemstackwindow.ShowWindow();
     }
     UpdateStack(){
+        //console.log("#itemstack-count"+this.id);
         $("#itemstack-count"+this.id).text(this.count);
         this.div=$("#"+this.id);
         if(this.count<=0){

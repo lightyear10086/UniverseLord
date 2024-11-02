@@ -76,16 +76,15 @@ class Farm extends Building{
 		this.farmprogress=new ProgressBar('progress_'+GetProgress(),this.getitempertimes*1000,()=>{
 			let itemcount=randInt(100,500);
 			let newitemstack=new ItemStack(this.item,itemcount);
-			
 			let selectedCargoId=$("#farm_"+this.id+"_container_transfer").val().replace('cargo_', '');
 			let selectedCargo = allbuildings['cargos'].find(c => c.id == selectedCargoId);
 			if(selectedCargo){
-				if(!selectedCargo.PutItemStackIn(newitemstack)){
+				if(!selectedCargo.container.PutItemInByName("Rice",itemcount,true,newitemstack)){
 					Alert(this.name+"容量不足");
 					that.PauseWorking();
 				}
 			}else{
-				let success = this.container.PutItemIn(newitemstack,true);
+				let success = this.container.PutItemInByName("Rice",itemcount,true,newitemstack);
 				if(!success){
 					if(allbuildings['cargos'].length==0){
 						that.PauseWorking();

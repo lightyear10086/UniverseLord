@@ -25,7 +25,6 @@ class Cargo extends Building{
 	}
 	PutItemStackIn(itemstack){
 		return this.container.PutItemIn(itemstack);
-		
 	}
 	OnDestroyed(){
 		this.BuildFinished();

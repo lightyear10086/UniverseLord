@@ -108,6 +108,38 @@ class ItemContainer{
     GetItemStackByAbbreviation(abbreviation){
         return this.itemstacks.filter(is => is.item.abbreviation === abbreviation);
     }
+    PutItemInByName(itemname,count,trymax=false,readyStack=null){
+        if(this.GetItemStackByName(itemname)!=null){
+            let itemstack = this.GetItemStackByName(itemname);
+            if(!itemstack.stackable){
+                return false;
+            }
+            if(this.volume<=0){
+                return false;
+            }
+            if (!this.canputin) {
+                Alert("该容器不允许放入物品");
+                return false;
+            }
+            if (itemstack.container != null && !this.canmovein) {
+                Alert("不能从其他容器移动过来");
+                return false;
+            }
+            if(this.putitemwhitelists.length>0 && this.putitemwhitelists.indexOf(itemstack.item.name)<0){
+                Alert("该容器不允许放入 "+itemstack.item.name);
+                return false;
+            }
+            if((existingStack.count+count)*existingStack.item.volume<=this.volume){
+                existingStack.count+=count;
+                this.RecalculateVolume();
+                itemstack.UpdateStack();
+                return true;
+            }
+            return false;
+        }else{
+            this.PutItemIn(readyStack,trymax);
+        }
+    }
     PutItemIn(itemstack, trymax = false,isDragging=false) {
         if(this.volume<=0){
             return false;
