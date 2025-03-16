@@ -2,18 +2,24 @@ import { AddItemStack,GetItemStack,allcontainers } from "./GameManager.js";
 import { Contract } from "./ResourceItems/Contract.js";
 import { allwindows } from "./WindowManager.js";
 import { GetItemWindow,GetContractWindow } from "./main.js";
+import { ObjHash } from "./Utils.js";
 class ItemStack {
     constructor(item, count) {
         this.item = item;
         this.count = count;
         this.wholeVolume = item.volume * count;
         AddItemStack();
-        this.id ="itemstack"+ GetItemStack();
+        this.id =ObjHash("itemstack"+ GetItemStack());
         this.div="<div class='item-stack' id='"+this.id+"'>"+this.item.abbreviation+"<div class='item-stack-count' id='itemstack-count"+this.id+"'>"+this.count+"</div></div>";
         this.containerDiv=null;
         this.incontainer=null;
         this.itemstackwindow=allwindows[this.name];
+        this.item.instack=this;
     }
+    HourEvent(){this.item.HourEvent();}
+    DayEvent(){this.item.DayEvent();}
+    MonthEvent(){this.item.MonthEvent();}
+    YearEvent(){this.item.YearEvent();}
     BindEvents(){
         let that=this;
         $("#"+this.id).off().on({
@@ -35,7 +41,7 @@ class ItemStack {
                 if(!this.isDragging){
                     return;
                 }
-                $(this).css({'left':e.pageX-this.shiftX,'top':e.pageY-this.shiftY});
+                $(this).css({'left':e.pageX-$(this).width()/2,'top':e.pageY-$(this).height()/2});
                 this.hidden=true;
                 let elemBelow=document.elementFromPoint(e.clientX,e.clientY);
                 this.hidden=false;
@@ -109,11 +115,20 @@ class ItemStack {
         this.itemstackwindow.ShowWindow();
     }
     UpdateStack(){
+        //console.log("#itemstack-count"+this.id);
         $("#itemstack-count"+this.id).text(this.count);
         this.div=$("#"+this.id);
         if(this.count<=0){
             $(this.div).remove();
         }
+        if(this.incontainer){
+            this.incontainer.RecalculateVolume();
+            //this.incontainer.parentbuild.OnContainerUpdate();
+            if(this.count<=0){
+                this.incontainer.RemoveItemStack(this);
+            }
+        }
+        
     }
     PutSameItem(itemstack){
         this.count+=itemstack.count;

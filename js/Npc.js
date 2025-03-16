@@ -30,7 +30,12 @@ class Npc{
         //薪水
         this.salary=Math.round(20+this.age*1.5+this.属性['智力']*2+this.属性['体能']*1.2+this.属性['精神']*1.1+this.属性['教育']*1.3+this.属性['外貌']*1.6);
         this.infowindow=null;
+        this.container=null;
     }
+    OnContainerUpdate(){
+		let that=this;
+		let 已用=this.container.maxVolume-this.container.volume;
+	}
     SetWork(worktype){
         this.workType=worktype;
         switch(worktype){

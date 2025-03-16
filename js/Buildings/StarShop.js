@@ -1,6 +1,6 @@
 import { Building } from "../building.js";
 import { ItemContainer,randInt,ObjHash } from "../Utils.js";
-import { WindowElement } from "../WindowElement.js";
+import { WindowElement } from "../windowelement.js";
 import { ProgressBar } from "../progressbar.js";
 import { allbuildings,GetProgress } from "../GameManager.js";
 import { PlayersCompany } from "../main.js";
@@ -14,7 +14,8 @@ class StarShop extends Building{
         this.nowSoldingItemCount=0;
 	}
     OnContainerUpdate(){
-        $("#starshopvolume_"+this.id).text("星际商店容量 "+this.container.volume+"/9999");
+        let 已用=(this.container.maxVolume-this.container.volume).toFixed(2);
+        $("#starshopvolume_"+this.id).text("星际商店容量 "+已用+"/"+this.container.maxVolume.toFixed(2));
         if(this.container.itemstacks.length>0 && !this.isshopping){
             let solditemtype=this.container.itemstacks[randInt(0,this.container.itemstacks.length-1)];
             let solditemcount=randInt(1,Math.round(solditemtype.count*0.1));

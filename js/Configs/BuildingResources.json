@@ -1,0 +1,8 @@
+{
+    "Cargo":[
+        {
+            "resource":"iron",
+            "count":10
+        }
+    ]
+}

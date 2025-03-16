@@ -14,7 +14,8 @@ function hashCode(str) {
     return hash >>> 0; // 确保返回一个正整数
 }
 function ObjHash(obj){
-    const str = JSON.stringify(obj, Object.keys(obj).sort()); // 序列化对象并排序键
+    let str = JSON.stringify(obj, Object.keys(obj).sort()); // 序列化对象并排序键
+    str+=Date.now()+randInt(0,1000000000);
     return hashCode(str);
 }
 class ItemContainer{
@@ -71,6 +72,12 @@ class ItemContainer{
         this.parentbuild.OnContainerUpdate();
         return true;
     }
+    RemoveItemStackByName(itemname,count){
+        let itemstack = this.itemstacks.find(is => is.item.name === itemname);
+        if(itemstack){
+            return this.RemoveItemFromStack(itemstack,count);
+        }
+    }
     RemoveItemStack(itemstack){
         this.itemstacks = this.itemstacks.filter(is => is !== itemstack);
         //$("#"+itemstack.id).remove();
@@ -100,6 +107,38 @@ class ItemContainer{
     }
     GetItemStackByAbbreviation(abbreviation){
         return this.itemstacks.filter(is => is.item.abbreviation === abbreviation);
+    }
+    PutItemInByName(itemname,count,trymax=false,readyStack=null){
+        if(this.GetItemStackByName(itemname)!=null){
+            let itemstack = this.GetItemStackByName(itemname);
+            if(!itemstack.stackable){
+                return false;
+            }
+            if(this.volume<=0){
+                return false;
+            }
+            if (!this.canputin) {
+                Alert("该容器不允许放入物品");
+                return false;
+            }
+            if (itemstack.container != null && !this.canmovein) {
+                Alert("不能从其他容器移动过来");
+                return false;
+            }
+            if(this.putitemwhitelists.length>0 && this.putitemwhitelists.indexOf(itemstack.item.name)<0){
+                Alert("该容器不允许放入 "+itemstack.item.name);
+                return false;
+            }
+            if((existingStack.count+count)*existingStack.item.volume<=this.volume){
+                existingStack.count+=count;
+                this.RecalculateVolume();
+                itemstack.UpdateStack();
+                return true;
+            }
+            return false;
+        }else{
+            this.PutItemIn(readyStack,trymax);
+        }
     }
     PutItemIn(itemstack, trymax = false,isDragging=false) {
         if(this.volume<=0){
@@ -154,8 +193,26 @@ class ItemContainer{
     RecalculateVolume(){
         let usedVolume = this.itemstacks.reduce((total, is) => total + is.wholeVolume, 0);
         this.volume = this.maxVolume - usedVolume;
-        this.parentbuild.OnContainerUpdate();
+        // this.parentbuild.OnContainerUpdate();
+    }
+    
+}
+function CreateEnum(definition){
+    const strToValueMap={};
+    const numToDescMap={};
+    for(const enumName of Object.keys(definition)){
+        const [value,desc] = definition[enumName];
+        strToValueMap[enumName]=value;
+        numToDescMap[value]=desc;
+    }
+    return {
+        ...strToValueMap,
+        getDesc(enumName){
+            return (definition[enumName] && definition[enumName][1]) || '';
+        },
+        getDescFromValue(value){
+            return numToDescMap[value] || '';
+        }
     }
 }
-
-export {ItemContainer,randInt,ObjHash};
+export {ItemContainer,randInt,ObjHash,CreateEnum};

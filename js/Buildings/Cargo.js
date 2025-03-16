@@ -1,11 +1,10 @@
 import { ItemContainer, ObjHash} from "../Utils.js";
 import { Building } from "../building.js";
 import { allbuildings } from "../GameManager.js";
-import { WindowElement } from "../WindowElement.js";
+import { WindowElement } from "../windowelement.js";
 import { ProgressBar } from "../progressbar.js";
 import { GetProgress } from "../GameManager.js";
 import { Alert } from "../main.js";
-import { allwindows } from "../WindowManager.js";
 class Cargo extends Building{
 	constructor(volume){
 		super(allbuildings['cargos'].length+ObjHash(allbuildings['cargos']),"仓库","存储货物",0);
@@ -26,7 +25,9 @@ class Cargo extends Building{
 	}
 	PutItemStackIn(itemstack){
 		return this.container.PutItemIn(itemstack);
-		
+	}
+	OnDestroyed(){
+		this.BuildFinished();
 	}
 	BuildFinished(){
 		for(let b of allbuildings['drilling']){

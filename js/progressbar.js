@@ -43,6 +43,9 @@ class ProgressBar{
 		this.nowtime=this.progressval;
 		this.StartProgress();
 	}
+	RestartProgress(){
+		this.nowtime=0;
+	}
 	StartProgress(){
 		//var that=this;
 		this.progress=setInterval(()=>{

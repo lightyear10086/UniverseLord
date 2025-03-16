@@ -1,7 +1,7 @@
 import { Building } from "../building.js";
 import { allbuildings, GetProgress,shpaceshipconstructorinfo } from "../GameManager.js";
 import { ProgressBar } from "../progressbar.js";
-import { WindowElement } from "../WindowElement.js";
+import { WindowElement } from "../windowelement.js";
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import{OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import { backgroundColor } from "../StarMapInit.js";

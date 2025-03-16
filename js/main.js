@@ -2,13 +2,15 @@ import { Company } from "./Company.js";
 import { StarShop } from "./Buildings/StarShop.js";
 import { GetNpc } from "./Buildings/GetNpc.js";
 import {Npc} from "./Npc.js";
-import { WindowElement } from "./WindowElement.js";
+import { WindowElement } from "./windowelement.js";
 import { allForces, InitStarMap,StarForce } from "./StarMapInit.js";
 import { ProgressBar } from "./progressbar.js";
 import { InitBuildingWindow,allwindows } from "./WindowManager.js";
 import { planet } from "./Planet.js";
 import { randInt } from "./Utils.js";
-import { CompanyPart } from "./CompanyPart.js";
+import { ItemStack } from "./ItemStack.js";
+import { Iron } from "./ResourceItems/Iron.js";
+import { allcontainers } from "./GameManager.js";
 
 var BuildNew=null;
 var UniverseMapWindow=null;
@@ -177,9 +179,21 @@ function Alert(msg,level=0){
 	});
 	ResetToolTip();
 }
+function HourUpdate(){
+	for(let contain of allcontainers.values()){
+		for(let itemstack of contain.itemstacks){
+			itemstack.HourEvent();
+		}
+	}
+}
 function DayUpdate(){
 	for(let cmp of allcompanies){
 		cmp.PayAllEmployees();
+	}
+	for(let contain of allcontainers.values()){
+		for(let itemstack of contain.itemstacks){
+			itemstack.DayEvent();
+		}
 	}
 }
 function MonthUpdate(){}
@@ -193,7 +207,7 @@ $(function(){
 
 	PlayersCompany.locatedForce=allForces[randInt(0,allForces.length-1)];
 	PlayersCompany.locatedPlanet=allplanets[randInt(0,allplanets.length-1)];
-	
+	PlayersCompany.PutItemInHeadquarter(new ItemStack(new Iron(),100));
 	$("#company_name").click(function(){
 		// 获取当前文本内容
         var currentText = $(this).text().replace("公司","");
@@ -231,6 +245,7 @@ $(function(){
 	$("#timedate").html(timedate.year+"年"+timedate.month+"月"+timedate.day+"日 "+timedate.hour+"时");
 	timeprogress=new ProgressBar("timeprogress",1000,()=>{
 		timedate.hour++;
+		HourUpdate();
 		if(timedate.hour>=24){
 			timedate.hour=1;
 			timedate.day++;

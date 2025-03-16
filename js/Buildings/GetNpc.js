@@ -1,6 +1,6 @@
 import { Building } from "../building.js";
 import { ItemContainer,ObjHash } from "../Utils.js";
-import { WindowElement } from "../WindowElement.js";
+import { WindowElement } from "../windowelement.js";
 import { ProgressBar } from "../progressbar.js";
 import { allbuildings } from "../GameManager.js";
 import { PlayersCompany,allnpcs,GetNpcWindow } from "../main.js";
