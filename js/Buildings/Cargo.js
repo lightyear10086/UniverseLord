@@ -1,7 +1,7 @@
 import { ItemContainer, ObjHash} from "../Utils.js";
 import { Building } from "../building.js";
 import { allbuildings } from "../GameManager.js";
-import { WindowElement } from "../WindowElement.js";
+import { WindowElement } from "../windowelement.js";
 import { ProgressBar } from "../progressbar.js";
 import { GetProgress } from "../GameManager.js";
 import { Alert } from "../main.js";

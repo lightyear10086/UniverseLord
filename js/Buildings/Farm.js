@@ -1,7 +1,7 @@
 import {Building} from "../building.js";
 import {ItemContainer,randInt,ObjHash} from "../Utils.js";
 import {ProgressBar} from "../progressbar.js";
-import {WindowElement} from "../WindowElement.js";
+import {WindowElement} from "../windowelement.js";
 import {Rice} from "../ResourceItems/Rice.js";
 import { Vagetable } from "../ResourceItems/Vagetable.js";
 import { allbuildings,GetProgress } from "../GameManager.js";

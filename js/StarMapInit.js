@@ -4,7 +4,7 @@ import { randInt } from '../js/Utils.js';
 import { OrthographicCamera } from 'three';
 import { allplanets,ShowStarInfoWindow } from './main.js';
 import{OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import { WindowElement } from './WindowElement.js';
+import { WindowElement } from './windowelement.js';
 
 var maincam=null;
 var selectedStar=null;

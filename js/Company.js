@@ -1,5 +1,5 @@
 import { allcompanies,PlayersCompany,Alert,allnpcs } from "./main.js";
-import { WindowElement } from "./WindowElement.js";
+import { WindowElement } from "./windowelement.js";
 import { UpdateInfo } from "./GameManager.js";
 import { allwindows } from "./WindowManager.js";
 import { ItemContainer } from "./Utils.js";

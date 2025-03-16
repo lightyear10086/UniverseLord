@@ -1,6 +1,6 @@
 import { allspaceships } from "./main.js";
 import { ItemContainer } from "./Utils.js";
-import { WindowElement } from "./WindowElement.js";
+import { WindowElement } from "./windowelement.js";
 
 class Spaceship{
     constructor(id,name){

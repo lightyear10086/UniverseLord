@@ -2,7 +2,7 @@ import { Company } from "./Company.js";
 import { StarShop } from "./Buildings/StarShop.js";
 import { GetNpc } from "./Buildings/GetNpc.js";
 import {Npc} from "./Npc.js";
-import { WindowElement } from "./WindowElement.js";
+import { WindowElement } from "./windowelement.js";
 import { allForces, InitStarMap,StarForce } from "./StarMapInit.js";
 import { ProgressBar } from "./progressbar.js";
 import { InitBuildingWindow,allwindows } from "./WindowManager.js";
