@@ -18,6 +18,11 @@ class Npc{
             '教育':randInt(1,10),
             '外貌':randInt(1,10)
         }
+        this.skills={
+            '驾驶':randInt(1,10),
+            '科研':randInt(1,10),
+            '商业':randInt(1,10)
+        }
         this.states={
             '健康':100,
             '心情':100,
@@ -31,6 +36,12 @@ class Npc{
         this.salary=Math.round(20+this.age*1.5+this.属性['智力']*2+this.属性['体能']*1.2+this.属性['精神']*1.1+this.属性['教育']*1.3+this.属性['外貌']*1.6);
         this.infowindow=null;
         this.container=null;
+    }
+    GetSkillsPoint(){
+        _points=0;
+        this.skills.forEach(skill => {
+            _points+=skill[1];
+        });
     }
     OnContainerUpdate(){
 		let that=this;

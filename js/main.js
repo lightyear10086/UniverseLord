@@ -36,6 +36,7 @@ var timedate={
 }
 var timeprogress=null;
 var playerNpc=null;
+var helpwindow=null;
 function ResetToolTip(){
 	$("[tip=true]").mouseenter(function(){
 		$("#tooltip").show();
@@ -50,7 +51,14 @@ function ResetToolTip(){
 	});
 	
 }
-
+function InitHelp(){
+	helpwindow=new WindowElement("helpwindow","帮助",500,800,"<div id='helppage'></div>");
+	$("#helppage").load('help.html');
+	helpwindow.ShowWindow();
+	$("#helpwindow").click(function(){
+		helpwindow.ShowWindow();
+	})
+}
 function InitWindows(){
 	
 	BuildNew=new WindowElement("buildnewwindow","建造",500,300,"<div class='buildnew'><div class='btn normal buildnew' data='cargo'>建造仓库</div><div class='btn normal buildnew' data='drilling'>建造钻井</div><div class='btn normal buildnew' data='farm'>建造农场</div></div><div class='btn normal buildnew' data='smelter'>建造冶炼厂</div><div class='btn normal buildnew' data='starport'>建造星港</div></div><br><div id='buildmanagerbuttons'></div>");
@@ -203,7 +211,9 @@ $(function(){
 	PlayersCompany=new Company("请输入公司名称");
 	playerNpc=new Npc();
 	InitWindows();
+	InitHelp();
 	InitUniverse();
+	
 
 	PlayersCompany.locatedForce=allForces[randInt(0,allForces.length-1)];
 	PlayersCompany.locatedPlanet=allplanets[randInt(0,allplanets.length-1)];
@@ -287,8 +297,6 @@ $(function(){
 		cmp.locatedPlanet=randplanet;
 	}
 	$("#gamealertmessage").hide();
-
-	
 
 	$(document).foundation();
 	console.log("初始化完成");

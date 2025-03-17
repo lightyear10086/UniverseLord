@@ -6,12 +6,15 @@ class WindowElement{
 		this.width=width;
 		this.height=height;
 		this.ishiding=true;
-		this.div=$("<div id='window_"+this.id+"' class='windowelement'><div id='windowtitlebar_"+this.id+"' class='windowbar'>"+this.title+"<div class='hidewindow' id='hidewindow_"+this.id+"'>×</div></div><div id='windowbody_"+this.id+"' class='windowbody'></div></div>");
+		this.div=$("<div id='window_"+this.id+"' class='windowelement'><div id='windowtitlebar_"+this.id+"' class='windowbar'>"+this.title+"<div class='hideotherswindow' id='hideotherswindow_"+this.id+"'>⊙</div>"+"<div class='hidewindow' id='hidewindow_"+this.id+"'>×</div></div><div id='windowbody_"+this.id+"' class='windowbody'></div></div>");
 		$("body").append(this.div);
 		$("#window_"+this.id).css({"width":this.width.toString()+"px","height":this.height.toString()+"px"});
 		let that=this;
 		$("#hidewindow_"+this.id).click(function(){
 			that.HideWindow();
+		});
+		$("#hideotherswindow_"+this.id).click(function(){
+			that.HideOthersWindow();
 		});
 		this.HideWindow(true);
 		this.body=$("#windowbody_"+this.id);
@@ -28,9 +31,12 @@ class WindowElement{
 	}
 	UpdateWindow(){
 		let that=this;
-		$("#windowtitlebar_"+this.id).html(this.title+"<div class='hidewindow' id='hidewindow_"+this.id+"'>×</div>");
+		$("#windowtitlebar_"+this.id).html(this.title+"<div class='hidewindow' id='hidewindow_"+this.id+"'><img src='./img/CloseBtn.png'></img></div>"+"<div class='hideotherswindow' id='hideotherswindow_"+this.id+"'><img src='./img/Focus.png'></img></div>");
 		$("#hidewindow_"+this.id).click(function(){
 			that.HideWindow();
+		});
+		$("#hideotherswindow_"+this.id).click(function(){
+			that.HideOthersWindow();
 		});
 	}
 	SetContent(content){
@@ -50,6 +56,14 @@ class WindowElement{
 	}
 	UpdateWindowBodyContent(content){
 		this.body.html(content);
+	}
+	HideOthersWindow(){
+		for(let key in allwindows){
+			if(key!=this.id){
+				allwindows[key].HideWindow();
+			}
+			
+		}
 	}
 	HideWindow(isconstructing=false){
 		let that=this;
