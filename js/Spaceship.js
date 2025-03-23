@@ -11,10 +11,10 @@ class Spaceship{
         this.armor=0;
         this.speed=0;
         this.position={x:0,y:0};
-        this.shipwindow=new WindowElement('spaceship_window_'+this.id,this.name,500,400,"<div class='ship_module'></div><div class='inportship_info'></div><div class='div_container'></div>");
+        this.shipwindow=new WindowElement('spaceship_window_'+this.id,this.name,500,400,"<div class='ship_module'></div><div class='inportship_info'></div><div class='div_container'></div><div class='btn normal'>编辑</div>");
         this.container=new ItemContainer(0,$(this.shipwindow.body).children('.div_container'),this);
         this.shipwindow.HideWindow();
-        this.needItems=[];
+        this.parts=[];
         this.gltfpath="";
         allspaceships.push(this);
     }

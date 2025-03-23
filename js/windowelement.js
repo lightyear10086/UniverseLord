@@ -1,6 +1,6 @@
 import { allwindows } from "./WindowManager.js";
 class WindowElement{
-	constructor(id,title,width=500,height=300,content=""){
+	constructor(id,title,width=500,height=400,content=""){
 		this.id=id;
 		this.title=title;
 		this.width=width;

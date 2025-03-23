@@ -28,7 +28,8 @@ html,body{
     overflow: hidden;
 }
 .div_container{
-	height: 95%;
+	border:dotted 3px white;
+	height: 60%;
 	width: 100%;
 }
 .pb{
@@ -110,13 +111,12 @@ html,body{
 }
 .windowbar{
 	background-color:#0c6478;
-	width: 100%;
+	width: calc(100% + 20px);
 	height: 25px;
 	text-align: center;
 	line-height: 150%;
 	color: white;
 	user-select: none;
-	padding-left: 10px;
 }
 .cargo_volume{
 	display: inline-block;
@@ -128,10 +128,15 @@ html,body{
 	color: rgb(255, 255, 255);
 	overflow:scroll;
 	padding-left: 10px;
+	padding-right: 10px;
 }
 .windowelement{
 	float: inline-start;
-	margin: 10px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	
 }
 .item-stack{
 	width: 40px;

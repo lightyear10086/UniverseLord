@@ -19,9 +19,7 @@ class Npc{
             '外貌':randInt(1,10)
         }
         this.skills={
-            '驾驶':randInt(1,10),
-            '科研':randInt(1,10),
-            '商业':randInt(1,10)
+            
         }
         this.states={
             '健康':100,
