@@ -16,7 +16,9 @@
 			}
 		  </script>
 		<script src="js/jq.js" type="module"></script>
+		
 		<script src="js/jqColor.js" type="module"></script>
+		<script src="/socket.io/socket.io.js"></script>
 		<script src="js/foundation.js" type="module"></script>
 		<script src="js/Planet.js" type="module"></script>
 		<script src="js/ItemStack.js" type="module"></script>
@@ -45,10 +47,12 @@
 
 		<script src="js/windowelement.js" type="module"></script>
 		<script src="js/WindowManager.js" type="module"></script>
+		<script type="module" src="js/webaction.js"></script>
 		
 		<script src="js/Npc.js" type="module"></script>
 		<script src="js/main.js" type="module"></script>
 		<script src="js/StarMapInit.js" type="module"></script>
+		
 		<script src="js/GameManager.js" type="module"></script>
 		
 		
@@ -62,13 +66,16 @@
 				<div id="getnpc" class="btn normal">招聘员工</div>
 				<div id="build" class="btn normal">建造设施</div>
 			</div>
-			<div id="company_name">输入公司名</div><div class='btn normal' id='show_company_info'>详细信息</div>
+			<div id="company_name" class="inputvalue">输入公司名</div><div class='btn normal' id='show_company_info'>详细信息</div>
 			<div class='btn normal' id='show_universe_info'>星图</div>
 			<div class="timeinfo">
 				<div id="timeprogressbar"></div>
 				<div id="timedate"></div>
 			</div>
 			<div class="btn normal" id="helpwindow">帮助</div>
+			<div class="btn normal" id="loginreg">登录</div>
+			<div class="btn normal" id="accountname"></div>
+			<div class="btn normal" id="logout">退出登录</div>
 		</div>
 		
 		<div id="tooltip"></div>

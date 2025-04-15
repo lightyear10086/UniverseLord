@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <script src="js/jq.js" type="module"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js" integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/jqCookie.js"></script>
+    <script type="module" src="js/webaction.js"></script>
+    
+</head>
+<body>
+    <div id="registerDiv">
+        <form action="" id="registerForm" style="width: 100%;">
+            <p>账号</p>
+            <input type="text" id="reg_account"title="login" aria-placeholder="账号" autocomplete="username">
+            <p>密码</p>
+            <input type="password" name="" id="reg_password" aria-placeholder="密码" autocomplete="current-password">
+            <p>确认密码</p>
+            <input type="password" name="" id="reg_confirmPassword" aria-placeholder="确认密码" autocomplete="current-password">
+            <div id="registerBtn" class="btn normal" >注册</div>
+        <div id="backToLoginBtn" class="btn normal" >已有账号</div>
+        </form>
+        
+    </div>
+    <div id="loginDiv">
+        <form action="">
+            账号
+            <input type="text" id="account"title="login" aria-placeholder="账号" autocomplete="username">
+            密码
+            <input type="password" name="" id="password" aria-placeholder="密码" autocomplete="current-password">
+            <div id="login" class="btn normal" >登录</div>
+            <div id="register" class="btn normal" >注册</div>
+        </form>
+    </div>
+    
+</body>
+</html>

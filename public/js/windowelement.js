@@ -40,7 +40,7 @@ class WindowElement{
 		});
 	}
 	SetContent(content){
-		$(this.body).append(content);
+		$(this.body).html(content);
 	}
 	ShowWindow(callback=null){
 		if(this.ishiding){
@@ -74,7 +74,6 @@ class WindowElement{
 			}
 		});
 		this.ishiding=true;
-		
 	}
 	DestroyWindow(){
 		$("#window_"+this.id).remove();

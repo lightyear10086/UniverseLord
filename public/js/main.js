@@ -11,7 +11,7 @@ import { randInt } from "./Utils.js";
 import { ItemStack } from "./ItemStack.js";
 import { Iron } from "./ResourceItems/Iron.js";
 import { allcontainers } from "./GameManager.js";
-
+const socket=io();
 var BuildNew=null;
 var UniverseMapWindow=null;
 var moveingItemStack=null;
@@ -37,6 +37,8 @@ var timedate={
 var timeprogress=null;
 var playerNpc=null;
 var helpwindow=null;
+var loginwindow=null;
+var accountWindow=null;
 function ResetToolTip(){
 	$("[tip=true]").mouseenter(function(){
 		$("#tooltip").show();
@@ -50,6 +52,29 @@ function ResetToolTip(){
 		$("#tooltip").hide();	
 	});
 	
+}
+function InitAccountWindow(){
+	$("#accountname").text($.cookie('nickname'));
+	$("#accountname").show();
+	console.log($("#accountname"));
+	accountWindow=new WindowElement("accountwindow","账号",500,500,"<div id='accountpage'></div>");
+	accountWindow.HideWindow(true);
+	accountWindow.SetContent(`<div>${$.cookie('nickname')}</div>`);
+	$("#accountname").on('click',function(){
+		accountWindow.ShowWindow();
+	});
+}
+function InitLogin(){
+	$("#logout").hide();
+	$("#accountname").hide();
+	loginwindow=new WindowElement("loginwindow","登录/注册",500,500,"<div id='loginpage'></div>");
+	$("#loginpage").load('account.html',function(){
+		window.sharedSocket=socket;
+		$(document).trigger('socketseted');
+	});
+	$("#loginreg").click(function(){
+		loginwindow.ShowWindow();
+	});
 }
 function InitHelp(){
 	helpwindow=new WindowElement("helpwindow","帮助",500,800,"<div id='helppage'></div>");
@@ -210,10 +235,10 @@ $(function(){
 	
 	PlayersCompany=new Company("请输入公司名称");
 	playerNpc=new Npc();
+	InitLogin();
 	InitWindows();
 	InitHelp();
 	InitUniverse();
-	
 
 	PlayersCompany.locatedForce=allForces[randInt(0,allForces.length-1)];
 	PlayersCompany.locatedPlanet=allplanets[randInt(0,allplanets.length-1)];
@@ -250,6 +275,7 @@ $(function(){
 	$("#build").click(function(){
 		BuildNew.ShowWindow();
 	});
+	
 	$("#tooltip").hide();
 	ResetToolTip();
 	$("#timedate").html(timedate.year+"年"+timedate.month+"月"+timedate.day+"日 "+timedate.hour+"时");
@@ -297,9 +323,26 @@ $(function(){
 		cmp.locatedPlanet=randplanet;
 	}
 	$("#gamealertmessage").hide();
-
 	$(document).foundation();
 	console.log("初始化完成");
+	$(document).on('login_success',function(){
+		$("#loginreg").hide();
+		$("#logout").show();
+		
+		InitAccountWindow();
+		loginwindow.HideWindow();
+	});
+	$("#logout").on('click',function(){
+		socket.emit('logout');
+		$("#loginreg").show();
+		$("#logout").hide();
+		$("#accountname").hide();
+		$(document).trigger('logout');
+		$.removeCookie('customerid',{path:'/'});
+		$.removeCookie('nickname',{path:'/'});
+		accountWindow.HideWindow();
+		accountWindow.DestroyWindow();
+	});
 });
 
 export {ResetToolTip,InitWindows,GetNpcWindow,GetContractWindow,GetItemWindow,DayUpdate,MonthUpdate,YearUpdate,Alert,InitUniverse,ShowStarInfoWindow,playerNpc,timedate,timeprogress,PlayersCompany,allcompanies,allplanets,allnpcs,chrs,planettype,starshop,getnpc,BuildNew,UniverseMapWindow,moveingItemStack,releaseItemStackContainer,cmpname,cmpnametype,allspaceships};
